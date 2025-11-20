@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\GalleryImage;
+use Illuminate\View\View;
+
+class GalleryController extends Controller
+{
+    public function index(): View
+    {
+        $images = GalleryImage::where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+
+        return view('gallery', [
+            'images' => $images,
+        ]);
+    }
+}
+
