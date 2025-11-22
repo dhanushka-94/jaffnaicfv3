@@ -13,12 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            AdminUserSeeder::class,
-            SiteSettingSeeder::class,
-            ApplicationSettingSeeder::class,
-            SectionSettingSeeder::class,
-            SampleDataSeeder::class,
-        ]);
+        // Seeders are empty - no data will be seeded
     }
 }

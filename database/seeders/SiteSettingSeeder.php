@@ -9,10 +9,7 @@ class SiteSettingSeeder extends Seeder
 {
     public function run(): void
     {
-        SiteSetting::query()->firstOrCreate([], [
-            'site_name' => 'JAFFNA ICF',
-            'logo_path' => null,
-        ]);
+        // Seeder is empty - no data will be seeded
     }
 }
 
