@@ -5,23 +5,31 @@
 
 @section('content')
 	<section class="relative -mt-[112px] md:-mt-[156px] pt-[112px] md:pt-[180px]">
-		<div class="hero-swiper swiper w-full h-[45vh] sm:h-[50vh] md:h-[65vh] min-h-[300px] md:min-h-[400px]">
+		<div class="hero-swiper swiper w-full h-[50vh] sm:h-[55vh] md:h-[70vh] min-h-[350px] md:min-h-[500px]">
 			<div class="swiper-wrapper">
 				@forelse($sliders as $slide)
 					<div class="swiper-slide relative">
 						@if($slide->image_path || $slide->mobile_image_path)
 							@if($slide->mobile_image_path)
-								<!-- Mobile Image -->
-								<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="md:hidden w-full h-full object-cover object-center" />
-								<!-- Desktop Image -->
+								<!-- Mobile Image - Portrait (3:4) - Fit to screen -->
+								<div class="md:hidden w-full h-full flex items-center justify-center bg-dark/10">
+									<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="w-full h-full object-contain object-center" />
+								</div>
+								<!-- Desktop Image - Landscape (16:9) - Fit to screen -->
 								@if($slide->image_path)
-									<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="hidden md:block w-full h-full object-cover object-center" />
+									<div class="hidden md:flex w-full h-full items-center justify-center bg-dark/10">
+										<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="w-full h-full object-contain object-center" />
+									</div>
 								@else
-									<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="hidden md:block w-full h-full object-cover object-center" />
+									<div class="hidden md:flex w-full h-full items-center justify-center bg-dark/10">
+										<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="w-full h-full object-contain object-center" />
+									</div>
 								@endif
 							@elseif($slide->image_path)
-								<!-- Desktop Image (used for both if no mobile image) -->
-								<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="w-full h-full object-cover object-center" />
+								<!-- Desktop Image (used for both if no mobile image) - Fit to screen -->
+								<div class="w-full h-full flex items-center justify-center bg-dark/10">
+									<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="w-full h-full object-contain object-center" />
+								</div>
 							@endif
 						@else
 							<div class="w-full h-full bg-dark/10"></div>
