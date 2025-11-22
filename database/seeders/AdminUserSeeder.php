@@ -10,7 +10,14 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Seeder is empty - no data will be seeded
+        User::query()->updateOrCreate(
+            ['email' => 'admin@admin.com'],
+            [
+                'name' => 'Admin User',
+                'password' => Hash::make('admin123'),
+                'email_verified_at' => now(),
+            ]
+        );
     }
 }
 
