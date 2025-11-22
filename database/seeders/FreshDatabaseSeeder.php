@@ -69,8 +69,8 @@ class FreshDatabaseSeeder extends Seeder
         // Create admin user
         User::create([
             'name' => 'Admin',
-            'email' => 'admin@jaffnaicf.com',
-            'password' => Hash::make('password'),
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('admin123'),
             'email_verified_at' => now(),
         ]);
 
@@ -113,8 +113,8 @@ class FreshDatabaseSeeder extends Seeder
         $this->command->info('✓ Essential settings created!');
         $this->command->newLine();
         $this->command->info('Admin Login Credentials:');
-        $this->command->info('  Email: admin@jaffnaicf.com');
-        $this->command->info('  Password: password');
+        $this->command->info('  Email: admin@admin.com');
+        $this->command->info('  Password: admin123');
         $this->command->warn('⚠️  Please change the password after first login!');
     }
 }

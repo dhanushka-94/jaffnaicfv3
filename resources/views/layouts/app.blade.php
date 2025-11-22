@@ -360,7 +360,7 @@
 			<div class="border-t border-white/10">
 				<div class="container-full py-6 text-sm text-white/70 flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
 					<div>© {{ date('Y') }} Jaffna International Cinema Festival</div>
-					<div>Website design & development by <a href="#" class="text-primary hover:text-white">olexto Digital Solutions (Pvt) Ltd</a></div>
+					<div>Website design & development by <a href="https://olexto.com/" target="_blank" rel="noopener" class="text-primary hover:text-white">olexto Digital Solutions (Pvt) Ltd</a></div>
 				</div>
 			</div>
 		</footer>

@@ -8,7 +8,7 @@
         <p class="developer-credits-label">
             Website design & development by
         </p>
-        <a href="#" class="developer-credits-link">
+        <a href="https://olexto.com/" target="_blank" rel="noopener" class="developer-credits-link">
             <span class="developer-credits-company">olexto Digital Solutions</span>
             <span class="developer-credits-type">(Pvt) Ltd</span>
         </a>

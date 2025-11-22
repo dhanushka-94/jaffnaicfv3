@@ -8,7 +8,7 @@
                 </div>
                 <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                     <span class="hidden sm:inline">Website design & development by</span>
-                    <a href="#" class="font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200">
+                    <a href="https://olexto.com/" target="_blank" rel="noopener" class="font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200">
                         <span>olexto Digital Solutions (Pvt) Ltd</span>
                     </a>
                 </div>

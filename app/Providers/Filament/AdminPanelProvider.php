@@ -27,22 +27,51 @@ class AdminPanelProvider extends PanelProvider
     {
         // Get site settings safely (handle database not available during composer install)
         $siteLogo = null;
+        $siteName = 'JAFFNA ICF';
         try {
             if (\Illuminate\Support\Facades\Schema::hasTable('site_settings')) {
                 $siteSetting = \App\Models\SiteSetting::first();
                 $siteLogo = $siteSetting?->logo_path;
+                $siteName = $siteSetting?->site_name ?? 'JAFFNA ICF';
             }
         } catch (\Exception $e) {
             // Database not available, use default
         }
+
+        // Create custom logo with site name
+        $customLogo = new class($siteLogo, $siteName) implements \Illuminate\Contracts\Support\Htmlable {
+            public function __construct(
+                private ?string $logoPath,
+                private string $siteName
+            ) {}
+
+            public function toHtml(): string
+            {
+                if ($this->logoPath) {
+                    $logoUrl = asset('storage/' . $this->logoPath);
+                    return <<<HTML
+                        <div class="fi-logo-with-name" style="display: flex; align-items: center; gap: 0.75rem;">
+                            <img src="{$logoUrl}" alt="{$this->siteName}" style="height: 1.5rem; width: auto;" />
+                            <span class="fi-logo-site-name">{$this->siteName}</span>
+                        </div>
+                    HTML;
+                } else {
+                    return <<<HTML
+                        <div class="fi-logo-with-name">
+                            <span class="fi-logo-site-name">{$this->siteName}</span>
+                        </div>
+                    HTML;
+                }
+            }
+        };
 
         return $panel
             ->default()
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('JAFFNA ICF')
-            ->brandLogo($siteLogo ? asset('storage/' . $siteLogo) : null)
+            ->brandName($siteName)
+            ->brandLogo($customLogo)
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -75,8 +104,8 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->renderHook(
-                PanelsRenderHook::FOOTER,
-                fn (): string => view('filament.components.developer-credits')->render(),
+                PanelsRenderHook::TOPBAR_END,
+                fn (): string => view('filament.components.developer-credits-header')->render(),
             )
             ->renderHook(
                 PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
@@ -350,6 +379,131 @@ class AdminPanelProvider extends PanelProvider
                     .fi-btn-primary:disabled {
                         opacity: 0.7 !important;
                         cursor: not-allowed !important;
+                    }
+                    
+                    /* Developer Credits - Header */
+                    .developer-credits-header {
+                        display: flex !important;
+                        align-items: center !important;
+                        padding: 0 0.75rem !important;
+                        margin-left: 0.5rem !important;
+                        border-left: 1px solid rgba(229, 231, 235, 0.8) !important;
+                        height: 100% !important;
+                    }
+                    
+                    .developer-credits-header-content {
+                        display: flex !important;
+                        align-items: center !important;
+                        gap: 0.5rem !important;
+                        flex-wrap: wrap !important;
+                    }
+                    
+                    .developer-credits-header-label {
+                        font-size: 0.75rem !important;
+                        color: rgb(107, 114, 128) !important;
+                        font-weight: 400 !important;
+                        white-space: nowrap !important;
+                    }
+                    
+                    .dark .developer-credits-header-label {
+                        color: rgb(156, 163, 175) !important;
+                    }
+                    
+                    .developer-credits-header-link {
+                        display: inline-flex !important;
+                        align-items: center !important;
+                        gap: 0.25rem !important;
+                        text-decoration: none !important;
+                        transition: all 0.2s ease !important;
+                        padding: 0.25rem 0.5rem !important;
+                        border-radius: 0.375rem !important;
+                        background: transparent !important;
+                    }
+                    
+                    .developer-credits-header-link:hover {
+                        background: rgba(197, 80, 44, 0.1) !important;
+                    }
+                    
+                    .dark .developer-credits-header-link:hover {
+                        background: rgba(197, 80, 44, 0.15) !important;
+                    }
+                    
+                    .developer-credits-header-company {
+                        font-size: 0.75rem !important;
+                        font-weight: 600 !important;
+                        color: rgb(197, 80, 44) !important;
+                        letter-spacing: 0.01em !important;
+                    }
+                    
+                    .dark .developer-credits-header-company {
+                        color: rgb(251, 146, 60) !important;
+                    }
+                    
+                    .developer-credits-header-type {
+                        font-size: 0.75rem !important;
+                        font-weight: 500 !important;
+                        color: rgb(107, 114, 128) !important;
+                    }
+                    
+                    .dark .developer-credits-header-type {
+                        color: rgb(156, 163, 175) !important;
+                    }
+                    
+                    .developer-credits-header-link:hover .developer-credits-header-company {
+                        color: rgb(139, 58, 31) !important;
+                    }
+                    
+                    .dark .developer-credits-header-link:hover .developer-credits-header-company {
+                        color: rgb(251, 146, 60) !important;
+                    }
+                    
+                    .developer-credits-header-link:hover .developer-credits-header-type {
+                        color: rgb(75, 85, 99) !important;
+                    }
+                    
+                    .dark .developer-credits-header-link:hover .developer-credits-header-type {
+                        color: rgb(209, 213, 219) !important;
+                    }
+                    
+                    /* Responsive Header Credits */
+                    @media (max-width: 1024px) {
+                        .developer-credits-header {
+                            display: none !important;
+                        }
+                    }
+                    
+                    /* Logo with Site Name */
+                    .fi-logo-with-name {
+                        display: flex !important;
+                        align-items: center !important;
+                        gap: 0.75rem !important;
+                    }
+                    
+                    .fi-logo-with-name img {
+                        height: 1.5rem !important;
+                        width: auto !important;
+                        object-fit: contain !important;
+                    }
+                    
+                    .fi-logo-site-name {
+                        font-weight: 600 !important;
+                        font-size: 1rem !important;
+                        color: rgb(17, 24, 39) !important;
+                        line-height: 1.5rem !important;
+                    }
+                    
+                    .dark .fi-logo-site-name {
+                        color: rgb(255, 255, 255) !important;
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .fi-logo-site-name {
+                            font-size: 0.875rem !important;
+                        }
+                        
+                        .fi-logo-with-name {
+                            gap: 0.5rem !important;
+                        }
                     }
                 </style>',
             );
