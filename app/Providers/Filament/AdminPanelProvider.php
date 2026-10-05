@@ -61,14 +61,14 @@ class AdminPanelProvider extends PanelProvider
 
                         return [
                             $siteSetting?->logo_path,
-                            $siteSetting?->site_name ?: 'JAFFNA ICF',
+                            $siteSetting?->site_name ?: 'JaffnaICF',
                         ];
                     }
                 } catch (\Throwable) {
                     // Database not available, use default
                 }
 
-                return [null, 'JAFFNA ICF'];
+                return [null, 'JaffnaICF'];
             }
         };
 
@@ -80,12 +80,12 @@ class AdminPanelProvider extends PanelProvider
             ->brandName(function (): string {
                 try {
                     if (\Illuminate\Support\Facades\Schema::hasTable('site_settings')) {
-                        return \App\Models\SiteSetting::query()->value('site_name') ?: 'JAFFNA ICF';
+                        return \App\Models\SiteSetting::query()->value('site_name') ?: 'JaffnaICF';
                     }
                 } catch (\Throwable) {
                 }
 
-                return 'JAFFNA ICF';
+                return 'JaffnaICF';
             })
             ->brandLogo($customLogo)
             ->colors([
@@ -139,8 +139,70 @@ class AdminPanelProvider extends PanelProvider
                 fn (): string => view('filament.components.developer-credits-login')->render(),
             )
             ->renderHook(
+                PanelsRenderHook::FOOTER,
+                fn (): string => view('filament.components.developer-credits')->render(),
+            )
+            ->renderHook(
                 PanelsRenderHook::STYLES_AFTER,
                 fn (): string => '<style>
+                    /* Sticky developer credits footer */
+                    .developer-credits-sticky {
+                        position: sticky;
+                        bottom: 0;
+                        z-index: 40;
+                        margin-top: auto;
+                        border-top: 1px solid rgba(0,0,0,0.08);
+                        background: rgba(255,255,255,0.96);
+                        backdrop-filter: blur(8px);
+                    }
+                    .dark .developer-credits-sticky {
+                        border-top-color: rgba(255,255,255,0.1);
+                        background: rgba(17,24,39,0.96);
+                    }
+                    .developer-credits-sticky-inner {
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 0.5rem 1rem;
+                        padding: 0.65rem 1rem;
+                        font-size: 0.75rem;
+                        line-height: 1.25rem;
+                        color: rgb(107,114,128);
+                    }
+                    .dark .developer-credits-sticky-inner {
+                        color: rgb(156,163,175);
+                    }
+                    .developer-credits-sticky-right {
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        gap: 0.35rem 0.5rem;
+                    }
+                    .developer-credits-sticky-label {
+                        display: none;
+                    }
+                    @media (min-width: 640px) {
+                        .developer-credits-sticky-label {
+                            display: inline;
+                        }
+                    }
+                    .developer-credits-sticky-link {
+                        font-weight: 600;
+                        color: #C5502C;
+                        text-decoration: none;
+                    }
+                    .developer-credits-sticky-link:hover {
+                        color: #8C3B28;
+                    }
+                    .dark .developer-credits-sticky-link {
+                        color: #f0a58a;
+                    }
+                    .fi-main-ctn,
+                    .fi-layout {
+                        min-height: 100%;
+                    }
+
                     /* Main Container - Centered Background */
                     .fi-simple-main-ctn {
                         background: linear-gradient(135deg, #C5502C 0%, #8B3A1F 100%) !important;

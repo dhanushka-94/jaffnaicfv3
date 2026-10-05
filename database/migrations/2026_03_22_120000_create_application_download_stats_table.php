@@ -8,18 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('site_settings', function (Blueprint $table) {
+        Schema::create('application_download_stats', function (Blueprint $table) {
             $table->id();
-            $table->string('site_name')->default('JaffnaICF');
-            $table->string('logo_path')->nullable();
+            $table->unsignedSmallInteger('year')->unique();
+            $table->unsignedInteger('downloads_count')->default(0);
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('site_settings');
+        Schema::dropIfExists('application_download_stats');
     }
 };
-
-

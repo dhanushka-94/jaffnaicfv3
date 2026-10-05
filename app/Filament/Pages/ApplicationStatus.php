@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\ApplicationDownloadStat;
 use App\Models\ApplicationSetting;
 use BackedEnum;
 use Filament\Forms\Components\FileUpload;
@@ -11,6 +12,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Collection;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use UnitEnum;
 
@@ -19,9 +21,13 @@ class ApplicationStatus extends Page implements HasForms
     use InteractsWithForms;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-arrow-down';
+
     protected static ?string $navigationLabel = 'Application Status';
+
     protected static ?string $title = 'Application Status';
+
     protected static UnitEnum|string|null $navigationGroup = 'Configuration';
+
     protected static ?int $navigationSort = 2;
 
     protected string $view = 'filament.pages.application-status';
@@ -30,7 +36,7 @@ class ApplicationStatus extends Page implements HasForms
 
     public function mount(): void
     {
-        $settings = ApplicationSetting::first() ?? new ApplicationSetting();
+        $settings = ApplicationSetting::query()->first() ?? new ApplicationSetting();
         $this->form->model($settings)->fill($settings->toArray());
     }
 
@@ -40,7 +46,7 @@ class ApplicationStatus extends Page implements HasForms
             ->components([
                 Toggle::make('application_open')
                     ->label('Application open')
-                    ->helperText('When enabled, the header shows a Download Application button.'),
+                    ->helperText('When enabled, the site shows a Download Application button.'),
                 FileUpload::make('application_pdf_path')
                     ->label('Application PDF (public)')
                     ->acceptedFileTypes(['application/pdf'])
@@ -55,27 +61,42 @@ class ApplicationStatus extends Page implements HasForms
             ->statePath('data');
     }
 
+    public function getDownloadStatsProperty(): Collection
+    {
+        return ApplicationDownloadStat::query()
+            ->orderByDesc('year')
+            ->get();
+    }
+
+    public function getCurrentYearDownloadsProperty(): int
+    {
+        $year = (int) date('Y');
+
+        return (int) (ApplicationDownloadStat::query()->where('year', $year)->value('downloads_count') ?? 0);
+    }
+
     public function save(): void
     {
         $data = $this->form->getState();
-        $settings = ApplicationSetting::first() ?? new ApplicationSetting();
+        $settings = ApplicationSetting::query()->first() ?? new ApplicationSetting();
 
         $settings->application_open = (bool) ($data['application_open'] ?? false);
+
         $pdfState = $data['application_pdf_path'] ?? null;
         if ($pdfState instanceof TemporaryUploadedFile) {
-            $storedPdf = $pdfState->store('downloads', 'public');
-            $settings->application_pdf_path = $storedPdf;
-        } elseif (is_string($pdfState)) {
+            $settings->application_pdf_path = $pdfState->store('downloads', 'public');
+        } elseif (is_array($pdfState)) {
+            $settings->application_pdf_path = array_values(array_filter($pdfState))[0] ?? null;
+        } elseif (is_string($pdfState) || $pdfState === null) {
             $settings->application_pdf_path = $pdfState;
         }
 
         $settings->save();
-        $this->form->fill($settings->toArray());
+        $this->form->model($settings)->fill($settings->fresh()->toArray());
+
         Notification::make()
             ->title('Application status saved.')
             ->success()
             ->send();
     }
 }
-
-

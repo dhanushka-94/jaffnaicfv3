@@ -24,7 +24,7 @@ class AboutJaffnaicfImageResource extends Resource
     protected static UnitEnum|string|null $navigationGroup = 'Content';
     protected static ?int $navigationSort = 20;
 
-    protected static ?string $navigationLabel = 'About > JAFFNAICF Images';
+    protected static ?string $navigationLabel = 'About > JaffnaICF Images';
 
     public static function form(Schema $schema): Schema
     {

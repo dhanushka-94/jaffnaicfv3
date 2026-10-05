@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'VENUES — JAFFNA ICF')
+@section('title', 'VENUES — JaffnaICF')
 @section('meta_description', 'Festival venues in Jaffna including cinemas, auditoriums and cultural centres.')
 
 @section('content')

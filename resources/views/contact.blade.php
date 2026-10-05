@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'CONTACT — JAFFNA ICF')
-@section('meta_description', 'Contact the Jaffna International Cinema Festival (JAFFNA ICF). General info, key contacts, and office addresses.')
+@section('title', 'CONTACT — JaffnaICF')
+@section('meta_description', 'Contact the Jaffna International Cinema Festival (JaffnaICF). General info, key contacts, and office addresses.')
 
 @section('content')
 	<section class="container-full py-16">
@@ -68,11 +68,7 @@
 					<h3 class="text-xl font-semibold">Festival Secretariat</h3>
 				</div>
 				<address class="not-italic mt-5 text-dark/80 leading-relaxed">
-					Agenda 14,<br>
-					#6B/9,<br>
-					Pagoda Road,<br>
-					Nugegoda 10250,<br>
-					Sri Lanka
+					Agenda 14, #6B/9, Pagoda Road, Nugegoda, 10250, Sri Lanka
 				</address>
 			</div>
 
@@ -85,10 +81,10 @@
 					<h3 class="text-xl font-semibold">Coordinating Office</h3>
 				</div>
 				<address class="not-italic mt-5 text-dark/80 leading-relaxed">
-					JAFFNAICF,<br>
+					JaffnaICF,<br>
 					#71/2,<br>
 					Kachcheri – Nallur Road,<br>
-					Jaffna 40000,<br>
+					Jaffna, 40000,<br>
 					Sri Lanka
 				</address>
 			</div>

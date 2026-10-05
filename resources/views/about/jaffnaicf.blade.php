@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'About — JAFFNAICF — ' . ($__site?->site_name ?? 'Jaffna International Cinema Festival'))
-@section('meta_description', 'Learn about the Jaffna International Cinema Festival (JAFFNAICF).')
+@section('title', 'About — JaffnaICF — ' . ($__site?->site_name ?? 'Jaffna International Cinema Festival'))
+@section('meta_description', 'Learn about the Jaffna International Cinema Festival (JaffnaICF).')
 
 @section('content')
 	<section class="container-full py-16">
-		<h1 class="section-title" data-aos="fade-up">About JAFFNAICF</h1>
+		<h1 class="section-title" data-aos="fade-up">About JaffnaICF</h1>
 		<p class="mt-4 text-dark/70 max-w-3xl" data-aos="fade-up" data-aos-delay="100">
-			The Jaffna International Cinema Festival (JAFFNAICF) celebrates cinema from South Asia and beyond, bringing together filmmakers, artists, and audiences in the historic city of Jaffna.
+			The Jaffna International Cinema Festival (JaffnaICF) celebrates cinema from South Asia and beyond, bringing together filmmakers, artists, and audiences in the historic city of Jaffna.
 		</p>
 
 		@if($images->isEmpty())
@@ -21,7 +21,7 @@
 						@if($image->image_path && file_exists(storage_path('app/public/' . $image->image_path)))
 							<img 
 								src="{{ asset('storage/' . $image->image_path) }}" 
-								alt="JAFFNAICF Image {{ $loop->iteration }}" 
+								alt="JaffnaICF Image {{ $loop->iteration }}" 
 								class="w-full h-auto object-contain"
 								loading="lazy"
 							>

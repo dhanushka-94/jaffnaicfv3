@@ -20,7 +20,7 @@
 			$archiveYears = $archiveYears->unique()->sortDesc()->values();
 		@endphp
 		<title>@yield('title', $__site?->site_name ?? 'Jaffna International Cinema Festival')</title>
-		<meta name="description" content="@yield('meta_description', 'Jaffna International Cinema Festival (JAFFNA ICF) celebrates cinema, culture, and community with programmes, masterclasses, and screenings.')">
+		<meta name="description" content="@yield('meta_description', 'Jaffna International Cinema Festival (JaffnaICF) celebrates cinema, culture, and community with programmes, masterclasses, and screenings.')">
 		@hasSection('meta_keywords')
 			<meta name="keywords" content="@yield('meta_keywords')">
 		@endif
@@ -34,7 +34,7 @@
 		<meta property="og:site_name" content="{{ $__site?->site_name ?? 'Jaffna International Cinema Festival' }}">
 		<meta property="og:type" content="@yield('og_type', 'website')">
 		<meta property="og:title" content="@yield('og_title', trim($__env->yieldContent('title', 'Jaffna International Cinema Festival')))">
-		<meta property="og:description" content="@yield('og_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (JAFFNA ICF) celebrates cinema, culture, and community with programmes, masterclasses, and screenings.'))">
+		<meta property="og:description" content="@yield('og_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (JaffnaICF) celebrates cinema, culture, and community with programmes, masterclasses, and screenings.'))">
 		<meta property="og:url" content="@yield('og_url', url()->current())">
 		<meta property="og:image" content="@yield('og_image', asset('images/og-default.jpg'))">
 		<meta property="og:image:alt" content="@yield('og_image_alt', $__site?->site_name ?? 'Jaffna International Cinema Festival')">
@@ -50,7 +50,7 @@
 
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name="twitter:title" content="@yield('twitter_title', trim($__env->yieldContent('title', 'Jaffna International Cinema Festival')))">
-		<meta name="twitter:description" content="@yield('twitter_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (JAFFNA ICF) celebrates cinema, culture, and community with programmes, masterclasses, and screenings.'))">
+		<meta name="twitter:description" content="@yield('twitter_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (JaffnaICF) celebrates cinema, culture, and community with programmes, masterclasses, and screenings.'))">
 		<meta name="twitter:image" content="@yield('twitter_image', asset('images/og-default.jpg'))">
 		<meta name="twitter:image:alt" content="@yield('twitter_image_alt', $__site?->site_name ?? 'Jaffna International Cinema Festival')">
 
@@ -59,7 +59,7 @@
 			'@context' => 'https://schema.org',
 			'@type' => 'Organization',
 			'name' => $__site?->site_name ?? 'Jaffna International Cinema Festival',
-			'alternateName' => 'JAFFNA ICF',
+			'alternateName' => 'JaffnaICF',
 			'url' => url('/'),
 			'logo' => [
 				'@type' => 'ImageObject',
@@ -94,7 +94,8 @@
 						<div class="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full bg-primary"></div>
 					@endif
 				</a>
-				<nav class="hidden md:flex items-center gap-8 lg:gap-12 font-medium" x-data="{ about:false, programme:false, archive:false }">
+				@php($pastYearsNav = $archiveYears->filter(fn($y) => $y != $currentYear)->values())
+				<nav class="hidden md:flex items-center gap-8 lg:gap-12 font-medium" x-data="{ about:false, programme:false, archive:false, selectedYear: {{ $pastYearsNav->first() ? (int) $pastYearsNav->first() : 'null' }} }">
 					<a href="{{ route('home') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Home</a>
 
 					<div class="relative" @mouseenter="programme=true" @mouseleave="programme=false">
@@ -120,7 +121,7 @@
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
 						</button>
 						<div x-show="about" x-transition class="absolute left-0 mt-3 w-56 bg-white shadow-lg rounded-md border p-2">
-							<a href="{{ route('about.jaffnaicf') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">JAFFNAICF</a>
+							<a href="{{ route('about.jaffnaicf') }}" class="block px-3 py-2 rounded hover:bg-secondary tracking-wider text-sm normal-case">JaffnaICF</a>
 							<a href="{{ route('about.team') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Team</a>
 							<a href="{{ route('gallery') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Gallery</a>
 						</div>
@@ -133,49 +134,62 @@
 					<div class="relative" @mouseenter="archive=true" @mouseleave="archive=false">
 						<button class="inline-flex items-center gap-1 hover:text-primary" @click.prevent="archive=!archive">
 							<span class="uppercase tracking-wider text-[15px] md:text-base">Archive</span>
-							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200" :class="archive ? 'rotate-180' : ''" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
 						</button>
-						<div x-show="archive" x-transition class="absolute left-0 mt-3 w-[800px] bg-white shadow-lg rounded-md border p-4">
-							@php($pastYears = $archiveYears->filter(fn($y) => $y != $currentYear))
-							@if($pastYears->isEmpty())
-								<div class="text-center py-4">
-									<p class="text-dark/70">No archive content available yet.</p>
+						<div x-show="archive" x-transition.opacity.duration.150ms x-cloak class="absolute left-0 mt-3 w-[34rem] max-w-[calc(100vw-2rem)] bg-white shadow-xl rounded-xl border border-black/5 overflow-hidden">
+							@if($pastYearsNav->isEmpty())
+								<div class="text-center py-8 px-4">
+									<p class="text-dark/70 text-sm">No archive content available yet.</p>
 								</div>
 							@else
-								<div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-									@foreach($pastYears->take(9)->chunk(3) as $yearChunk)
-										<div>
-											@foreach($yearChunk as $year)
-												<h4 class="font-semibold mb-2 uppercase tracking-wide">{{ $year }}</h4>
-												<ul class="space-y-1 mb-4">
-													<li><a href="{{ route('archive.programme.schedule', $year) }}" class="hover:text-primary uppercase tracking-wide">Schedule</a></li>
-													<li><a href="{{ route('archive.programme.masterclasses', $year) }}" class="hover:text-primary uppercase tracking-wide">Masterclasses</a></li>
-													<li><a href="{{ route('archive.programme.debut-films', $year) }}" class="hover:text-primary uppercase tracking-wide">Debut Films</a></li>
-													<li><a href="{{ route('archive.programme.jury-debut-films', $year) }}" class="hover:text-primary uppercase tracking-wide">Jury – Debut Films</a></li>
-													<li><a href="{{ route('archive.programme.jury-short-films', $year) }}" class="hover:text-primary uppercase tracking-wide">Jury – Short Films</a></li>
-													<li><a href="{{ route('archive.programme.national-short-films', $year) }}" class="hover:text-primary uppercase tracking-wide">National Short Films</a></li>
-													<li><a href="{{ route('archive.programme.international-short-films', $year) }}" class="hover:text-primary uppercase tracking-wide">International Short Films</a></li>
-													<li><a href="{{ route('archive.programme.new-asian-currents', $year) }}" class="hover:text-primary uppercase tracking-wide">New Asian Currents</a></li>
-													<li><a href="{{ route('archive.team', $year) }}" class="hover:text-primary uppercase tracking-wide">Team</a></li>
-													<li><a href="{{ route('archive.partners', $year) }}" class="hover:text-primary uppercase tracking-wide">Partners</a></li>
-													<li><a href="{{ route('archive.venues', $year) }}" class="hover:text-primary uppercase tracking-wide">Venues</a></li>
-												</ul>
-											@endforeach
-										</div>
-									@endforeach
-								</div>
-								@if($pastYears->count() > 9)
-									<div class="mt-4 pt-4 border-t text-center">
-										<a href="{{ route('archive.index') }}" class="text-primary hover:underline uppercase tracking-wide text-sm">View All Years</a>
+								<div class="grid grid-cols-[7.5rem_1fr] min-h-[18rem]">
+									<div class="bg-secondary/70 border-r border-black/5 p-2 space-y-1">
+										<div class="px-2 py-1.5 text-[10px] uppercase tracking-wider text-dark/45 font-semibold">Year</div>
+										@foreach($pastYearsNav->take(12) as $year)
+											<button
+												type="button"
+												@click="selectedYear = {{ (int) $year }}"
+												class="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition"
+												:class="selectedYear === {{ (int) $year }} ? 'bg-primary text-white shadow-sm' : 'text-dark/80 hover:bg-white'"
+											>
+												{{ $year }}
+											</button>
+										@endforeach
+										@if($pastYearsNav->count() > 12)
+											<a href="{{ route('archive.index') }}" class="block px-3 py-2 text-xs text-primary hover:underline">All years →</a>
+										@endif
 									</div>
-								@endif
+									<div class="p-4">
+										@foreach($pastYearsNav->take(12) as $year)
+											<div x-show="selectedYear === {{ (int) $year }}" x-cloak>
+												<div class="flex items-center justify-between mb-3">
+													<h4 class="font-display font-bold text-lg">{{ $year }} Archive</h4>
+													<a href="{{ route('archive.year', $year) }}" class="text-xs text-primary hover:underline">Overview</a>
+												</div>
+												<div class="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+													<a href="{{ route('archive.programme.schedule', $year) }}" class="px-2 py-1.5 rounded-md hover:bg-secondary hover:text-primary transition">Schedule</a>
+													<a href="{{ route('archive.programme.masterclasses', $year) }}" class="px-2 py-1.5 rounded-md hover:bg-secondary hover:text-primary transition">Masterclasses</a>
+													<a href="{{ route('archive.programme.debut-films', $year) }}" class="px-2 py-1.5 rounded-md hover:bg-secondary hover:text-primary transition">Debut Films</a>
+													<a href="{{ route('archive.programme.jury-debut-films', $year) }}" class="px-2 py-1.5 rounded-md hover:bg-secondary hover:text-primary transition">Jury – Debut</a>
+													<a href="{{ route('archive.programme.jury-short-films', $year) }}" class="px-2 py-1.5 rounded-md hover:bg-secondary hover:text-primary transition">Jury – Short</a>
+													<a href="{{ route('archive.programme.national-short-films', $year) }}" class="px-2 py-1.5 rounded-md hover:bg-secondary hover:text-primary transition">National Shorts</a>
+													<a href="{{ route('archive.programme.international-short-films', $year) }}" class="px-2 py-1.5 rounded-md hover:bg-secondary hover:text-primary transition">International Shorts</a>
+													<a href="{{ route('archive.programme.new-asian-currents', $year) }}" class="px-2 py-1.5 rounded-md hover:bg-secondary hover:text-primary transition">New Asian Currents</a>
+													<a href="{{ route('archive.team', $year) }}" class="px-2 py-1.5 rounded-md hover:bg-secondary hover:text-primary transition">Team</a>
+													<a href="{{ route('archive.partners', $year) }}" class="px-2 py-1.5 rounded-md hover:bg-secondary hover:text-primary transition">Partners</a>
+													<a href="{{ route('archive.venues', $year) }}" class="px-2 py-1.5 rounded-md hover:bg-secondary hover:text-primary transition">Venues</a>
+												</div>
+											</div>
+										@endforeach
+									</div>
+								</div>
 							@endif
 						</div>
 					</div>
 
 					<a href="{{ route('contact') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Contact</a>
 					@if($__app?->application_open && $__app?->application_pdf_path)
-						<a href="{{ asset('storage/' . $__app->application_pdf_path) }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 bg-primary text-white rounded-md hover:bg-accent transition shadow-soft uppercase tracking-wider text-xs font-medium whitespace-nowrap">
+						<a href="{{ route('application.download') }}" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 bg-primary text-white rounded-md hover:bg-accent transition shadow-soft uppercase tracking-wider text-xs font-medium whitespace-nowrap">
 							<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
 							</svg>
@@ -195,7 +209,7 @@
 				</button>
 			</div>
 			<div x-show="open" x-transition class="md:hidden bg-white border-t">
-				<div class="container-full py-4 grid gap-4" x-data="{ about:false, programme:false, archive:false }">
+				<div class="container-full py-4 grid gap-4" x-data="{ about:false, programme:false, archive:false, openYear: null }">
 					<a href="{{ route('home') }}" class="py-2 uppercase tracking-wide">Home</a>
 
 					<div>
@@ -221,7 +235,7 @@
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
 						</button>
 						<div x-show="about" x-transition class="pl-4 grid gap-2">
-							<a href="{{ route('about.jaffnaicf') }}" class="py-1 uppercase tracking-wide">JAFFNAICF</a>
+							<a href="{{ route('about.jaffnaicf') }}" class="py-1 tracking-wide normal-case">JaffnaICF</a>
 							<a href="{{ route('about.team') }}" class="py-1 uppercase tracking-wide">Team</a>
 							<a href="{{ route('gallery') }}" class="py-1 uppercase tracking-wide">Gallery</a>
 						</div>
@@ -234,35 +248,40 @@
 					<div>
 						<button class="w-full text-left py-2 flex items-center justify-between" @click="archive=!archive">
 							<span class="uppercase tracking-wide">Archive</span>
-							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200" :class="archive ? 'rotate-180' : ''" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
 						</button>
-						<div x-show="archive" x-transition class="pl-4 grid gap-3">
-							@php($pastYears = $archiveYears->filter(fn($y) => $y != $currentYear))
-							@if($pastYears->isEmpty())
-								<div class="text-dark/70 text-sm">No archive content available yet.</div>
+						<div x-show="archive" x-transition class="pl-2 grid gap-2">
+							@php($pastYearsMobile = $archiveYears->filter(fn($y) => $y != $currentYear)->values())
+							@if($pastYearsMobile->isEmpty())
+								<div class="text-dark/70 text-sm py-1">No archive content available yet.</div>
 							@else
-								@foreach($pastYears->take(6) as $year)
-									<div>
-										<div class="font-semibold uppercase tracking-wide">{{ $year }}</div>
-										<ul class="pl-3 grid gap-1">
-											<li><a href="{{ route('archive.programme.schedule', $year) }}" class="py-1 uppercase tracking-wide">Schedule</a></li>
-											<li><a href="{{ route('archive.programme.masterclasses', $year) }}" class="py-1 uppercase tracking-wide">Masterclasses</a></li>
-											<li><a href="{{ route('archive.programme.debut-films', $year) }}" class="py-1 uppercase tracking-wide">Debut Films</a></li>
-											<li><a href="{{ route('archive.programme.jury-debut-films', $year) }}" class="py-1 uppercase tracking-wide">Jury – Debut Films</a></li>
-											<li><a href="{{ route('archive.programme.jury-short-films', $year) }}" class="py-1 uppercase tracking-wide">Jury – Short Films</a></li>
-											<li><a href="{{ route('archive.programme.national-short-films', $year) }}" class="py-1 uppercase tracking-wide">National Short Films</a></li>
-											<li><a href="{{ route('archive.programme.international-short-films', $year) }}" class="py-1 uppercase tracking-wide">International Short Films</a></li>
-											<li><a href="{{ route('archive.programme.new-asian-currents', $year) }}" class="py-1 uppercase tracking-wide">New Asian Currents</a></li>
-											<li><a href="{{ route('archive.team', $year) }}" class="py-1 uppercase tracking-wide">Team</a></li>
-											<li><a href="{{ route('archive.partners', $year) }}" class="py-1 uppercase tracking-wide">Partners</a></li>
-											<li><a href="{{ route('archive.venues', $year) }}" class="py-1 uppercase tracking-wide">Venues</a></li>
-										</ul>
+								@foreach($pastYearsMobile->take(8) as $year)
+									<div class="rounded-lg border border-dark/10 overflow-hidden">
+										<button
+											type="button"
+											class="w-full flex items-center justify-between px-3 py-2.5 bg-secondary/60"
+											@click="openYear = openYear === {{ (int) $year }} ? null : {{ (int) $year }}"
+										>
+											<span class="font-semibold tracking-wide">{{ $year }}</span>
+											<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform" :class="openYear === {{ (int) $year }} ? 'rotate-180' : ''" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
+										</button>
+										<div x-show="openYear === {{ (int) $year }}" x-transition class="grid gap-0.5 px-3 py-2 bg-white">
+											<a href="{{ route('archive.programme.schedule', $year) }}" class="py-1.5 text-sm hover:text-primary">Schedule</a>
+											<a href="{{ route('archive.programme.masterclasses', $year) }}" class="py-1.5 text-sm hover:text-primary">Masterclasses</a>
+											<a href="{{ route('archive.programme.debut-films', $year) }}" class="py-1.5 text-sm hover:text-primary">Debut Films</a>
+											<a href="{{ route('archive.programme.jury-debut-films', $year) }}" class="py-1.5 text-sm hover:text-primary">Jury – Debut Films</a>
+											<a href="{{ route('archive.programme.jury-short-films', $year) }}" class="py-1.5 text-sm hover:text-primary">Jury – Short Films</a>
+											<a href="{{ route('archive.programme.national-short-films', $year) }}" class="py-1.5 text-sm hover:text-primary">National Short Films</a>
+											<a href="{{ route('archive.programme.international-short-films', $year) }}" class="py-1.5 text-sm hover:text-primary">International Short Films</a>
+											<a href="{{ route('archive.programme.new-asian-currents', $year) }}" class="py-1.5 text-sm hover:text-primary">New Asian Currents</a>
+											<a href="{{ route('archive.team', $year) }}" class="py-1.5 text-sm hover:text-primary">Team</a>
+											<a href="{{ route('archive.partners', $year) }}" class="py-1.5 text-sm hover:text-primary">Partners</a>
+											<a href="{{ route('archive.venues', $year) }}" class="py-1.5 text-sm hover:text-primary">Venues</a>
+										</div>
 									</div>
 								@endforeach
-								@if($pastYears->count() > 6)
-									<div class="pt-2">
-										<a href="{{ route('archive.index') }}" class="text-primary hover:underline uppercase tracking-wide text-sm">View All Years →</a>
-									</div>
+								@if($pastYearsMobile->count() > 8)
+									<a href="{{ route('archive.index') }}" class="text-primary hover:underline text-sm pt-1">View all years →</a>
 								@endif
 							@endif
 						</div>
@@ -273,7 +292,7 @@
 					<!-- Application status - Mobile menu -->
 					<div class="pt-3 border-t border-dark/10">
 						@if($__app?->application_open && $__app?->application_pdf_path)
-							<a href="{{ asset('storage/' . $__app->application_pdf_path) }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-sm font-medium text-primary uppercase tracking-wide">
+							<a href="{{ route('application.download') }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-primary uppercase tracking-wide">
 								<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
 								</svg>
@@ -303,7 +322,7 @@
 						@else
 							<div class="w-9 h-9 rounded-full bg-primary"></div>
 						@endif
-						<span class="font-display font-bold text-xl">{{ $__site?->site_name ?? 'JAFFNA ICF' }}</span>
+						<span class="font-display font-bold text-xl">{{ $__site?->site_name ?? 'JaffnaICF' }}</span>
 					</div>
 					<p class="mt-4 text-white/70">A celebration of cinema, culture, and community in Jaffna.</p>
 					<div class="mt-4 inline-flex items-center gap-3 rounded-full border border-primary/60 bg-primary/10 px-4 py-2">
@@ -330,7 +349,7 @@
 					<h4 class="font-semibold mb-4 text-primary">Participate</h4>
 					<ul class="space-y-2 text-white/80">
 						@if($__app?->application_open && $__app?->application_pdf_path)
-							<li><a href="{{ asset('storage/' . $__app->application_pdf_path) }}" target="_blank" rel="noopener" class="hover:text-primary transition">Download Application</a></li>
+							<li><a href="{{ route('application.download') }}" class="hover:text-primary transition">Download Application</a></li>
 						@else
 							<li><span class="text-white/50 cursor-not-allowed">Applications Closed</span></li>
 						@endif
@@ -344,14 +363,14 @@
 					<ul class="space-y-2 text-white/80">
 						<li><span class="text-white/60">Email:</span> <a href="mailto:jaffnaicf@gmail.com" class="hover:text-primary">jaffnaicf@gmail.com</a></li>
 						<li><span class="text-white/60">Phone:</span> <a href="tel:+94112826027" class="hover:text-primary">+94 11 282 6027</a></li>
-						<li><span class="text-white/60">Address:</span> Agenda 14, #6B/9, Pagoda Road, Nugegoda 10250</li>
+						<li><span class="text-white/60">Address:</span> Agenda 14, #6B/9, Pagoda Road, Nugegoda, 10250, Sri Lanka</li>
 					</ul>
 					<a href="{{ route('contact') }}" class="mt-4 inline-flex btn-primary">Contact Us</a>
 				</div>
 			</div>
 			<div class="border-t border-white/10">
 				<div class="container-full py-6 text-sm text-white/70 flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
-					<div>© {{ date('Y') }} Jaffna International Cinema Festival</div>
+					<div>Â© {{ date('Y') }} Jaffna International Cinema Festival</div>
 					<div>Website design & development by <a href="https://olexto.com/" target="_blank" rel="noopener" class="text-primary hover:text-white">olexto Digital Solutions (Pvt) Ltd</a></div>
 				</div>
 			</div>

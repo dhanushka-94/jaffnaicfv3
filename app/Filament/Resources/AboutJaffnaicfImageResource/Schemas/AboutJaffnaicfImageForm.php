@@ -29,7 +29,7 @@ class AboutJaffnaicfImageForm
                         '4:3',
                         '1:1',
                     ])
-                    ->helperText('Upload image for the JAFFNAICF about page.'),
+                    ->helperText('Upload image for the JaffnaICF about page.'),
                 TextInput::make('sort_order')
                     ->label('Order')
                     ->numeric()

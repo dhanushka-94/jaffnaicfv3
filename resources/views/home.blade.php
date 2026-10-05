@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', ($__site?->site_name ?? 'Jaffna International Cinema Festival') . ' — Celebrating Cinema, Culture & Community')
-@section('meta_description', 'Jaffna International Cinema Festival (JAFFNA ICF) celebrates cinema, culture, and community with diverse film programmes, masterclasses, screenings, and cultural events in Jaffna, Sri Lanka.')
+@section('meta_description', 'Jaffna International Cinema Festival (JaffnaICF) celebrates cinema, culture, and community with diverse film programmes, masterclasses, screenings, and cultural events in Jaffna, Sri Lanka.')
 
 @section('content')
 	<section class="relative -mt-[112px] md:-mt-[156px] pt-[112px] md:pt-[180px]">
@@ -64,9 +64,9 @@
 	<section class="container-full py-16 md:py-20">
 		<div class="grid md:grid-cols-2 gap-12 items-center">
 			<div data-aos="fade-up">
-				<h2 class="section-title">About JAFFNA ICF</h2>
+				<h2 class="section-title">About JaffnaICF</h2>
 				<p class="mt-6 text-lg text-dark/80 leading-relaxed">
-					The Jaffna International Cinema Festival (JAFFNA ICF) is a celebration of cinema, culture, and community. Since its inception, the festival has been dedicated to showcasing diverse voices from South Asia and beyond, bringing together filmmakers, artists, and audiences in the historic city of Jaffna.
+					The Jaffna International Cinema Festival (JaffnaICF) is a celebration of cinema, culture, and community. Since its inception, the festival has been dedicated to showcasing diverse voices from South Asia and beyond, bringing together filmmakers, artists, and audiences in the historic city of Jaffna.
 				</p>
 				<p class="mt-4 text-lg text-dark/80 leading-relaxed">
 					We aim to inspire, educate, and connect audiences through the power of cinema, fostering a vibrant film culture that bridges communities and celebrates storytelling in all its forms.
@@ -176,7 +176,7 @@
 	<section class="container-full py-16 md:py-20">
 		<div class="flex items-center justify-between mb-8" data-aos="fade-up">
 			<h2 class="section-title">Featured Films</h2>
-			<a href="{{ route('programme.schedule') }}" class="text-primary hover:text-accent font-medium">View all →</a>
+			<a href="{{ route('programme.schedule') }}" class="text-primary hover:text-accent font-medium">View all â†’</a>
 		</div>
 		<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 			@foreach($featuredFilms as $film)
@@ -207,7 +207,7 @@
 	<section class="container-full py-16 md:py-20">
 		<div class="flex items-center justify-between mb-8" data-aos="fade-up">
 			<h2 class="section-title">Latest News</h2>
-			<a href="{{ route('news.index') }}" class="text-primary hover:text-accent font-medium">View all →</a>
+			<a href="{{ route('news.index') }}" class="text-primary hover:text-accent font-medium">View all â†’</a>
 		</div>
 		<div class="grid gap-6 md:grid-cols-3">
 			@foreach($latestNews as $article)
@@ -241,7 +241,7 @@
 			</p>
 			<div class="flex flex-wrap justify-center items-center gap-3 md:gap-4">
 				@if($__app?->application_open && $__app?->application_pdf_path)
-					<a href="{{ asset('storage/' . $__app->application_pdf_path) }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 md:px-6 md:py-3 text-sm md:text-base bg-white text-primary rounded-md hover:bg-secondary hover:text-white transition shadow-lg font-medium">
+					<a href="{{ route('application.download') }}" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 md:px-6 md:py-3 text-sm md:text-base bg-white text-primary rounded-md hover:bg-secondary hover:text-white transition shadow-lg font-medium">
 						<svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
 						</svg>
@@ -316,7 +316,7 @@
 			@endforeach
 		</div>
 		<div class="text-center mt-8">
-			<a href="{{ route('partners') }}" class="text-primary hover:text-accent font-medium">View all partners →</a>
+			<a href="{{ route('partners') }}" class="text-primary hover:text-accent font-medium">View all partners â†’</a>
 		</div>
 	</section>
 	@endif

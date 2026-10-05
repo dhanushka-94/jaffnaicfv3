@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'TEAM — JAFFNA ICF')
+@section('title', 'TEAM — JaffnaICF')
 @section('meta_description', 'Meet the team behind the Jaffna International Cinema Festival — director, consultants, advisory committee, management, coordinators, and festival team.')
 
 @section('content')

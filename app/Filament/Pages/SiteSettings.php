@@ -61,7 +61,7 @@ class SiteSettings extends Page implements HasForms
         $data = $this->form->getState();
         $settings = SiteSetting::first() ?? new SiteSetting();
 
-        $settings->site_name = $data['site_name'] ?? 'JAFFNA ICF';
+        $settings->site_name = $data['site_name'] ?? 'JaffnaICF';
         $settings->logo_path = $this->resolveLogoPath($data['logo_path'] ?? null);
         $settings->save();
 

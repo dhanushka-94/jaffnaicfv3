@@ -12,6 +12,7 @@ use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ApplicationDownloadController;
 
 Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap');
 Route::get('/sitemap.xml', [SitemapController::class, 'xml'])->name('sitemap.xml');
@@ -25,6 +26,7 @@ Route::get('/partners', [PartnersController::class, 'index'])->name('partners');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{news}', [NewsController::class, 'show'])->name('news.show');
+Route::get('/application/download', ApplicationDownloadController::class)->name('application.download');
 
 // Programme pages (current year image galleries)
 Route::prefix('programme')->name('programme.')->group(function () {

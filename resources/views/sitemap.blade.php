@@ -33,7 +33,7 @@
 					<li>
 						<a href="{{ route('about.jaffnaicf') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
 							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
-							<span>About JAFFNAICF</span>
+							<span>About JaffnaICF</span>
 						</a>
 					</li>
 					<li>

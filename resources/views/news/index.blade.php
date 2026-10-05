@@ -78,7 +78,7 @@
 			</nav>
 			<h1 class="section-title">News</h1>
 			<p class="mt-4 text-dark/70 text-lg">
-				Announcements, festival updates, and stories from JAFFNA ICF.
+				Announcements, festival updates, and stories from JaffnaICF.
 			</p>
 		</div>
 
@@ -122,7 +122,7 @@
 							@endif
 							<a href="{{ route('news.show', $article) }}" class="mt-auto pt-5 inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-accent transition">
 								Read more
-								<span aria-hidden="true">→</span>
+								<span aria-hidden="true">â†’</span>
 							</a>
 						</div>
 					</article>
