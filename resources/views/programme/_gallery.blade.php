@@ -38,34 +38,11 @@
 					];
 				})->values()->toArray();
 			@endphp
-			<div class="mt-10 grid gap-6 grid-cols-1" 
-				x-data="{ 
-					openLightbox: false, 
-					currentIndex: 0,
-					images: @json($imageData),
-					openImage(index) {
-						this.currentIndex = index;
-						this.openLightbox = true;
-						document.body.style.overflow = 'hidden';
-					},
-					closeLightbox() {
-						this.openLightbox = false;
-						document.body.style.overflow = '';
-					},
-					nextImage() {
-						if (this.images.length > 0) {
-							this.currentIndex = (this.currentIndex + 1) % this.images.length;
-						}
-					},
-					prevImage() {
-						if (this.images.length > 0) {
-							this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
-						}
-					}
-				}" 
-				@keydown.escape.window="if(openLightbox) closeLightbox()" 
-				@keydown.arrow-right.window="if(openLightbox) nextImage()" 
-				@keydown.arrow-left.window="if(openLightbox) prevImage()">
+			<div class="mt-10 grid gap-6 grid-cols-1"
+				x-data="programmeGallery(@js($imageData))"
+				@keydown.escape.window="if (openLightbox) closeLightbox()"
+				@keydown.arrow-right.window="if (openLightbox) nextImage()"
+				@keydown.arrow-left.window="if (openLightbox) prevImage()">
 				@foreach($images as $image)
 					<div class="bg-white rounded-xl overflow-hidden shadow-soft cursor-pointer hover:shadow-xl transition-all duration-300" @click="openImage({{ $loop->index }})">
 						@if($image->image_path && file_exists(storage_path('app/public/' . $image->image_path)))
@@ -135,9 +112,9 @@
 
 					<!-- Image Container -->
 					<div class="relative max-w-7xl max-h-[90vh] w-full flex items-center justify-center" x-show="images[currentIndex]">
-						<img 
-							x-bind:src="images[currentIndex] ? images[currentIndex].path : ''" 
-							x-bind:alt="images[currentIndex] ? images[currentIndex].alt : '{{ $title }} Image'"
+						<img
+							x-bind:src="images[currentIndex] ? images[currentIndex].path : ''"
+							x-bind:alt="images[currentIndex] ? images[currentIndex].alt : 'Gallery image'"
 							class="max-w-full max-h-[90vh] object-contain rounded-lg"
 							@click.self="closeLightbox()"
 						>

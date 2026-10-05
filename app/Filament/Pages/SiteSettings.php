@@ -62,24 +62,32 @@ class SiteSettings extends Page implements HasForms
         $settings = SiteSetting::first() ?? new SiteSetting();
 
         $settings->site_name = $data['site_name'] ?? 'JAFFNA ICF';
-
-        // Manually store the uploaded file to ensure it is moved to the public disk
-        $logoState = $data['logo_path'] ?? null;
-        if ($logoState instanceof TemporaryUploadedFile) {
-            $storedPath = $logoState->store('logos', 'public');
-            $settings->logo_path = $storedPath;
-        } elseif (is_string($logoState)) {
-            // Already stored path (keep as is)
-            $settings->logo_path = $logoState;
-        }
-
+        $settings->logo_path = $this->resolveLogoPath($data['logo_path'] ?? null);
         $settings->save();
-        // Refresh the form state so the preview reflects the saved path
-        $this->form->fill($settings->toArray());
+
+        $this->form->model($settings)->fill($settings->fresh()->toArray());
+
         Notification::make()
             ->title('Settings saved.')
             ->success()
             ->send();
+    }
+
+    private function resolveLogoPath(mixed $logoState): ?string
+    {
+        if ($logoState instanceof TemporaryUploadedFile) {
+            return $logoState->store('logos', 'public');
+        }
+
+        if (is_array($logoState)) {
+            $logoState = array_values(array_filter($logoState))[0] ?? null;
+        }
+
+        if (! is_string($logoState) || $logoState === '') {
+            return null;
+        }
+
+        return $logoState;
     }
 }
 

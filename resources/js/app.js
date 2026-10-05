@@ -5,6 +5,31 @@ import AOS from 'aos';
 import Swiper from 'swiper';
 import Alpine from 'alpinejs';
 
+Alpine.data('programmeGallery', (images = []) => ({
+	openLightbox: false,
+	currentIndex: 0,
+	images,
+	openImage(index) {
+		this.currentIndex = index;
+		this.openLightbox = true;
+		document.body.style.overflow = 'hidden';
+	},
+	closeLightbox() {
+		this.openLightbox = false;
+		document.body.style.overflow = '';
+	},
+	nextImage() {
+		if (this.images.length > 0) {
+			this.currentIndex = (this.currentIndex + 1) % this.images.length;
+		}
+	},
+	prevImage() {
+		if (this.images.length > 0) {
+			this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+		}
+	},
+}));
+
 window.Alpine = Alpine;
 Alpine.start();
 

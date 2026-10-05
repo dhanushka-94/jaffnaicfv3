@@ -21,48 +21,66 @@
 		@endphp
 		<title>@yield('title', $__site?->site_name ?? 'Jaffna International Cinema Festival')</title>
 		<meta name="description" content="@yield('meta_description', 'Jaffna International Cinema Festival (JAFFNA ICF) celebrates cinema, culture, and community with programmes, masterclasses, and screenings.')">
-		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-		<link rel="canonical" href="{{ url()->current() }}">
+		@hasSection('meta_keywords')
+			<meta name="keywords" content="@yield('meta_keywords')">
+		@endif
+		<meta name="robots" content="@yield('meta_robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')">
+		<link rel="canonical" href="@yield('canonical', url()->current())">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 
+		<meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}">
+		<meta property="og:site_name" content="{{ $__site?->site_name ?? 'Jaffna International Cinema Festival' }}">
 		<meta property="og:type" content="@yield('og_type', 'website')">
 		<meta property="og:title" content="@yield('og_title', trim($__env->yieldContent('title', 'Jaffna International Cinema Festival')))">
 		<meta property="og:description" content="@yield('og_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (JAFFNA ICF) celebrates cinema, culture, and community with programmes, masterclasses, and screenings.'))">
-		<meta property="og:url" content="{{ url()->current() }}">
+		<meta property="og:url" content="@yield('og_url', url()->current())">
 		<meta property="og:image" content="@yield('og_image', asset('images/og-default.jpg'))">
+		<meta property="og:image:alt" content="@yield('og_image_alt', $__site?->site_name ?? 'Jaffna International Cinema Festival')">
+		@hasSection('article_published_time')
+			<meta property="article:published_time" content="@yield('article_published_time')">
+		@endif
+		@hasSection('article_modified_time')
+			<meta property="article:modified_time" content="@yield('article_modified_time')">
+		@endif
+		@hasSection('article_section')
+			<meta property="article:section" content="@yield('article_section')">
+		@endif
 
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name="twitter:title" content="@yield('twitter_title', trim($__env->yieldContent('title', 'Jaffna International Cinema Festival')))">
 		<meta name="twitter:description" content="@yield('twitter_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (JAFFNA ICF) celebrates cinema, culture, and community with programmes, masterclasses, and screenings.'))">
 		<meta name="twitter:image" content="@yield('twitter_image', asset('images/og-default.jpg'))">
+		<meta name="twitter:image:alt" content="@yield('twitter_image_alt', $__site?->site_name ?? 'Jaffna International Cinema Festival')">
 
 		<script type="application/ld+json">
-		{
-			"@context": "https://schema.org",
-			"@type": "Organization",
-			"name": "{{ $__site?->site_name ?? 'Jaffna International Cinema Festival' }}",
-			"alternateName": "JAFFNA ICF",
-			"url": "{{ url('/') }}",
-			"logo": {
-				"@type": "ImageObject",
-				"url": "{{ $__site?->logo_path ? asset('storage/' . $__site->logo_path) : asset('images/og-default.jpg') }}"
-			},
-			"sameAs": [
-				"https://www.facebook.com/JaffnaICF"
+		{!! json_encode([
+			'@context' => 'https://schema.org',
+			'@type' => 'Organization',
+			'name' => $__site?->site_name ?? 'Jaffna International Cinema Festival',
+			'alternateName' => 'JAFFNA ICF',
+			'url' => url('/'),
+			'logo' => [
+				'@type' => 'ImageObject',
+				'url' => $__site?->logo_path ? asset('storage/' . $__site->logo_path) : asset('images/og-default.jpg'),
 			],
-			"contactPoint": {
-				"@type": "ContactPoint",
-				"contactType": "General Inquiry",
-				"areaServed": "LK",
-				"availableLanguage": ["en", "ta"]
-			}
-		}
+			'sameAs' => [
+				'https://www.facebook.com/JaffnaICF',
+			],
+			'contactPoint' => [
+				'@type' => 'ContactPoint',
+				'contactType' => 'General Inquiry',
+				'areaServed' => 'LK',
+				'availableLanguage' => ['en', 'ta'],
+			],
+		], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_HEX_TAG|JSON_HEX_AMP) !!}
 		</script>
+		@stack('structured_data')
 
 		<meta name="theme-color" content="#C5502C">
 		@vite(['resources/css/app.css', 'resources/js/app.js'])
+		@stack('head')
 	</head>
 	<body class="bg-secondary text-dark">
 		<header x-data="{ scrolled: false, open: false }"
@@ -78,17 +96,6 @@
 				</a>
 				<nav class="hidden md:flex items-center gap-8 lg:gap-12 font-medium" x-data="{ about:false, programme:false, archive:false }">
 					<a href="{{ route('home') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Home</a>
-
-					<div class="relative" @mouseenter="about=true" @mouseleave="about=false">
-						<button class="inline-flex items-center gap-1 hover:text-primary" @click.prevent="about=!about">
-							<span class="uppercase tracking-wider text-[15px] md:text-base">About</span>
-							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
-						</button>
-						<div x-show="about" x-transition class="absolute left-0 mt-3 w-56 bg-white shadow-lg rounded-md border p-2">
-							<a href="{{ route('about.jaffnaicf') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">JAFFNAICF</a>
-							<a href="{{ route('about.team') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Team</a>
-						</div>
-					</div>
 
 					<div class="relative" @mouseenter="programme=true" @mouseleave="programme=false">
 						<button class="inline-flex items-center gap-1 hover:text-primary" @click.prevent="programme=!programme">
@@ -107,9 +114,21 @@
 						</div>
 					</div>
 
-					<a href="{{ route('partners') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Partners</a>
+					<div class="relative" @mouseenter="about=true" @mouseleave="about=false">
+						<button class="inline-flex items-center gap-1 hover:text-primary" @click.prevent="about=!about">
+							<span class="uppercase tracking-wider text-[15px] md:text-base">About</span>
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
+						</button>
+						<div x-show="about" x-transition class="absolute left-0 mt-3 w-56 bg-white shadow-lg rounded-md border p-2">
+							<a href="{{ route('about.jaffnaicf') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">JAFFNAICF</a>
+							<a href="{{ route('about.team') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Team</a>
+							<a href="{{ route('gallery') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Gallery</a>
+						</div>
+					</div>
+
+					<a href="{{ route('news.index') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">News</a>
 					<a href="{{ route('venues') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Venues</a>
-					<a href="{{ route('gallery') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Gallery</a>
+					<a href="{{ route('partners') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Partners</a>
 
 					<div class="relative" @mouseenter="archive=true" @mouseleave="archive=false">
 						<button class="inline-flex items-center gap-1 hover:text-primary" @click.prevent="archive=!archive">
@@ -156,17 +175,15 @@
 
 					<a href="{{ route('contact') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Contact</a>
 					@if($__app?->application_open && $__app?->application_pdf_path)
-						<a href="{{ asset('storage/' . $__app->application_pdf_path) }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-5 py-3 bg-primary text-white rounded-md hover:bg-accent transition shadow-soft uppercase tracking-wider text-[15px] md:text-base font-medium">
-							<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<a href="{{ asset('storage/' . $__app->application_pdf_path) }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 bg-primary text-white rounded-md hover:bg-accent transition shadow-soft uppercase tracking-wider text-xs font-medium whitespace-nowrap">
+							<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
 							</svg>
 							Download Application
 						</a>
 					@else
-						<span class="inline-flex items-center justify-center px-5 py-3 rounded-md bg-dark/5 border-2 border-dark/20 text-dark/50 uppercase tracking-wider text-[15px] md:text-base cursor-not-allowed select-none font-medium">
-							<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-							</svg>
+						<span class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-md bg-dark/5 border border-dark/15 text-dark/45 uppercase tracking-wider text-xs cursor-not-allowed select-none font-medium whitespace-nowrap">
+							<span class="w-1.5 h-1.5 rounded-full bg-dark/30" aria-hidden="true"></span>
 							Applications Closed
 						</span>
 					@endif
@@ -180,17 +197,6 @@
 			<div x-show="open" x-transition class="md:hidden bg-white border-t">
 				<div class="container-full py-4 grid gap-4" x-data="{ about:false, programme:false, archive:false }">
 					<a href="{{ route('home') }}" class="py-2 uppercase tracking-wide">Home</a>
-
-					<div>
-						<button class="w-full text-left py-2 flex items-center justify-between" @click="about=!about">
-							<span class="uppercase tracking-wide">About</span>
-							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
-						</button>
-						<div x-show="about" x-transition class="pl-4 grid gap-2">
-							<a href="{{ route('about.jaffnaicf') }}" class="py-1 uppercase tracking-wide">JAFFNAICF</a>
-							<a href="{{ route('about.team') }}" class="py-1 uppercase tracking-wide">Team</a>
-						</div>
-					</div>
 
 					<div>
 						<button class="w-full text-left py-2 flex items-center justify-between" @click="programme=!programme">
@@ -209,9 +215,21 @@
 						</div>
 					</div>
 
-					<a href="{{ route('partners') }}" class="py-2 uppercase tracking-wide">Partners</a>
+					<div>
+						<button class="w-full text-left py-2 flex items-center justify-between" @click="about=!about">
+							<span class="uppercase tracking-wide">About</span>
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
+						</button>
+						<div x-show="about" x-transition class="pl-4 grid gap-2">
+							<a href="{{ route('about.jaffnaicf') }}" class="py-1 uppercase tracking-wide">JAFFNAICF</a>
+							<a href="{{ route('about.team') }}" class="py-1 uppercase tracking-wide">Team</a>
+							<a href="{{ route('gallery') }}" class="py-1 uppercase tracking-wide">Gallery</a>
+						</div>
+					</div>
+
+					<a href="{{ route('news.index') }}" class="py-2 uppercase tracking-wide">News</a>
 					<a href="{{ route('venues') }}" class="py-2 uppercase tracking-wide">Venues</a>
-					<a href="{{ route('gallery') }}" class="py-2 uppercase tracking-wide">Gallery</a>
+					<a href="{{ route('partners') }}" class="py-2 uppercase tracking-wide">Partners</a>
 
 					<div>
 						<button class="w-full text-left py-2 flex items-center justify-between" @click="archive=!archive">
@@ -252,22 +270,18 @@
 
 					<a href="{{ route('contact') }}" class="py-2 uppercase tracking-wide">Contact</a>
 					
-					<!-- Download Application Button - Mobile -->
-					<div class="pt-2 border-t border-dark/10">
+					<!-- Application status - Mobile menu -->
+					<div class="pt-3 border-t border-dark/10">
 						@if($__app?->application_open && $__app?->application_pdf_path)
-							<a href="{{ asset('storage/' . $__app->application_pdf_path) }}" target="_blank" rel="noopener" class="block w-full">
-								<span class="inline-flex items-center justify-center w-full px-5 py-2 bg-primary text-white rounded-md hover:bg-accent transition shadow-lg uppercase tracking-wide font-medium text-sm">
-									<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-									</svg>
-									Download Application
-								</span>
+							<a href="{{ asset('storage/' . $__app->application_pdf_path) }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-sm font-medium text-primary uppercase tracking-wide">
+								<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+								</svg>
+								Download Application
 							</a>
 						@else
-							<span class="inline-flex items-center justify-center w-full px-5 py-2 rounded-md bg-dark/5 border-2 border-dark/20 text-dark/50 uppercase tracking-wide cursor-not-allowed select-none font-medium text-sm">
-								<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-								</svg>
+							<span class="inline-flex items-center gap-1.5 text-xs font-medium text-dark/45 uppercase tracking-wide">
+								<span class="w-1.5 h-1.5 rounded-full bg-dark/30" aria-hidden="true"></span>
 								Applications Closed
 							</span>
 						@endif
@@ -275,29 +289,6 @@
 				</div>
 			</div>
 		</header>
-		
-		<!-- Mobile Download Application Button - Below Header -->
-		<div class="md:hidden sticky top-[104px] z-40 bg-secondary border-b border-black/5 shadow-sm">
-			<div class="container-full py-3">
-				@if($__app?->application_open && $__app?->application_pdf_path)
-					<a href="{{ asset('storage/' . $__app->application_pdf_path) }}" target="_blank" rel="noopener" class="block w-full">
-						<span class="inline-flex items-center justify-center w-full px-4 py-3 bg-primary text-white rounded-md hover:bg-accent transition shadow-lg uppercase tracking-wide font-medium text-sm">
-							<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-							</svg>
-							Download Application
-						</span>
-					</a>
-				@else
-					<span class="inline-flex items-center justify-center w-full px-4 py-3 rounded-md bg-dark/5 border-2 border-dark/20 text-dark/50 uppercase tracking-wide cursor-not-allowed select-none font-medium text-sm">
-						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-						</svg>
-						Applications Closed
-					</span>
-				@endif
-			</div>
-		</div>
 
 		<main class="pt-[112px] md:pt-[156px]">
 			@yield('content')
@@ -331,6 +322,7 @@
 						<li><a href="{{ route('about.jaffnaicf') }}" class="hover:text-primary transition">About</a></li>
 						<li><a href="{{ route('about.team') }}" class="hover:text-primary transition">Team</a></li>
 						<li><a href="{{ route('gallery') }}" class="hover:text-primary transition">Gallery</a></li>
+						<li><a href="{{ route('news.index') }}" class="hover:text-primary transition">News</a></li>
 						<li><a href="{{ route('sitemap') }}" class="hover:text-primary transition">Sitemap</a></li>
 					</ul>
 				</div>

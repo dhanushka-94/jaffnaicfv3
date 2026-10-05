@@ -25,43 +25,50 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        // Get site settings safely (handle database not available during composer install)
-        $siteLogo = null;
-        $siteName = 'JAFFNA ICF';
-        try {
-            if (\Illuminate\Support\Facades\Schema::hasTable('site_settings')) {
-                $siteSetting = \App\Models\SiteSetting::first();
-                $siteLogo = $siteSetting?->logo_path;
-                $siteName = $siteSetting?->site_name ?? 'JAFFNA ICF';
-            }
-        } catch (\Exception $e) {
-            // Database not available, use default
-        }
-
-        // Create custom logo with site name
-        $customLogo = new class($siteLogo, $siteName) implements \Illuminate\Contracts\Support\Htmlable {
-            public function __construct(
-                private ?string $logoPath,
-                private string $siteName
-            ) {}
-
+        // Create custom logo that reads current site settings on each render
+        $customLogo = new class implements \Illuminate\Contracts\Support\Htmlable {
             public function toHtml(): string
             {
-                if ($this->logoPath) {
-                    $logoUrl = asset('storage/' . $this->logoPath);
+                [$logoPath, $siteName] = $this->siteBrand();
+
+                if ($logoPath) {
+                    $logoUrl = e(asset('storage/' . $logoPath));
+                    $siteName = e($siteName);
+
                     return <<<HTML
                         <div class="fi-logo-with-name" style="display: flex; align-items: center; gap: 0.75rem;">
-                            <img src="{$logoUrl}" alt="{$this->siteName}" style="height: 1.5rem; width: auto;" />
-                            <span class="fi-logo-site-name">{$this->siteName}</span>
-                        </div>
-                    HTML;
-                } else {
-                    return <<<HTML
-                        <div class="fi-logo-with-name">
-                            <span class="fi-logo-site-name">{$this->siteName}</span>
+                            <img src="{$logoUrl}" alt="{$siteName}" style="height: 1.5rem; width: auto;" />
+                            <span class="fi-logo-site-name">{$siteName}</span>
                         </div>
                     HTML;
                 }
+
+                $siteName = e($siteName);
+
+                return <<<HTML
+                    <div class="fi-logo-with-name">
+                        <span class="fi-logo-site-name">{$siteName}</span>
+                    </div>
+                HTML;
+            }
+
+            /** @return array{0: ?string, 1: string} */
+            private function siteBrand(): array
+            {
+                try {
+                    if (\Illuminate\Support\Facades\Schema::hasTable('site_settings')) {
+                        $siteSetting = \App\Models\SiteSetting::query()->first();
+
+                        return [
+                            $siteSetting?->logo_path,
+                            $siteSetting?->site_name ?: 'JAFFNA ICF',
+                        ];
+                    }
+                } catch (\Throwable) {
+                    // Database not available, use default
+                }
+
+                return [null, 'JAFFNA ICF'];
             }
         };
 
@@ -70,13 +77,33 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName($siteName)
+            ->brandName(function (): string {
+                try {
+                    if (\Illuminate\Support\Facades\Schema::hasTable('site_settings')) {
+                        return \App\Models\SiteSetting::query()->value('site_name') ?: 'JAFFNA ICF';
+                    }
+                } catch (\Throwable) {
+                }
+
+                return 'JAFFNA ICF';
+            })
             ->brandLogo($customLogo)
             ->colors([
                 'primary' => Color::Amber,
             ])
             ->font('Inter')
-            ->favicon($siteLogo ? asset('storage/' . $siteLogo) : null)
+            ->favicon(function (): ?string {
+                try {
+                    if (\Illuminate\Support\Facades\Schema::hasTable('site_settings')) {
+                        $logoPath = \App\Models\SiteSetting::query()->value('logo_path');
+
+                        return $logoPath ? asset('storage/' . $logoPath) : null;
+                    }
+                } catch (\Throwable) {
+                }
+
+                return null;
+            })
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([

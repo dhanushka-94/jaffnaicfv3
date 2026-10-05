@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Film;
+use App\Models\News;
 use App\Models\Partner;
 use App\Models\Review;
 use App\Models\Slider;
@@ -23,14 +24,20 @@ class HomeController extends Controller
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();
-        
+
         $reviews = Review::query()
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->take(6)
             ->get();
 
-        return view('home', compact('featuredFilms', 'partners', 'sliders', 'currentYear', 'reviews'));
+        $latestNews = News::query()
+            ->published()
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+
+        return view('home', compact('featuredFilms', 'partners', 'sliders', 'currentYear', 'reviews', 'latestNews'));
     }
 }
 

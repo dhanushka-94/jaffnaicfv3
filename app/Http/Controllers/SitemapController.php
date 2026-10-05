@@ -13,6 +13,7 @@ use App\Models\JuryShortImage;
 use App\Models\NationalShortImage;
 use App\Models\InternationalShortImage;
 use App\Models\NewAsianCurrentImage;
+use App\Models\News;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
@@ -33,11 +34,24 @@ class SitemapController extends Controller
             ['url' => route('about.team'), 'priority' => '0.8'],
             ['url' => route('partners'), 'priority' => '0.7'],
             ['url' => route('venues'), 'priority' => '0.7'],
+            ['url' => route('gallery'), 'priority' => '0.7'],
+            ['url' => route('news.index'), 'priority' => '0.8'],
             ['url' => route('contact'), 'priority' => '0.6'],
         ];
 
         foreach ($staticPages as $page) {
             $sitemap .= $this->urlTag($page['url'], now(), $page['priority'], 'monthly');
+        }
+
+        $sitemap .= $this->urlTag(route('news.index'), now(), '0.8', 'daily');
+
+        foreach (News::query()->published()->latest('published_at')->get() as $article) {
+            $sitemap .= $this->urlTag(
+                route('news.show', $article),
+                $article->updated_at ?? $article->published_at ?? now(),
+                '0.7',
+                'weekly'
+            );
         }
 
         // Programme pages

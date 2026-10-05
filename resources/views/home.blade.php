@@ -5,31 +5,23 @@
 
 @section('content')
 	<section class="relative -mt-[112px] md:-mt-[156px] pt-[112px] md:pt-[180px]">
-		<div class="hero-swiper swiper w-full h-[50vh] sm:h-[55vh] md:h-[70vh] min-h-[350px] md:min-h-[500px]">
+		<div class="hero-swiper swiper w-full h-[45vh] sm:h-[50vh] md:h-[65vh] min-h-[300px] md:min-h-[400px]">
 			<div class="swiper-wrapper">
 				@forelse($sliders as $slide)
 					<div class="swiper-slide relative">
 						@if($slide->image_path || $slide->mobile_image_path)
 							@if($slide->mobile_image_path)
-								<!-- Mobile Image - Portrait (3:4) - Fit to screen -->
-								<div class="md:hidden w-full h-full flex items-center justify-center bg-dark/10">
-									<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="w-full h-full object-contain object-center" />
-								</div>
-								<!-- Desktop Image - Landscape (16:9) - Fit to screen -->
+								<!-- Mobile Image -->
+								<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="md:hidden w-full h-full object-cover object-center" />
+								<!-- Desktop Image -->
 								@if($slide->image_path)
-									<div class="hidden md:flex w-full h-full items-center justify-center bg-dark/10">
-										<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="w-full h-full object-contain object-center" />
-									</div>
+									<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="hidden md:block w-full h-full object-cover object-center" />
 								@else
-									<div class="hidden md:flex w-full h-full items-center justify-center bg-dark/10">
-										<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="w-full h-full object-contain object-center" />
-									</div>
+									<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="hidden md:block w-full h-full object-cover object-center" />
 								@endif
 							@elseif($slide->image_path)
-								<!-- Desktop Image (used for both if no mobile image) - Fit to screen -->
-								<div class="w-full h-full flex items-center justify-center bg-dark/10">
-									<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="w-full h-full object-contain object-center" />
-								</div>
+								<!-- Desktop Image (used for both if no mobile image) -->
+								<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="w-full h-full object-cover object-center" />
 							@endif
 						@else
 							<div class="w-full h-full bg-dark/10"></div>
@@ -210,6 +202,36 @@
 	</section>
 	@endif
 
+	<!-- Latest News Section -->
+	@if(isset($latestNews) && $latestNews->isNotEmpty())
+	<section class="container-full py-16 md:py-20">
+		<div class="flex items-center justify-between mb-8" data-aos="fade-up">
+			<h2 class="section-title">Latest News</h2>
+			<a href="{{ route('news.index') }}" class="text-primary hover:text-accent font-medium">View all →</a>
+		</div>
+		<div class="grid gap-6 md:grid-cols-3">
+			@foreach($latestNews as $article)
+				<article class="group bg-white border border-black/5 rounded-xl overflow-hidden shadow-soft hover:shadow-md transition-shadow" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
+					<a href="{{ route('news.show', $article) }}" class="block aspect-[16/10] bg-secondary overflow-hidden">
+						@if($article->feature_image_path)
+							<img src="{{ asset('storage/' . $article->feature_image_path) }}" alt="{{ $article->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+						@endif
+					</a>
+					<div class="p-5">
+						<time class="text-xs uppercase tracking-wider text-primary font-medium">{{ $article->published_at?->format('M j, Y') }}</time>
+						<h3 class="mt-2 text-xl font-display font-bold leading-snug">
+							<a href="{{ route('news.show', $article) }}" class="hover:text-primary transition">{{ $article->title }}</a>
+						</h3>
+						@if($article->excerpt)
+							<p class="mt-2 text-sm text-dark/70 line-clamp-2">{{ $article->excerpt }}</p>
+						@endif
+					</div>
+				</article>
+			@endforeach
+		</div>
+	</section>
+	@endif
+
 	<!-- Call to Action Section -->
 	<section class="container-full py-16 md:py-20">
 		<div class="bg-gradient-to-br from-primary via-primary/95 to-accent rounded-2xl p-8 md:p-12 text-white text-center" data-aos="fade-up">
@@ -217,26 +239,24 @@
 			<p class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8">
 				Experience the magic of cinema in the heart of Northern Sri Lanka. Connect with filmmakers, discover new voices, and celebrate the art of storytelling.
 			</p>
-			<div class="flex flex-wrap justify-center gap-4">
+			<div class="flex flex-wrap justify-center items-center gap-3 md:gap-4">
 				@if($__app?->application_open && $__app?->application_pdf_path)
-					<a href="{{ asset('storage/' . $__app->application_pdf_path) }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-6 py-3 bg-white text-primary rounded-md hover:bg-secondary hover:text-white transition shadow-lg font-medium">
-						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<a href="{{ asset('storage/' . $__app->application_pdf_path) }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 md:px-6 md:py-3 text-sm md:text-base bg-white text-primary rounded-md hover:bg-secondary hover:text-white transition shadow-lg font-medium">
+						<svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
 						</svg>
 						Download Application
 					</a>
 				@else
-					<span class="inline-flex items-center justify-center px-6 py-3 rounded-md bg-white/10 border-2 border-white/30 text-white/70 uppercase tracking-wide cursor-not-allowed select-none font-medium backdrop-blur-sm">
-						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-						</svg>
+					<span class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/10 border border-white/25 text-white/75 text-xs md:text-sm uppercase tracking-wider cursor-not-allowed select-none font-medium backdrop-blur-sm">
+						<span class="w-1.5 h-1.5 rounded-full bg-white/50" aria-hidden="true"></span>
 						Applications Closed
 					</span>
 				@endif
-				<a href="{{ route('programme.schedule') }}" class="btn-outline border-white text-white hover:bg-white hover:text-primary">
+				<a href="{{ route('programme.schedule') }}" class="btn-outline border-white text-white hover:bg-white hover:text-primary text-sm md:text-base px-4 py-2 md:px-6 md:py-3">
 					View Programme
 				</a>
-				<a href="{{ route('contact') }}" class="btn-ghost text-white hover:text-white/80">
+				<a href="{{ route('contact') }}" class="btn-ghost text-white hover:text-white/80 text-sm md:text-base">
 					Contact Us
 				</a>
 			</div>
