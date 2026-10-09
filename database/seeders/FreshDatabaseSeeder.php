@@ -18,7 +18,9 @@ class FreshDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Seeder is empty - no data will be seeded
+        $this->call([
+            AdminUserSeeder::class,
+        ]);
     }
 }
 

@@ -55,8 +55,8 @@ try {
     echo "========================================\n\n";
     
     echo "Admin Login Credentials:\n";
-    echo "  Email: admin@admin.com\n";
-    echo "  Password: admin123\n\n";
+    echo "  Email: olexto@gmail.com\n";
+    echo "  Password: Dhanushka13228\n\n";
     
     echo "⚠ IMPORTANT: Delete this file (seed-database.php) for security!\n";
 
