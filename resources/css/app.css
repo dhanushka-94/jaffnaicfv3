@@ -38,8 +38,14 @@
 }
 
 @layer base {
+	html, body {
+		overflow-x: clip;
+	}
 	body {
 		@apply bg-secondary text-dark font-body antialiased;
+	}
+	img, video, canvas, svg {
+		max-width: 100%;
 	}
 	/* Smooth scrolling for back-to-top */
 	html {
@@ -81,7 +87,23 @@
 
 @layer components {
 	.container-full {
-		@apply w-full max-w-[1600px] mx-auto px-4 md:px-8;
+		@apply w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8;
+	}
+	.site-main {
+		padding-top: 5.75rem;
+	}
+	.hero-under-header {
+		margin-top: -5.75rem;
+		padding-top: 5.75rem;
+	}
+	@media (min-width: 1280px) {
+		.site-main {
+			padding-top: 7.25rem;
+		}
+		.hero-under-header {
+			margin-top: -7.25rem;
+			padding-top: 8.75rem;
+		}
 	}
 	.map-embed {
 		position: relative;
@@ -94,19 +116,79 @@
 		width: 100%;
 		height: 100%;
 	}
+	.hero-under-header,
+	.hero-swiper,
+	.hero-swiper .swiper-wrapper,
+	.hero-swiper .swiper-slide {
+		width: 100%;
+	}
 	.hero-swiper {
 		/* Swiper color variables */
 		--swiper-navigation-color: #F6EFE7; /* arrows */
 		--swiper-pagination-color: #C5502C; /* active bullet */
-		
-		/* Mobile optimizations */
+		height: auto !important;
 		overflow: hidden;
+	}
+	.hero-swiper .swiper-slide {
+		height: auto !important;
+	}
+	.hero-slide-image {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-width: none;
+		object-fit: contain;
+		object-position: center;
+	}
+	.film-train {
+		overflow: hidden;
+		width: 100%;
+		background: transparent;
+		padding: 0.85rem 0 0.35rem;
+	}
+	.film-train-track {
+		display: flex;
+		width: max-content;
+		animation: film-train-slide linear infinite;
+		will-change: transform;
+	}
+	.film-train-set {
+		display: flex;
+		gap: 0.65rem;
+		padding-right: 0.65rem;
+	}
+	.film-train-image {
+		display: block;
+		height: 6.75rem;
+		width: 11rem;
+		max-width: none;
+		flex: 0 0 auto;
+		object-fit: cover;
+		border-radius: 0.45rem;
+	}
+	@keyframes film-train-slide {
+		from { transform: translateX(0); }
+		to { transform: translateX(-50%); }
+	}
+	@media (min-width: 768px) {
+		.film-train {
+			padding: 1rem 0 0.4rem;
+		}
+		.film-train-image {
+			height: 9.5rem;
+			width: 15.5rem;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.film-train {
+			overflow-x: auto;
+		}
+		.film-train-track {
+			animation: none;
+		}
 	}
 	
 	@media (max-width: 640px) {
-		.hero-swiper {
-			min-height: 300px;
-		}
 		
 		.hero-swiper .swiper-button-prev,
 		.hero-swiper .swiper-button-next {

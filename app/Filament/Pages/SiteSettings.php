@@ -44,7 +44,18 @@ class SiteSettings extends Page implements HasForms
                     ->required()
                     ->maxLength(120),
                 FileUpload::make('logo_path')
-                    ->label('Logo')
+                    ->label('Header logo')
+                    ->helperText('Shown in the top navigation.')
+                    ->image()
+                    ->directory('logos')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->openable()
+                    ->downloadable()
+                    ->nullable(),
+                FileUpload::make('footer_logo_path')
+                    ->label('Footer logo')
+                    ->helperText('Shown in the site footer. Leave empty to keep using the header logo.')
                     ->image()
                     ->directory('logos')
                     ->disk('public')
@@ -63,6 +74,7 @@ class SiteSettings extends Page implements HasForms
 
         $settings->site_name = $data['site_name'] ?? 'JaffnaICF';
         $settings->logo_path = $this->resolveLogoPath($data['logo_path'] ?? null);
+        $settings->footer_logo_path = $this->resolveLogoPath($data['footer_logo_path'] ?? null);
         $settings->save();
 
         $this->form->model($settings)->fill($settings->fresh()->toArray());

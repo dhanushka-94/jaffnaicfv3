@@ -49,9 +49,7 @@
 					</div>
 				@endif
 			@empty
-				<div class="text-center py-12 md:py-16" data-aos="fade-up">
-					<p class="text-dark/70 text-base md:text-lg">Partner information will be displayed here.</p>
-				</div>
+				<x-coming-soon message="Partner details for this edition are not in the archive yet." />
 			@endforelse
 		@endif
 	</section>

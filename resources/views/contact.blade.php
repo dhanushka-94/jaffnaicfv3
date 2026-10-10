@@ -68,7 +68,9 @@
 					<h3 class="text-xl font-semibold">Festival Secretariat</h3>
 				</div>
 				<address class="not-italic mt-5 text-dark/80 leading-relaxed">
-					Agenda 14, #6B/9, Pagoda Road, Nugegoda, 10250, Sri Lanka
+					Agenda 14, No. 6B/9,<br>
+					Pagoda Road, Nugegoda 10250,<br>
+					Sri Lanka.
 				</address>
 			</div>
 
@@ -82,10 +84,9 @@
 				</div>
 				<address class="not-italic mt-5 text-dark/80 leading-relaxed">
 					JaffnaICF,<br>
-					#71/2,<br>
-					Kachcheri – Nallur Road,<br>
-					Jaffna, 40000,<br>
-					Sri Lanka
+					No. 71/2, Kachcheri–Nallur Road,<br>
+					Jaffna 40000,<br>
+					Sri Lanka.
 				</address>
 			</div>
 		</div>

@@ -20,6 +20,7 @@ class FreshDatabaseSeeder extends Seeder
     {
         $this->call([
             AdminUserSeeder::class,
+            SectionSettingSeeder::class,
         ]);
     }
 }

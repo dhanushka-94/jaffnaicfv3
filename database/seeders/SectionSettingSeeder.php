@@ -9,7 +9,12 @@ class SectionSettingSeeder extends Seeder
 {
     public function run(): void
     {
-        // Seeder is empty - no data will be seeded
+        foreach (SectionSetting::definitions() as $key => $label) {
+            SectionSetting::query()->firstOrCreate(
+                ['key' => $key],
+                ['label' => $label, 'is_active' => true],
+            );
+        }
     }
 }
 

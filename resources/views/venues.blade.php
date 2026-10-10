@@ -50,7 +50,7 @@
 						@endif
 					</div>
 				@empty
-					<p class="text-dark/70">Venues will appear here once configured in the admin panel.</p>
+					<x-coming-soon class="lg:col-span-2" message="Venue details for this edition will be published closer to the festival." />
 				@endforelse
 			</div>
 		@endif

@@ -12,6 +12,7 @@ class ApplicationSetting extends Model
     protected $fillable = [
         'application_open',
         'application_pdf_path',
+        'application_pdf_original_name',
     ];
 }
 

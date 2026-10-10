@@ -12,6 +12,7 @@ class SiteSetting extends Model
     protected $fillable = [
         'site_name',
         'logo_path',
+        'footer_logo_path',
         'application_open',
         'application_pdf_path',
     ];

@@ -83,9 +83,7 @@
 		</div>
 
 		@if($articles->isEmpty())
-			<div class="mt-12 text-center py-16 border border-dashed border-dark/15 rounded-xl" data-aos="fade-up">
-				<p class="text-dark/60 text-lg">News articles will appear here once they are published.</p>
-			</div>
+			<x-coming-soon message="Festival news and announcements will be published here soon." />
 		@else
 			<div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 				@foreach($articles as $article)
@@ -122,7 +120,7 @@
 							@endif
 							<a href="{{ route('news.show', $article) }}" class="mt-auto pt-5 inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-accent transition">
 								Read more
-								<span aria-hidden="true">â†’</span>
+								<span aria-hidden="true">&rarr;</span>
 							</a>
 						</div>
 					</article>

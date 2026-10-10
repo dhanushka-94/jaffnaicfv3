@@ -4,96 +4,113 @@ namespace App\Filament\Pages;
 
 use App\Models\SectionSetting;
 use BackedEnum;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Schemas\Schema;
 use UnitEnum;
 
-class SectionVisibility extends Page implements HasForms
+class SectionVisibility extends Page
 {
-    use InteractsWithForms;
-
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-eye';
+
     protected static ?string $navigationLabel = 'Section Visibility';
+
     protected static ?string $title = 'Section Visibility';
+
     protected static UnitEnum|string|null $navigationGroup = 'Configuration';
+
     protected static ?int $navigationSort = 3;
 
     protected string $view = 'filament.pages.section-visibility';
 
-    public ?array $data = [];
+    /** @var array<string, bool> */
+    public array $visibility = [];
 
     public function mount(): void
     {
-        $settings = SectionSetting::all()->keyBy('key');
-
-        $this->form->fill(
-            $settings->mapWithKeys(fn ($setting) => [
-                $setting->key => (bool) $setting->is_active,
-            ])->toArray()
-        );
+        $this->visibility = $this->visibilityState();
     }
 
-    public function form(Schema $schema): Schema
+    public function toggle(string $key): void
     {
-        return $schema
-            ->components([
-                Toggle::make('programme_schedule')
-                    ->label('Programme — Schedule')
-                    ->default(true),
-                Toggle::make('programme_masterclasses')
-                    ->label('Programme — Masterclasses')
-                    ->default(true),
-                Toggle::make('programme_debut_films')
-                    ->label('Programme — Debut Films')
-                    ->default(true),
-                Toggle::make('programme_jury_debut')
-                    ->label('Programme — Jury – Debut Films')
-                    ->default(true),
-                Toggle::make('programme_jury_short')
-                    ->label('Programme — Jury – Short Films')
-                    ->default(true),
-                Toggle::make('programme_national_shorts')
-                    ->label('Programme — National Short Films')
-                    ->default(true),
-                Toggle::make('programme_international_shorts')
-                    ->label('Programme — International Short Films')
-                    ->default(true),
-                Toggle::make('programme_new_asian_currents')
-                    ->label('Programme — New Asian Currents')
-                    ->default(true),
-                Toggle::make('programme_images')
-                    ->label('Programme — General Images')
-                    ->default(true),
-                Toggle::make('team_members')
-                    ->label('Team Members')
-                    ->default(true),
-                Toggle::make('venues')
-                    ->label('Venues')
-                    ->default(true),
-                Toggle::make('partners')
-                    ->label('Partners')
-                    ->default(true),
-            ])
-            ->statePath('data');
+        if (! array_key_exists($key, SectionSetting::definitions())) {
+            return;
+        }
+
+        $this->visibility[$key] = ! $this->isOn($key);
+    }
+
+    public function setGroup(string $group, bool $active): void
+    {
+        foreach ($this->groupKeys()[$group] ?? [] as $key) {
+            $this->visibility[$key] = $active;
+        }
     }
 
     public function save(): void
     {
-        $state = $this->form->getState();
-
-        foreach ($state as $key => $value) {
-            SectionSetting::where('key', $key)->update(['is_active' => (bool) $value]);
+        foreach (SectionSetting::definitions() as $key => $label) {
+            SectionSetting::query()->updateOrCreate(
+                ['key' => $key],
+                [
+                    'label' => $label,
+                    'is_active' => $this->isOn($key),
+                ],
+            );
         }
+
+        $this->visibility = $this->visibilityState();
 
         Notification::make()
             ->title('Section visibility updated.')
             ->success()
             ->send();
     }
+
+    public function isOn(string $key): bool
+    {
+        return filter_var($this->visibility[$key] ?? false, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    public function showingCount(): int
+    {
+        return collect(array_keys(SectionSetting::definitions()))
+            ->filter(fn (string $key): bool => $this->isOn($key))
+            ->count();
+    }
+
+    /** @return array<string, list<string>> */
+    public function groupKeys(): array
+    {
+        return [
+            'Programme' => [
+                'programme_schedule',
+                'programme_masterclasses',
+                'programme_debut_films',
+                'programme_jury_debut',
+                'programme_jury_short',
+                'programme_national_shorts',
+                'programme_international_shorts',
+                'programme_new_asian_currents',
+                'programme_images',
+            ],
+            'Festival' => [
+                'team_members',
+                'venues',
+                'partners',
+            ],
+        ];
+    }
+
+    /** @return array<string, bool> */
+    protected function visibilityState(): array
+    {
+        $saved = SectionSetting::query()->pluck('is_active', 'key');
+        $state = [];
+
+        foreach (SectionSetting::definitions() as $key => $label) {
+            $state[$key] = filter_var($saved[$key] ?? true, FILTER_VALIDATE_BOOLEAN);
+        }
+
+        return $state;
+    }
 }
-
-

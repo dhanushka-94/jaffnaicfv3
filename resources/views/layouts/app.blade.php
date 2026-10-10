@@ -86,24 +86,24 @@
 		<header x-data="{ scrolled: false, open: false }"
 			x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 10 })"
 			:class="scrolled ? 'bg-secondary shadow-sm fixed top-0 inset-x-0 z-50 border-b border-black/5' : 'bg-secondary fixed top-0 inset-x-0 z-50 border-b border-black/5'">
-			<div class="container-full flex items-center justify-between pt-6 md:pt-8 pb-2 md:pb-3">
-				<a href="{{ route('home') }}" class="flex items-center gap-3">
+			<div class="container-full flex items-center justify-between gap-3 py-3 xl:py-4">
+				<a href="{{ route('home') }}" class="flex shrink-0 items-center gap-3">
 					@if($__site?->logo_path)
-						<img src="{{ asset('storage/' . $__site->logo_path) }}" alt="{{ $__site->site_name }}" class="h-20 md:h-28 lg:h-32 w-auto">
+						<img src="{{ asset('storage/' . $__site->logo_path) }}" alt="{{ $__site->site_name }}" class="h-14 sm:h-16 xl:h-20 w-auto shrink-0">
 					@else
-						<div class="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full bg-primary"></div>
+						<div class="w-12 h-12 sm:w-14 sm:h-14 xl:w-16 xl:h-16 rounded-full bg-primary"></div>
 					@endif
 				</a>
 				@php($pastYearsNav = $archiveYears->filter(fn($y) => $y != $currentYear)->values())
-				<nav class="hidden md:flex items-center gap-8 lg:gap-12 font-medium" x-data="{ about:false, programme:false, archive:false, selectedYear: {{ $pastYearsNav->first() ? (int) $pastYearsNav->first() : 'null' }} }">
-					<a href="{{ route('home') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Home</a>
+				<nav class="hidden xl:flex items-center gap-3 2xl:gap-5 font-medium" x-data="{ about:false, programme:false, archive:false, selectedYear: {{ $pastYearsNav->first() ? (int) $pastYearsNav->first() : 'null' }} }">
+					<a href="{{ route('home') }}" class="hover:text-primary uppercase tracking-wide text-[13px] 2xl:text-[15px]">Home</a>
 
 					<div class="relative" @mouseenter="programme=true" @mouseleave="programme=false">
 						<button class="inline-flex items-center gap-1 hover:text-primary" @click.prevent="programme=!programme">
-							<span class="uppercase tracking-wider text-[15px] md:text-base">Programme</span>
+							<span class="uppercase tracking-wide text-[13px] 2xl:text-[15px]">Programme</span>
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
 						</button>
-						<div x-show="programme" x-transition class="absolute left-0 mt-3 w-64 bg-white shadow-lg rounded-md border p-2">
+						<div x-show="programme" x-transition x-cloak class="absolute left-0 z-50 mt-3 w-64 max-w-[calc(100vw-2rem)] bg-white shadow-lg rounded-md border p-2">
 							<a href="{{ route('programme.schedule') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Schedule</a>
 							<a href="{{ route('programme.masterclasses') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Masterclasses</a>
 							<a href="{{ route('programme.debut-films') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Debut Films</a>
@@ -117,26 +117,26 @@
 
 					<div class="relative" @mouseenter="about=true" @mouseleave="about=false">
 						<button class="inline-flex items-center gap-1 hover:text-primary" @click.prevent="about=!about">
-							<span class="uppercase tracking-wider text-[15px] md:text-base">About</span>
+							<span class="uppercase tracking-wide text-[13px] 2xl:text-[15px]">About</span>
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
 						</button>
-						<div x-show="about" x-transition class="absolute left-0 mt-3 w-56 bg-white shadow-lg rounded-md border p-2">
+						<div x-show="about" x-transition x-cloak class="absolute left-0 z-50 mt-3 w-56 max-w-[calc(100vw-2rem)] bg-white shadow-lg rounded-md border p-2">
 							<a href="{{ route('about.jaffnaicf') }}" class="block px-3 py-2 rounded hover:bg-secondary tracking-wider text-sm normal-case">JaffnaICF</a>
 							<a href="{{ route('about.team') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Team</a>
 							<a href="{{ route('gallery') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Gallery</a>
 						</div>
 					</div>
 
-					<a href="{{ route('news.index') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">News</a>
-					<a href="{{ route('venues') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Venues</a>
-					<a href="{{ route('partners') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Partners</a>
+					<a href="{{ route('news.index') }}" class="hover:text-primary uppercase tracking-wide text-[13px] 2xl:text-[15px]">News</a>
+					<a href="{{ route('venues') }}" class="hover:text-primary uppercase tracking-wide text-[13px] 2xl:text-[15px]">Venues</a>
+					<a href="{{ route('partners') }}" class="hover:text-primary uppercase tracking-wide text-[13px] 2xl:text-[15px]">Partners</a>
 
 					<div class="relative" @mouseenter="archive=true" @mouseleave="archive=false">
 						<button class="inline-flex items-center gap-1 hover:text-primary" @click.prevent="archive=!archive">
-							<span class="uppercase tracking-wider text-[15px] md:text-base">Archive</span>
+							<span class="uppercase tracking-wide text-[13px] 2xl:text-[15px]">Archive</span>
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200" :class="archive ? 'rotate-180' : ''" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
 						</button>
-						<div x-show="archive" x-transition.opacity.duration.150ms x-cloak class="absolute left-0 mt-3 w-[34rem] max-w-[calc(100vw-2rem)] bg-white shadow-xl rounded-xl border border-black/5 overflow-hidden">
+						<div x-show="archive" x-transition.opacity.duration.150ms x-cloak class="absolute right-0 mt-3 w-[min(34rem,calc(100vw-2rem))] bg-white shadow-xl rounded-xl border border-black/5 overflow-hidden z-50">
 							@if($pastYearsNav->isEmpty())
 								<div class="text-center py-8 px-4">
 									<p class="text-dark/70 text-sm">No archive content available yet.</p>
@@ -187,9 +187,9 @@
 						</div>
 					</div>
 
-					<a href="{{ route('contact') }}" class="hover:text-primary uppercase tracking-wider text-[15px] md:text-base">Contact</a>
+					<a href="{{ route('contact') }}" class="hover:text-primary uppercase tracking-wide text-[13px] 2xl:text-[15px]">Contact</a>
 					@if($__app?->application_open && $__app?->application_pdf_path)
-						<a href="{{ route('application.download') }}" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 bg-primary text-white rounded-md hover:bg-accent transition shadow-soft uppercase tracking-wider text-xs font-medium whitespace-nowrap">
+						<a href="{{ route('application.download', ['v' => $__app->updated_at?->timestamp]) }}" target="_blank" rel="noopener" class="js-application-pdf inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 bg-primary text-white rounded-md hover:bg-accent transition shadow-soft uppercase tracking-wider text-xs font-medium whitespace-nowrap">
 							<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
 							</svg>
@@ -202,13 +202,13 @@
 						</span>
 					@endif
 				</nav>
-				<button class="md:hidden" @click="open = !open">
+				<button class="xl:hidden inline-flex items-center justify-center w-11 h-11 rounded-md hover:bg-black/5" @click="open = !open" :aria-expanded="open.toString()" aria-label="Open menu">
 					<svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
 					</svg>
 				</button>
 			</div>
-			<div x-show="open" x-transition class="md:hidden bg-white border-t">
+			<div x-show="open" x-transition x-cloak class="xl:hidden bg-white border-t max-h-[calc(100dvh-5.75rem)] overflow-y-auto">
 				<div class="container-full py-4 grid gap-4" x-data="{ about:false, programme:false, archive:false, openYear: null }">
 					<a href="{{ route('home') }}" class="py-2 uppercase tracking-wide">Home</a>
 
@@ -292,7 +292,7 @@
 					<!-- Application status - Mobile menu -->
 					<div class="pt-3 border-t border-dark/10">
 						@if($__app?->application_open && $__app?->application_pdf_path)
-							<a href="{{ route('application.download') }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-primary uppercase tracking-wide">
+							<a href="{{ route('application.download', ['v' => $__app->updated_at?->timestamp]) }}" target="_blank" rel="noopener" class="js-application-pdf inline-flex items-center gap-1.5 text-sm font-medium text-primary uppercase tracking-wide">
 								<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
 								</svg>
@@ -309,16 +309,18 @@
 			</div>
 		</header>
 
-		<main class="pt-[112px] md:pt-[156px]">
+		<main class="site-main">
 			@yield('content')
 		</main>
 
 		<footer class="mt-20 bg-dark text-white">
-			<div class="container-full py-14 grid gap-10 md:grid-cols-4">
+			<div class="container-full py-10 sm:py-14 grid gap-10 sm:grid-cols-2 xl:grid-cols-4">
 				<div>
 					<div class="flex items-center gap-3">
-						@if($__site?->logo_path)
-							<img src="{{ asset('storage/' . $__site->logo_path) }}" alt="{{ $__site->site_name }}" class="h-12 w-auto">
+						@if($__site?->footer_logo_path)
+							<img src="{{ asset('storage/' . $__site->footer_logo_path) }}" alt="{{ $__site->site_name }}" class="h-12 w-auto max-w-[14rem] object-contain">
+						@elseif($__site?->logo_path)
+							<img src="{{ asset('storage/' . $__site->logo_path) }}" alt="{{ $__site->site_name }}" class="h-12 w-auto max-w-[14rem] object-contain">
 						@else
 							<div class="w-9 h-9 rounded-full bg-primary"></div>
 						@endif
@@ -349,7 +351,7 @@
 					<h4 class="font-semibold mb-4 text-primary">Participate</h4>
 					<ul class="space-y-2 text-white/80">
 						@if($__app?->application_open && $__app?->application_pdf_path)
-							<li><a href="{{ route('application.download') }}" class="hover:text-primary transition">Download Application</a></li>
+							<li><a href="{{ route('application.download', ['v' => $__app->updated_at?->timestamp]) }}" target="_blank" rel="noopener" class="js-application-pdf hover:text-primary transition">Download Application</a></li>
 						@else
 							<li><span class="text-white/50 cursor-not-allowed">Applications Closed</span></li>
 						@endif
@@ -360,17 +362,17 @@
 				</div>
 				<div>
 					<h4 class="font-semibold mb-4 text-primary">Contact</h4>
-					<ul class="space-y-2 text-white/80">
+					<ul class="space-y-2 text-white/80 break-words">
 						<li><span class="text-white/60">Email:</span> <a href="mailto:jaffnaicf@gmail.com" class="hover:text-primary">jaffnaicf@gmail.com</a></li>
 						<li><span class="text-white/60">Phone:</span> <a href="tel:+94112826027" class="hover:text-primary">+94 11 282 6027</a></li>
-						<li><span class="text-white/60">Address:</span> Agenda 14, #6B/9, Pagoda Road, Nugegoda, 10250, Sri Lanka</li>
+						<li><span class="text-white/60">Address:</span> Agenda 14, No. 6B/9, Pagoda Road, Nugegoda 10250, Sri Lanka.</li>
 					</ul>
 					<a href="{{ route('contact') }}" class="mt-4 inline-flex btn-primary">Contact Us</a>
 				</div>
 			</div>
 			<div class="border-t border-white/10">
 				<div class="container-full py-6 text-sm text-white/70 flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
-					<div>Â© {{ date('Y') }} Jaffna International Cinema Festival</div>
+					<div>&copy; {{ date('Y') }} Jaffna International Cinema Festival</div>
 					<div>Website design & development by <a href="https://olexto.com/" target="_blank" rel="noopener" class="text-primary hover:text-white">olexto Digital Solutions (Pvt) Ltd</a></div>
 				</div>
 			</div>

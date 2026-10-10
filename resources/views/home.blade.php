@@ -4,24 +4,24 @@
 @section('meta_description', 'Jaffna International Cinema Festival (JaffnaICF) celebrates cinema, culture, and community with diverse film programmes, masterclasses, screenings, and cultural events in Jaffna, Sri Lanka.')
 
 @section('content')
-	<section class="relative -mt-[112px] md:-mt-[156px] pt-[112px] md:pt-[180px]">
-		<div class="hero-swiper swiper w-full h-[45vh] sm:h-[50vh] md:h-[65vh] min-h-[300px] md:min-h-[400px]">
+	<section class="hero-under-header relative w-full">
+		<div class="hero-swiper swiper w-full">
 			<div class="swiper-wrapper">
 				@forelse($sliders as $slide)
 					<div class="swiper-slide relative">
 						@if($slide->image_path || $slide->mobile_image_path)
 							@if($slide->mobile_image_path)
 								<!-- Mobile Image -->
-								<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="md:hidden w-full h-full object-cover object-center" />
+								<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="hero-slide-image md:hidden" />
 								<!-- Desktop Image -->
 								@if($slide->image_path)
-									<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="hidden md:block w-full h-full object-cover object-center" />
+									<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="hero-slide-image hidden md:block" />
 								@else
-									<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="hidden md:block w-full h-full object-cover object-center" />
+									<img src="{{ asset('storage/' . $slide->mobile_image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="hero-slide-image hidden md:block" />
 								@endif
 							@elseif($slide->image_path)
 								<!-- Desktop Image (used for both if no mobile image) -->
-								<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="w-full h-full object-cover object-center" />
+								<img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title ?? 'Slide' }}" class="hero-slide-image" />
 							@endif
 						@else
 							<div class="w-full h-full bg-dark/10"></div>
@@ -60,10 +60,30 @@
 		</div>
 	</section>
 
+	@if($filmStrip !== [])
+		<section class="film-train" aria-label="Festival photographs">
+			<div class="film-train-track" style="animation-duration: {{ max(80, count($filmStrip) * 8) }}s">
+				@foreach([false, true] as $duplicate)
+					<div class="film-train-set" @if($duplicate) aria-hidden="true" @endif>
+						@foreach($filmStrip as $image)
+							<img
+								src="{{ $image['src'] }}"
+								alt="{{ $duplicate ? '' : $image['alt'] }}"
+								class="film-train-image"
+								loading="lazy"
+								draggable="false"
+							>
+						@endforeach
+					</div>
+				@endforeach
+			</div>
+		</section>
+	@endif
+
 	<!-- About Festival Section -->
 	<section class="container-full py-16 md:py-20">
 		<div class="grid md:grid-cols-2 gap-12 items-center">
-			<div data-aos="fade-up">
+			<div>
 				<h2 class="section-title">About JaffnaICF</h2>
 				<p class="mt-6 text-lg text-dark/80 leading-relaxed">
 					The Jaffna International Cinema Festival (JaffnaICF) is a celebration of cinema, culture, and community. Since its inception, the festival has been dedicated to showcasing diverse voices from South Asia and beyond, bringing together filmmakers, artists, and audiences in the historic city of Jaffna.
@@ -76,7 +96,7 @@
 					<a href="{{ route('programme.schedule') }}" class="btn-outline">View Programme</a>
 				</div>
 			</div>
-			<div class="bg-white rounded-xl p-8 shadow-soft" data-aos="fade-up" data-aos-delay="100">
+			<div class="bg-white rounded-xl p-8 shadow-soft">
 				<h3 class="text-2xl font-display font-bold mb-6">Festival Highlights</h3>
 				<div class="space-y-6">
 					<div class="flex items-start gap-4">
@@ -176,7 +196,7 @@
 	<section class="container-full py-16 md:py-20">
 		<div class="flex items-center justify-between mb-8" data-aos="fade-up">
 			<h2 class="section-title">Featured Films</h2>
-			<a href="{{ route('programme.schedule') }}" class="text-primary hover:text-accent font-medium">View all â†’</a>
+			<a href="{{ route('programme.schedule') }}" class="text-primary hover:text-accent font-medium">View all &rarr;</a>
 		</div>
 		<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 			@foreach($featuredFilms as $film)
@@ -207,7 +227,7 @@
 	<section class="container-full py-16 md:py-20">
 		<div class="flex items-center justify-between mb-8" data-aos="fade-up">
 			<h2 class="section-title">Latest News</h2>
-			<a href="{{ route('news.index') }}" class="text-primary hover:text-accent font-medium">View all â†’</a>
+			<a href="{{ route('news.index') }}" class="text-primary hover:text-accent font-medium">View all &rarr;</a>
 		</div>
 		<div class="grid gap-6 md:grid-cols-3">
 			@foreach($latestNews as $article)
@@ -241,7 +261,7 @@
 			</p>
 			<div class="flex flex-wrap justify-center items-center gap-3 md:gap-4">
 				@if($__app?->application_open && $__app?->application_pdf_path)
-					<a href="{{ route('application.download') }}" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 md:px-6 md:py-3 text-sm md:text-base bg-white text-primary rounded-md hover:bg-secondary hover:text-white transition shadow-lg font-medium">
+					<a href="{{ route('application.download', ['v' => $__app->updated_at?->timestamp]) }}" target="_blank" rel="noopener" class="js-application-pdf inline-flex items-center justify-center gap-1.5 px-4 py-2 md:px-6 md:py-3 text-sm md:text-base bg-white text-primary rounded-md hover:bg-secondary hover:text-white transition shadow-lg font-medium">
 						<svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
 						</svg>
@@ -316,7 +336,7 @@
 			@endforeach
 		</div>
 		<div class="text-center mt-8">
-			<a href="{{ route('partners') }}" class="text-primary hover:text-accent font-medium">View all partners â†’</a>
+			<a href="{{ route('partners') }}" class="text-primary hover:text-accent font-medium">View all partners &rarr;</a>
 		</div>
 	</section>
 	@endif

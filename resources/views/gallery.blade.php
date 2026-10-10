@@ -11,9 +11,7 @@
 		</p>
 
 		@if($images->isEmpty())
-			<div class="mt-10 text-center py-12">
-				<p class="text-dark/70 text-lg">Gallery images will appear here once they are published.</p>
-			</div>
+			<x-coming-soon message="Gallery photographs from the festival will be published here soon." />
 		@else
 			<div class="mt-10 grid gap-6" data-aos="fade-up" data-aos-delay="200">
 				@foreach($images as $galleryItem)

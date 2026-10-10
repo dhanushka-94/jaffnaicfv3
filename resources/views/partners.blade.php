@@ -56,9 +56,7 @@
 					</div>
 				</div>
 			@empty
-				<div class="text-center py-12 md:py-16" data-aos="fade-up">
-					<p class="text-dark/70 text-base md:text-lg">Partner information will be displayed here.</p>
-				</div>
+				<x-coming-soon message="Partner and sponsor details for this edition will be published closer to the festival." />
 			@endforelse
 
 			{{-- Partners without category --}}

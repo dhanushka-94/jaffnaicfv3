@@ -53,6 +53,7 @@ class ApplicationStatus extends Page implements HasForms
                     ->directory('downloads')
                     ->disk('public')
                     ->visibility('public')
+                    ->storeFileNamesIn('application_pdf_original_name')
                     ->openable()
                     ->downloadable()
                     ->helperText('Upload the form applicants can download.')
@@ -89,6 +90,15 @@ class ApplicationStatus extends Page implements HasForms
             $settings->application_pdf_path = array_values(array_filter($pdfState))[0] ?? null;
         } elseif (is_string($pdfState) || $pdfState === null) {
             $settings->application_pdf_path = $pdfState;
+        }
+
+        $originalName = $data['application_pdf_original_name'] ?? null;
+        $settings->application_pdf_original_name = is_string($originalName) && $originalName !== ''
+            ? $originalName
+            : null;
+
+        if (blank($settings->application_pdf_path)) {
+            $settings->application_pdf_original_name = null;
         }
 
         $settings->save();
