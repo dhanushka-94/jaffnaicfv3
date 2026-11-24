@@ -34,13 +34,13 @@ class ProgrammeStatsWidget extends BaseWidget
                 ->color('primary')
                 ->url(ScheduleImageResource::getUrl('index')),
             
-            Stat::make('Masterclasses', MasterclassImage::where('year', $currentYear)->count())
-                ->description('Current year masterclasses')
+            Stat::make('Master Classes', MasterclassImage::where('year', $currentYear)->count())
+                ->description('Current year master classes')
                 ->descriptionIcon('heroicon-m-academic-cap')
                 ->color('success')
                 ->url(MasterclassImageResource::getUrl('index')),
             
-            Stat::make('Debut Films', DebutFilmImage::where('year', $currentYear)->count())
+            Stat::make('Debut Films in Competition', DebutFilmImage::where('year', $currentYear)->count())
                 ->description('Current year debut films')
                 ->descriptionIcon('heroicon-m-film')
                 ->color('info')
@@ -70,7 +70,7 @@ class ProgrammeStatsWidget extends BaseWidget
                 ->color('info')
                 ->url(InternationalShortImageResource::getUrl('index')),
             
-            Stat::make('New Asian Currents', NewAsianCurrentImage::where('year', $currentYear)->count())
+            Stat::make('New Asian Currents – Documentary', NewAsianCurrentImage::where('year', $currentYear)->count())
                 ->description('Current year new asian currents')
                 ->descriptionIcon('heroicon-m-sparkles')
                 ->color('success')

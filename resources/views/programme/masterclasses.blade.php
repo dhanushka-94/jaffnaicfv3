@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'PROGRAMME — MASTERCLASSES')
-@section('meta_description', 'Masterclasses image gallery for the current edition of the Jaffna International Cinema Festival.')
+@section('title', 'PROGRAMME — MASTER CLASSES')
+@section('meta_description', 'Master Classes image gallery for the current edition of the Jaffna International Cinema Festival.')
 
 @section('content')
 	<x-programme.gallery
-		title="Masterclasses"
+		title="Master Classes"
 		:year="$year"
 		:active="$active"
 		:images="$images"
-		description="Filmmaker masterclasses and conversations presented during this year's festival." />
+		description="Filmmaker master classes and conversations presented during this year's festival" />
 @endsection
 
 

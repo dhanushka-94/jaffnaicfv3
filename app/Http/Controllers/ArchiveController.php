@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DebutFilmImage;
 use App\Models\InternationalShortImage;
 use App\Models\JuryDebutImage;
+use App\Models\JuryNewAsianCurrentImage;
 use App\Models\JuryShortImage;
 use App\Models\MasterclassImage;
 use App\Models\NationalShortImage;
@@ -15,6 +16,7 @@ use App\Models\ScheduleImage;
 use App\Models\SectionSetting;
 use App\Models\TeamMember;
 use App\Models\Venue;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
 class ArchiveController extends Controller
@@ -39,7 +41,7 @@ class ArchiveController extends Controller
         return $years->unique()->sortDesc()->values()->toArray();
     }
 
-    public function index(?int $year = null): View
+    public function index(?int $year = null): View|\Illuminate\Http\RedirectResponse
     {
         $currentYear = (int) date('Y');
         $selectedYear = $year ?? $currentYear;
@@ -262,6 +264,26 @@ class ArchiveController extends Controller
             : collect();
 
         return view('archive.programme.jury-short', [
+            'year' => $selectedYear,
+            'active' => $active,
+            'images' => $images,
+            'availableYears' => $availableYears,
+            'currentYear' => $currentYear,
+            'isArchive' => $selectedYear !== $currentYear,
+        ]);
+    }
+
+    public function juryNewAsianCurrents($year = null): View
+    {
+        $currentYear = (int) date('Y');
+        $selectedYear = $year !== null ? (int) $year : $currentYear;
+        $availableYears = $this->getAvailableYears();
+        $active = $this->isActive('programme_jury_new_asian_currents') && Schema::hasTable('jury_new_asian_current_images');
+        $images = $active
+            ? JuryNewAsianCurrentImage::where('year', (int) $selectedYear)->orderBy('sort_order')->get()
+            : collect();
+
+        return view('archive.programme.jury-new-asian-currents', [
             'year' => $selectedYear,
             'active' => $active,
             'images' => $images,

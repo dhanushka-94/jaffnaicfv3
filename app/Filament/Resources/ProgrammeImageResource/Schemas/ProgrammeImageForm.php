@@ -23,13 +23,13 @@ class ProgrammeImageForm
                     ->required()
                     ->options([
                         'schedule' => 'Schedule',
-                        'masterclasses' => 'Masterclasses',
-                        'debut_films' => 'Debut Films',
+                        'masterclasses' => 'Master Classes',
+                        'debut_films' => 'Debut Films in Competition',
                         'jury_debut' => 'Jury – Debut Films',
                         'jury_short' => 'Jury – Short Films',
                         'national_shorts' => 'National Short Films',
                         'international_shorts' => 'International Short Films',
-                        'new_asian_currents' => 'New Asian Currents',
+                        'new_asian_currents' => 'New Asian Currents – Documentary',
                     ]),
                 FileUpload::make('image_path')
                     ->label('Image')

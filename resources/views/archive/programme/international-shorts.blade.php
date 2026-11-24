@@ -17,7 +17,7 @@
 			:year="$year"
 			:active="$active"
 			:images="$images"
-			description="International short films in competition from {{ $year }} edition." />
+			description="International short films in competition from {{ $year }} edition" />
 	</section>
 @endsection
 

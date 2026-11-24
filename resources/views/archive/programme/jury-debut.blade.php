@@ -17,7 +17,7 @@
 			:year="$year"
 			:active="$active"
 			:images="$images"
-			description="Jury members for Debut Films competition from {{ $year }} edition." />
+			description="Jury members for Debut Films competition from {{ $year }} edition" />
 	</section>
 @endsection
 

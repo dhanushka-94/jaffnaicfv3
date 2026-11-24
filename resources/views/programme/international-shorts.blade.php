@@ -9,7 +9,7 @@
 		:year="$year"
 		:active="$active"
 		:images="$images"
-		description="International short films presented in the festival programme." />
+		description="International short films presented in the festival programme" />
 @endsection
 
 

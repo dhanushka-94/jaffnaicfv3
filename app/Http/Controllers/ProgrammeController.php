@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DebutFilmImage;
 use App\Models\InternationalShortImage;
 use App\Models\JuryDebutImage;
+use App\Models\JuryNewAsianCurrentImage;
 use App\Models\JuryShortImage;
 use App\Models\MasterclassImage;
 use App\Models\NationalShortImage;
@@ -12,6 +13,7 @@ use App\Models\NewAsianCurrentImage;
 use App\Models\ScheduleImage;
 use App\Models\SectionSetting;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
 class ProgrammeController extends Controller
@@ -79,6 +81,17 @@ class ProgrammeController extends Controller
             : collect();
 
         return view('programme.jury-short', compact('year', 'active', 'images'));
+    }
+
+    public function juryNewAsianCurrents(): View
+    {
+        $year = $this->currentYear();
+        $active = $this->isActive('programme_jury_new_asian_currents') && Schema::hasTable('jury_new_asian_current_images');
+        $images = $active
+            ? JuryNewAsianCurrentImage::where('year', $year)->orderBy('sort_order')->get()
+            : collect();
+
+        return view('programme.jury-new-asian-currents', compact('year', 'active', 'images'));
     }
 
     public function nationalShorts(): View

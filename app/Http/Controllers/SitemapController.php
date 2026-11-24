@@ -61,6 +61,7 @@ class SitemapController extends Controller
             route('programme.debut-films'),
             route('programme.jury-debut-films'),
             route('programme.jury-short-films'),
+            route('programme.jury-new-asian-currents'),
             route('programme.national-short-films'),
             route('programme.international-short-films'),
             route('programme.new-asian-currents'),
@@ -88,6 +89,7 @@ class SitemapController extends Controller
                 $sitemap .= $this->urlTag(route('archive.programme.debut-films', $year), now()->subYear(), '0.6', 'yearly');
                 $sitemap .= $this->urlTag(route('archive.programme.jury-debut-films', $year), now()->subYear(), '0.6', 'yearly');
                 $sitemap .= $this->urlTag(route('archive.programme.jury-short-films', $year), now()->subYear(), '0.6', 'yearly');
+                $sitemap .= $this->urlTag(route('archive.programme.jury-new-asian-currents', $year), now()->subYear(), '0.6', 'yearly');
                 $sitemap .= $this->urlTag(route('archive.programme.national-short-films', $year), now()->subYear(), '0.6', 'yearly');
                 $sitemap .= $this->urlTag(route('archive.programme.international-short-films', $year), now()->subYear(), '0.6', 'yearly');
                 $sitemap .= $this->urlTag(route('archive.programme.new-asian-currents', $year), now()->subYear(), '0.6', 'yearly');

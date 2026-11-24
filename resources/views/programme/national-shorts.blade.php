@@ -9,7 +9,7 @@
 		:year="$year"
 		:active="$active"
 		:images="$images"
-		description="Sri Lankan short films presented in the national competition and programmes." />
+		description="Sri Lankan short films presented in the national competition and programmes" />
 @endsection
 
 

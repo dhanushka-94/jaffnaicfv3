@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'Gallery — ' . ($__site?->site_name ?? 'Jaffna International Cinema Festival'))
-@section('meta_description', 'Image gallery showcasing moments from the Jaffna International Cinema Festival.')
+@section('title', 'Image Gallery — ' . ($__site?->site_name ?? 'Jaffna International Cinema Festival'))
+@section('meta_description', 'Image Gallery showcasing moments from the Jaffna International Cinema Festival.')
 
 @section('content')
 	<section class="container-full py-16">
-		<h1 class="section-title" data-aos="fade-up">Gallery</h1>
+		<h1 class="section-title" data-aos="fade-up">Image Gallery</h1>
 		<p class="mt-4 text-dark/70 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
-			Explore moments from the Jaffna International Cinema Festival through our image gallery.
+			Explore moments from Jaffna International Cinema Festival through our Image Gallery
 		</p>
 
 		@if($images->isEmpty())
-			<x-coming-soon message="Gallery photographs from the festival will be published here soon." />
+			<x-coming-soon message="Image Gallery from the festival will be published here soon" />
 		@else
 			<div class="mt-10 grid gap-6" data-aos="fade-up" data-aos-delay="200">
 				@foreach($images as $galleryItem)

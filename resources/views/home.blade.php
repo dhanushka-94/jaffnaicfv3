@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', ($__site?->site_name ?? 'Jaffna International Cinema Festival') . ' — Celebrating Cinema, Culture & Community')
-@section('meta_description', 'Jaffna International Cinema Festival (JaffnaICF) celebrates cinema, culture, and community with diverse film programmes, masterclasses, screenings, and cultural events in Jaffna, Sri Lanka.')
+@section('meta_description', 'Jaffna International Cinema Festival (Jaffna ICF) celebrates cinema, culture, and community with diverse film programmes, master classes, screenings, and cultural events in Jaffna, Sri Lanka.')
 
 @section('content')
 	<section class="hero-under-header relative w-full">
@@ -84,12 +84,12 @@
 	<section class="container-full py-16 md:py-20">
 		<div class="grid md:grid-cols-2 gap-12 items-center">
 			<div>
-				<h2 class="section-title">About JaffnaICF</h2>
+				<h2 class="section-title">About Jaffna ICF</h2>
 				<p class="mt-6 text-lg text-dark/80 leading-relaxed">
-					The Jaffna International Cinema Festival (JaffnaICF) is a celebration of cinema, culture, and community. Since its inception, the festival has been dedicated to showcasing diverse voices from South Asia and beyond, bringing together filmmakers, artists, and audiences in the historic city of Jaffna.
+					The Jaffna International Cinema Festival (Jaffna ICF) is a celebration of cinema, culture, and community. Since its inception, the festival has been dedicated to showcasing diverse voices from South Asia and beyond, bringing together filmmakers, artists, and audiences in the historic city of Jaffna.
 				</p>
 				<p class="mt-4 text-lg text-dark/80 leading-relaxed">
-					We aim to inspire, educate, and connect audiences through the power of cinema, fostering a vibrant film culture that bridges communities and celebrates storytelling in all its forms.
+					We aim to inspire, educate, and connect audiences through the power of cinema, fostering a vibrant film culture that bridges communities and celebrates storytelling in all its forms
 				</p>
 				<div class="mt-8 flex flex-wrap gap-4">
 					<a href="{{ route('about.jaffnaicf') }}" class="btn-primary">Learn More</a>
@@ -107,7 +107,7 @@
 						</div>
 						<div>
 							<h4 class="font-semibold text-lg">Film Screenings</h4>
-							<p class="text-dark/70 mt-1">Premieres, retrospectives, and curated selections from around the world.</p>
+							<p class="text-dark/70 mt-1">Premieres, retrospectives, and curated selections from around the world</p>
 						</div>
 					</div>
 					<div class="flex items-start gap-4">
@@ -117,8 +117,8 @@
 							</svg>
 						</div>
 						<div>
-							<h4 class="font-semibold text-lg">Masterclasses</h4>
-							<p class="text-dark/70 mt-1">Learn from renowned filmmakers and industry professionals.</p>
+							<h4 class="font-semibold text-lg">Master Classes</h4>
+							<p class="text-dark/70 mt-1">Learn from renowned filmmakers and industry professionals</p>
 						</div>
 					</div>
 					<div class="flex items-start gap-4">
@@ -128,8 +128,8 @@
 							</svg>
 						</div>
 						<div>
-							<h4 class="font-semibold text-lg">Jury & Awards</h4>
-							<p class="text-dark/70 mt-1">Recognizing excellence in filmmaking across multiple categories.</p>
+							<h4 class="font-semibold text-lg">Awards</h4>
+							<p class="text-dark/70 mt-1">Recognizing excellence in filmmaking across multiple categories</p>
 						</div>
 					</div>
 					<div class="flex items-start gap-4">
@@ -140,7 +140,7 @@
 						</div>
 						<div>
 							<h4 class="font-semibold text-lg">Cultural Events</h4>
-							<p class="text-dark/70 mt-1">Engaging discussions, exhibitions, and community gatherings.</p>
+							<p class="text-dark/70 mt-1">Engaging discussions, exhibitions, and community gatherings</p>
 						</div>
 					</div>
 				</div>
@@ -159,7 +159,7 @@
 					</svg>
 				</div>
 				<h3 class="text-xl font-bold mb-2">Schedule</h3>
-				<p class="text-dark/70">View the complete festival schedule with all screenings and events.</p>
+				<p class="text-dark/70">View the complete festival schedule with all screenings and events</p>
 			</a>
 			<a href="{{ route('programme.masterclasses') }}" class="group bg-secondary rounded-xl p-6 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
 				<div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition">
@@ -167,8 +167,8 @@
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
 					</svg>
 				</div>
-				<h3 class="text-xl font-bold mb-2">Masterclasses</h3>
-				<p class="text-dark/70">Learn from industry experts and renowned filmmakers.</p>
+				<h3 class="text-xl font-bold mb-2">Master Classes</h3>
+				<p class="text-dark/70">Learn from industry experts and renowned filmmakers</p>
 			</a>
 			<a href="{{ route('programme.debut-films') }}" class="group bg-secondary rounded-xl p-6 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
 				<div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition">
@@ -176,8 +176,8 @@
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
 					</svg>
 				</div>
-				<h3 class="text-xl font-bold mb-2">Debut Films</h3>
-				<p class="text-dark/70">Discover first features and emerging voices in cinema.</p>
+				<h3 class="text-xl font-bold mb-2">Films in Competition</h3>
+				<p class="text-dark/70">Debut films, documentaries and short films competing at the festival</p>
 			</a>
 			<a href="{{ route('programme.jury-debut-films') }}" class="group bg-secondary rounded-xl p-6 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
 				<div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition">
@@ -186,7 +186,7 @@
 					</svg>
 				</div>
 				<h3 class="text-xl font-bold mb-2">Jury</h3>
-				<p class="text-dark/70">Meet the distinguished jury members evaluating the films.</p>
+				<p class="text-dark/70">Meet the jury members evaluating the competition films</p>
 			</a>
 		</div>
 	</section>
@@ -278,6 +278,10 @@
 				</a>
 				<a href="{{ route('contact') }}" class="btn-ghost text-white hover:text-white/80 text-sm md:text-base">
 					Contact Us
+				</a>
+				<a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-4 py-2 md:px-6 md:py-3 text-sm md:text-base rounded-md bg-white/15 border border-white/40 text-white hover:bg-white hover:text-primary transition font-medium">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56v1.88h2.77l-.44 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
+					Follow us on Facebook
 				</a>
 			</div>
 		</div>

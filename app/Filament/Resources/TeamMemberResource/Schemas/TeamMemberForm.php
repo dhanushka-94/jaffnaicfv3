@@ -25,7 +25,8 @@ class TeamMemberForm
                     ->required()
                     ->maxLength(120),
                 TextInput::make('role')
-                    ->maxLength(120),
+                    ->maxLength(120)
+                    ->helperText('Use exactly: Director, Manager, Consultant, Advisory Committee, Coordinator — Colombo, Coordinator — Jaffna, Festival Team, Design & Illustrations, Printers.'),
                 FileUpload::make('photo_path')
                     ->label('Photo')
                     ->image()

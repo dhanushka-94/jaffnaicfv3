@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'TEAM — JaffnaICF')
+@section('title', 'TEAM — Jaffna ICF')
 @section('meta_description', 'Meet the team behind the Jaffna International Cinema Festival — director, consultants, advisory committee, management, coordinators, and festival team.')
 
 @section('content')
@@ -8,7 +8,19 @@
 		<h1 class="section-title">Team</h1>
 
 		@if(!empty($inactive))
-			<div class="mt-10 relative overflow-hidden bg-gradient-to-br from-dark via-dark/95 to-dark/90 rounded-2xl p-8 md:p-16 shadow-2xl text-center border border-primary/20" data-aos="fade-up">
+			@php($leaders = $leaders ?? collect())
+			@if($leaders->isNotEmpty())
+				<div class="mt-10 grid gap-4 sm:gap-6 sm:grid-cols-2">
+					@foreach($leaders as $person)
+						<div class="bg-white rounded-xl p-6 md:p-8 shadow-soft" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+							<p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{{ $person->role === 'Manager' ? 'Festival Manager' : 'Festival Director' }}</p>
+							<h2 class="mt-3 text-2xl md:text-3xl font-display font-bold break-words">{{ $person->name }}</h2>
+						</div>
+					@endforeach
+				</div>
+			@endif
+
+			<div class="mt-6 relative overflow-hidden bg-gradient-to-br from-dark via-dark/95 to-dark/90 rounded-2xl p-8 md:p-16 shadow-2xl text-center border border-primary/20" data-aos="fade-up">
 				<div class="absolute inset-0 opacity-5">
 					<div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, rgba(197, 80, 44, 0.3) 1px, transparent 0); background-size: 40px 40px;"></div>
 				</div>
@@ -19,11 +31,11 @@
 						</svg>
 					</div>
 					<h2 class="text-3xl md:text-5xl lg:text-6xl font-display font-bold tracking-tighter text-white mb-4 uppercase">
-						TO BE ANNOUNCED
+						Team to be announced
 					</h2>
 					<div class="w-24 h-0.5 bg-primary mx-auto mb-6"></div>
 					<p class="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-						The festival team for this edition will be announced soon. Please check back closer to the festival dates.
+						The rest of the festival team will be announced soon. Please check back closer to the festival dates.
 					</p>
 				</div>
 			</div>

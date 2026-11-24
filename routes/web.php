@@ -35,6 +35,7 @@ Route::prefix('programme')->name('programme.')->group(function () {
     Route::get('/debut-films', [ProgrammeController::class, 'debutFilms'])->name('debut-films');
     Route::get('/jury-debut-films', [ProgrammeController::class, 'juryDebut'])->name('jury-debut-films');
     Route::get('/jury-short-films', [ProgrammeController::class, 'juryShort'])->name('jury-short-films');
+    Route::get('/jury-new-asian-currents', [ProgrammeController::class, 'juryNewAsianCurrents'])->name('jury-new-asian-currents');
     Route::get('/national-short-films', [ProgrammeController::class, 'nationalShorts'])->name('national-short-films');
     Route::get('/international-short-films', [ProgrammeController::class, 'internationalShorts'])->name('international-short-films');
     Route::get('/new-asian-currents', [ProgrammeController::class, 'newAsianCurrents'])->name('new-asian-currents');
@@ -55,6 +56,7 @@ Route::prefix('archive')->name('archive.')->group(function () {
         Route::get('/debut-films', [ArchiveController::class, 'debutFilms'])->name('debut-films');
         Route::get('/jury-debut-films', [ArchiveController::class, 'juryDebut'])->name('jury-debut-films');
         Route::get('/jury-short-films', [ArchiveController::class, 'juryShort'])->name('jury-short-films');
+        Route::get('/jury-new-asian-currents', [ArchiveController::class, 'juryNewAsianCurrents'])->name('jury-new-asian-currents');
         Route::get('/national-short-films', [ArchiveController::class, 'nationalShorts'])->name('national-short-films');
         Route::get('/international-short-films', [ArchiveController::class, 'internationalShorts'])->name('international-short-films');
         Route::get('/new-asian-currents', [ArchiveController::class, 'newAsianCurrents'])->name('new-asian-currents');

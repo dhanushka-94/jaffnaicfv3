@@ -33,7 +33,7 @@
 					<li>
 						<a href="{{ route('about.jaffnaicf') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
 							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
-							<span>About JaffnaICF</span>
+							<span>About Jaffna ICF</span>
 						</a>
 					</li>
 					<li>
@@ -45,7 +45,7 @@
 					<li>
 						<a href="{{ route('gallery') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
 							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
-							<span>Gallery</span>
+							<span>Image Gallery</span>
 						</a>
 					</li>
 					<li>
@@ -95,31 +95,19 @@
 					<li>
 						<a href="{{ route('programme.masterclasses') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
 							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
-							<span>Masterclasses</span>
+							<span>Master Classes</span>
 						</a>
 					</li>
 					<li>
 						<a href="{{ route('programme.debut-films') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
 							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
-							<span>Debut Films</span>
+							<span>Debut Films in Competition</span>
 						</a>
 					</li>
 					<li>
-						<a href="{{ route('programme.jury-debut-films') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
+						<a href="{{ route('programme.new-asian-currents') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
 							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
-							<span>Jury – Debut Films</span>
-						</a>
-					</li>
-					<li>
-						<a href="{{ route('programme.jury-short-films') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
-							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
-							<span>Jury – Short Films</span>
-						</a>
-					</li>
-					<li>
-						<a href="{{ route('programme.national-short-films') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
-							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
-							<span>National Short Films</span>
+							<span>New Asian Currents – Documentary</span>
 						</a>
 					</li>
 					<li>
@@ -129,9 +117,27 @@
 						</a>
 					</li>
 					<li>
-						<a href="{{ route('programme.new-asian-currents') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
+						<a href="{{ route('programme.national-short-films') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
 							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
-							<span>New Asian Currents</span>
+							<span>National Short Films</span>
+						</a>
+					</li>
+					<li>
+						<a href="{{ route('programme.jury-debut-films') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
+							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
+							<span>Jury – Debut Films</span>
+						</a>
+					</li>
+					<li>
+						<a href="{{ route('programme.jury-new-asian-currents') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
+							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
+							<span>Jury – New Asian Currents (Documentary)</span>
+						</a>
+					</li>
+					<li>
+						<a href="{{ route('programme.jury-short-films') }}" class="flex items-center gap-2 text-dark/80 hover:text-primary transition group">
+							<span class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition"></span>
+							<span>Jury – Short Films</span>
 						</a>
 					</li>
 				</ul>
@@ -189,31 +195,19 @@
 								<li>
 									<a href="{{ route('archive.programme.masterclasses', $year) }}" class="flex items-center gap-2 text-dark/60 hover:text-primary transition text-sm group">
 										<span class="w-1 h-1 rounded-full bg-primary/20 group-hover:bg-primary transition"></span>
-										<span>Masterclasses</span>
+										<span>Master Classes</span>
 									</a>
 								</li>
 								<li>
 									<a href="{{ route('archive.programme.debut-films', $year) }}" class="flex items-center gap-2 text-dark/60 hover:text-primary transition text-sm group">
 										<span class="w-1 h-1 rounded-full bg-primary/20 group-hover:bg-primary transition"></span>
-										<span>Debut Films</span>
+										<span>Debut Films in Competition</span>
 									</a>
 								</li>
 								<li>
-									<a href="{{ route('archive.programme.jury-debut-films', $year) }}" class="flex items-center gap-2 text-dark/60 hover:text-primary transition text-sm group">
+									<a href="{{ route('archive.programme.new-asian-currents', $year) }}" class="flex items-center gap-2 text-dark/60 hover:text-primary transition text-sm group">
 										<span class="w-1 h-1 rounded-full bg-primary/20 group-hover:bg-primary transition"></span>
-										<span>Jury – Debut Films</span>
-									</a>
-								</li>
-								<li>
-									<a href="{{ route('archive.programme.jury-short-films', $year) }}" class="flex items-center gap-2 text-dark/60 hover:text-primary transition text-sm group">
-										<span class="w-1 h-1 rounded-full bg-primary/20 group-hover:bg-primary transition"></span>
-										<span>Jury – Short Films</span>
-									</a>
-								</li>
-								<li>
-									<a href="{{ route('archive.programme.national-short-films', $year) }}" class="flex items-center gap-2 text-dark/60 hover:text-primary transition text-sm group">
-										<span class="w-1 h-1 rounded-full bg-primary/20 group-hover:bg-primary transition"></span>
-										<span>National Short Films</span>
+										<span>New Asian Currents – Documentary</span>
 									</a>
 								</li>
 								<li>
@@ -223,9 +217,27 @@
 									</a>
 								</li>
 								<li>
-									<a href="{{ route('archive.programme.new-asian-currents', $year) }}" class="flex items-center gap-2 text-dark/60 hover:text-primary transition text-sm group">
+									<a href="{{ route('archive.programme.national-short-films', $year) }}" class="flex items-center gap-2 text-dark/60 hover:text-primary transition text-sm group">
 										<span class="w-1 h-1 rounded-full bg-primary/20 group-hover:bg-primary transition"></span>
-										<span>New Asian Currents</span>
+										<span>National Short Films</span>
+									</a>
+								</li>
+								<li>
+									<a href="{{ route('archive.programme.jury-debut-films', $year) }}" class="flex items-center gap-2 text-dark/60 hover:text-primary transition text-sm group">
+										<span class="w-1 h-1 rounded-full bg-primary/20 group-hover:bg-primary transition"></span>
+										<span>Jury – Debut Films</span>
+									</a>
+								</li>
+								<li>
+									<a href="{{ route('archive.programme.jury-new-asian-currents', $year) }}" class="flex items-center gap-2 text-dark/60 hover:text-primary transition text-sm group">
+										<span class="w-1 h-1 rounded-full bg-primary/20 group-hover:bg-primary transition"></span>
+										<span>Jury – New Asian Currents (Documentary)</span>
+									</a>
+								</li>
+								<li>
+									<a href="{{ route('archive.programme.jury-short-films', $year) }}" class="flex items-center gap-2 text-dark/60 hover:text-primary transition text-sm group">
+										<span class="w-1 h-1 rounded-full bg-primary/20 group-hover:bg-primary transition"></span>
+										<span>Jury – Short Films</span>
 									</a>
 								</li>
 							</ul>

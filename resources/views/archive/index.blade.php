@@ -8,7 +8,7 @@
 		<div class="mb-8 md:mb-12" data-aos="fade-up">
 			<h1 class="section-title">Archive</h1>
 			<p class="mt-4 text-lg text-dark/80 max-w-3xl">
-				Browse content from past editions of the Jaffna International Cinema Festival.
+				Browse content from past editions of the Jaffna International Cinema Festival
 			</p>
 		</div>
 
@@ -16,7 +16,7 @@
 			<div class="mt-10 bg-white rounded-xl p-6 md:p-10 shadow-soft text-center">
 				<h2 class="text-2xl md:text-3xl font-bold tracking-tight">No Archive Available</h2>
 				<p class="mt-3 text-dark/70 max-w-xl mx-auto">
-					Archive content will be available once past editions are archived.
+					Archive content will be available once past editions are archived
 				</p>
 			</div>
 		@else
@@ -33,7 +33,7 @@
 				<div class="mt-10 bg-white rounded-xl p-6 md:p-10 shadow-soft text-center">
 					<h2 class="text-2xl md:text-3xl font-bold tracking-tight">No Archive Available</h2>
 					<p class="mt-3 text-dark/70 max-w-xl mx-auto">
-						Archive content will be available once past editions are archived.
+						Archive content will be available once past editions are archived
 					</p>
 				</div>
 			@else

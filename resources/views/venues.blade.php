@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'VENUES — JaffnaICF')
+@section('title', 'VENUES — Jaffna ICF')
 @section('meta_description', 'Festival venues in Jaffna including cinemas, auditoriums and cultural centres.')
 
 @section('content')
 	<section class="container-full py-16">
 		<h1 class="section-title">Venues</h1>
-		<p class="mt-4 text-dark/70 max-w-2xl">Screenings and events take place across several venues in Jaffna.</p>
+		<p class="mt-4 text-dark/70 max-w-2xl">Screenings and events take place across several venues in Jaffna</p>
 
 		@if(!empty($inactive))
 			<div class="mt-10 relative overflow-hidden bg-gradient-to-br from-dark via-dark/95 to-dark/90 rounded-2xl p-8 md:p-16 shadow-2xl text-center border border-primary/20" data-aos="fade-up">
@@ -20,7 +20,7 @@
 						</svg>
 					</div>
 					<h2 class="text-3xl md:text-5xl lg:text-6xl font-display font-bold tracking-tighter text-white mb-4 uppercase">
-						TO BE ANNOUNCED
+						To be announced
 					</h2>
 					<div class="w-24 h-0.5 bg-primary mx-auto mb-6"></div>
 					<p class="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
@@ -50,7 +50,7 @@
 						@endif
 					</div>
 				@empty
-					<x-coming-soon class="lg:col-span-2" message="Venue details for this edition will be published closer to the festival." />
+					<x-coming-soon class="lg:col-span-2" message="Venue details for this edition will be published closer to the festival" />
 				@endforelse
 			</div>
 		@endif

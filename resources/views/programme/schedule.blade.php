@@ -9,7 +9,7 @@
 		:year="$year"
 		:active="$active"
 		:images="$images"
-		description="Screenings, events, and special programmes for this year's festival." />
+		description="Screenings, events, and special programmes for this year's festival" />
 @endsection
 
 

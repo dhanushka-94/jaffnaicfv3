@@ -34,7 +34,7 @@ class MasterclassImageResource extends Resource
     protected static UnitEnum|string|null $navigationGroup = 'Programme';
     protected static ?int $navigationSort = 55;
 
-    protected static ?string $navigationLabel = 'Masterclasses';
+    protected static ?string $navigationLabel = 'Master Classes';
 
     public static function form(Schema $schema): Schema
     {
@@ -128,7 +128,7 @@ class MasterclassImageResource extends Resource
                         })
                         ->deselectRecordsAfterCompletion()
                         ->requiresConfirmation()
-                        ->modalHeading('Archive Masterclass Images')
+                        ->modalHeading('Archive Master Class Images')
                         ->modalDescription('Select the year to archive the selected images to.'),
                     DeleteBulkAction::make(),
                 ]),

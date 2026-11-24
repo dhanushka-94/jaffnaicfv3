@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Masterclasses ' . $year . ' — ' . ($__site?->site_name ?? 'Jaffna International Cinema Festival'))
-@section('meta_description', 'Masterclasses from ' . $year . ' edition of the Jaffna International Cinema Festival.')
+@section('title', 'Master Classes ' . $year . ' — ' . ($__site?->site_name ?? 'Jaffna International Cinema Festival'))
+@section('meta_description', 'Master Classes from ' . $year . ' edition of the Jaffna International Cinema Festival.')
 
 @section('content')
 	<section class="container-full py-16">
@@ -13,11 +13,11 @@
 			:routeParams="['year' => $year]"
 		/>
 		<x-programme.gallery
-			title="Masterclasses"
+			title="Master Classes"
 			:year="$year"
 			:active="$active"
 			:images="$images"
-			description="Filmmaker masterclasses and conversations from {{ $year }} edition." />
+			description="Filmmaker master classes and conversations from {{ $year }} edition" />
 	</section>
 @endsection
 

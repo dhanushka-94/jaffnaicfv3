@@ -78,12 +78,12 @@
 			</nav>
 			<h1 class="section-title">News</h1>
 			<p class="mt-4 text-dark/70 text-lg">
-				Announcements, festival updates, and stories from JaffnaICF.
+				Announcements, festival updates, and stories from Jaffna ICF
 			</p>
 		</div>
 
 		@if($articles->isEmpty())
-			<x-coming-soon message="Festival news and announcements will be published here soon." />
+			<x-coming-soon message="Festival news and announcements will be published here soon" />
 		@else
 			<div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 				@foreach($articles as $article)

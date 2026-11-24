@@ -61,14 +61,14 @@ class AdminPanelProvider extends PanelProvider
 
                         return [
                             $siteSetting?->logo_path,
-                            $siteSetting?->site_name ?: 'JaffnaICF',
+                            $siteSetting?->site_name ?: 'Jaffna ICF',
                         ];
                     }
                 } catch (\Throwable) {
                     // Database not available, use default
                 }
 
-                return [null, 'JaffnaICF'];
+                return [null, 'Jaffna ICF'];
             }
         };
 
@@ -80,12 +80,12 @@ class AdminPanelProvider extends PanelProvider
             ->brandName(function (): string {
                 try {
                     if (\Illuminate\Support\Facades\Schema::hasTable('site_settings')) {
-                        return \App\Models\SiteSetting::query()->value('site_name') ?: 'JaffnaICF';
+                        return \App\Models\SiteSetting::query()->value('site_name') ?: 'Jaffna ICF';
                     }
                 } catch (\Throwable) {
                 }
 
-                return 'JaffnaICF';
+                return 'Jaffna ICF';
             })
             ->brandLogo($customLogo)
             ->colors([

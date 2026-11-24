@@ -17,7 +17,7 @@
 			<div class="mt-10 bg-white rounded-xl p-6 md:p-10 shadow-soft text-center">
 				<h2 class="text-2xl md:text-3xl font-bold tracking-tight">No Team Data Available</h2>
 				<p class="mt-3 text-dark/70 max-w-xl mx-auto">
-					Team information for {{ $year }} is not available in the archive.
+					Team information for {{ $year }} is not available in the archive
 				</p>
 			</div>
 		@else

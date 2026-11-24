@@ -17,7 +17,7 @@
 			:year="$year"
 			:active="$active"
 			:images="$images"
-			description="Festival schedule and programme timeline from {{ $year }} edition." />
+			description="Festival schedule and programme timeline from {{ $year }} edition" />
 	</section>
 @endsection
 

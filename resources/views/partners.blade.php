@@ -19,7 +19,7 @@
 						</svg>
 					</div>
 					<h2 class="text-3xl md:text-5xl lg:text-6xl font-display font-bold tracking-tighter text-white mb-4 uppercase">
-						TO BE ANNOUNCED
+						To be announced
 					</h2>
 					<div class="w-24 h-0.5 bg-primary mx-auto mb-6"></div>
 					<p class="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
@@ -29,7 +29,7 @@
 			</div>
 		@else
 			<p class="text-lg text-dark/80 mb-8 md:mb-12 max-w-3xl" data-aos="fade-up" data-aos-delay="100">
-				We are grateful to our partners and sponsors who support the Jaffna International Cinema Festival and help us celebrate cinema, culture, and community.
+				We are grateful to our partners and sponsors who support the Jaffna International Cinema Festival and help us celebrate cinema, culture, and community
 			</p>
 
 			@forelse($categories ?? [] as $category)
@@ -51,12 +51,12 @@
 								@endif
 							</div>
 						@empty
-							<p class="col-span-full text-dark/60 text-sm">No partners in this category yet.</p>
+							<p class="col-span-full text-dark/60 text-sm">No partners in this category yet</p>
 						@endforelse
 					</div>
 				</div>
 			@empty
-				<x-coming-soon message="Partner and sponsor details for this edition will be published closer to the festival." />
+				<x-coming-soon message="Partner and sponsor details for this edition will be published closer to the festival" />
 			@endforelse
 
 			{{-- Partners without category --}}

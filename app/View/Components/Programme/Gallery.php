@@ -14,6 +14,7 @@ class Gallery extends Component
         public bool $active = true,
         public $images = null,
         public ?string $description = null,
+        public bool $announce = false,
     ) {
     }
 

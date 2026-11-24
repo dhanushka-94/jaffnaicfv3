@@ -34,7 +34,7 @@ class NewAsianCurrentImageResource extends Resource
     protected static UnitEnum|string|null $navigationGroup = 'Programme';
     protected static ?int $navigationSort = 85;
 
-    protected static ?string $navigationLabel = 'New Asian Currents';
+    protected static ?string $navigationLabel = 'New Asian Currents – Documentary';
 
     public static function form(Schema $schema): Schema
     {

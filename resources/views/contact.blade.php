@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'CONTACT — JaffnaICF')
-@section('meta_description', 'Contact the Jaffna International Cinema Festival (JaffnaICF). General info, key contacts, and office addresses.')
+@section('title', 'CONTACT — Jaffna ICF')
+@section('meta_description', 'Contact the Jaffna International Cinema Festival (Jaffna ICF). General info, key contacts, and office addresses.')
 
 @section('content')
 	<section class="container-full py-16">
 		<h1 class="section-title">Contact</h1>
-		<p class="mt-4 text-dark/70 max-w-2xl">Reach out to the festival team for general inquiries, submissions, partnerships, and programme information.</p>
+		<p class="mt-4 text-dark/70 max-w-2xl">Reach out to the festival team for general inquiries, submissions, partnerships, and programme information</p>
 
 		<div class="mt-10 grid gap-8 lg:grid-cols-3">
 			<!-- General Info -->
@@ -20,43 +20,32 @@
 				<div class="mt-5 space-y-2">
 					<div class="text-dark/80"><a href="mailto:jaffnaicf@gmail.com" class="hover:text-primary">jaffnaicf@gmail.com</a></div>
 					<div class="text-dark/80"><a href="tel:+94112826027" class="hover:text-primary">+94 11 282 6027</a></div>
+					<div class="text-dark/80"><a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" class="hover:text-primary">facebook.com/JaffnaICF</a></div>
 				</div>
 			</div>
 
-			<!-- Festival Director -->
-			<div class="bg-white rounded-xl p-6 shadow-soft">
-				<div class="flex items-center gap-3">
-					<div class="w-10 h-10 rounded-full bg-primary/10 grid place-items-center text-primary">
-						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z"/></svg>
+			@foreach($contacts as $contact)
+				<!-- {{ $contact['title'] }} -->
+				<div class="bg-white rounded-xl p-6 shadow-soft">
+					<div class="flex items-center gap-3">
+						<div class="w-10 h-10 shrink-0 rounded-full bg-primary/10 grid place-items-center text-primary">
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z"/></svg>
+						</div>
+						<div class="min-w-0">
+							<h3 class="text-xl font-semibold break-words">{{ $contact['name'] }}</h3>
+							<p class="text-dark/60">{{ $contact['title'] }}</p>
+						</div>
 					</div>
-					<div>
-						<h3 class="text-xl font-semibold">Anomaa Rajakaruna</h3>
-						<p class="text-dark/60">Festival Director</p>
-					</div>
-				</div>
-				<div class="mt-5 space-y-2">
-					<div class="text-dark/80"><a href="mailto:anomaaraj@gmail.com" class="hover:text-primary">anomaaraj@gmail.com</a></div>
-					<div class="text-dark/80"><a href="tel:+94777879911" class="hover:text-primary">+94 77 787 9911</a></div>
-				</div>
-			</div>
-
-			<!-- Festival Manager -->
-			<div class="bg-white rounded-xl p-6 shadow-soft">
-				<div class="flex items-center gap-3">
-					<div class="w-10 h-10 rounded-full bg-primary/10 grid place-items-center text-primary">
-						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z"/></svg>
-					</div>
-					<div>
-						<h3 class="text-xl font-semibold">Rishi Selvam</h3>
-						<p class="text-dark/60">Festival Manager</p>
+					<div class="mt-5 space-y-2">
+						@if(!empty($contact['email']))
+							<div class="text-dark/80 break-all"><a href="mailto:{{ $contact['email'] }}" class="hover:text-primary">{{ $contact['email'] }}</a></div>
+						@endif
+						@if(!empty($contact['phone']))
+							<div class="text-dark/80"><a href="tel:{{ preg_replace('/[^\d+]/', '', $contact['phone']) }}" class="hover:text-primary">{{ $contact['phone'] }}</a></div>
+						@endif
 					</div>
 				</div>
-				<div class="mt-5 space-y-2">
-					<div class="text-dark/80"><a href="mailto:rishi.murgi@gmail.com" class="hover:text-primary">rishi.murgi@gmail.com</a></div>
-					<div class="text-dark/80"><a href="tel:+94775154830" class="hover:text-primary">+94 77 515 4830</a></div>
-				</div>
-			</div>
-		</div>
+			@endforeach		</div>
 
 		<div class="mt-10 grid gap-8 lg:grid-cols-2">
 			<!-- Secretariat -->
@@ -83,7 +72,7 @@
 					<h3 class="text-xl font-semibold">Coordinating Office</h3>
 				</div>
 				<address class="not-italic mt-5 text-dark/80 leading-relaxed">
-					JaffnaICF,<br>
+					Jaffna ICF,<br>
 					No. 71/2, Kachcheri–Nallur Road,<br>
 					Jaffna 40000,<br>
 					Sri Lanka.

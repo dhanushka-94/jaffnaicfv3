@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Debut Films ' . $year . ' — ' . ($__site?->site_name ?? 'Jaffna International Cinema Festival'))
-@section('meta_description', 'Debut films from ' . $year . ' edition of the Jaffna International Cinema Festival.')
+@section('title', 'Debut Films in Competition ' . $year . ' — ' . ($__site?->site_name ?? 'Jaffna International Cinema Festival'))
+@section('meta_description', 'Debut Films in Competition from ' . $year . ' edition of the Jaffna International Cinema Festival.')
 
 @section('content')
 	<section class="container-full py-16">
@@ -13,11 +13,11 @@
 			:routeParams="['year' => $year]"
 		/>
 		<x-programme.gallery
-			title="Debut Films"
+			title="Debut Films in Competition"
 			:year="$year"
 			:active="$active"
 			:images="$images"
-			description="Debut films in competition from {{ $year }} edition." />
+			description="Debut films in competition from {{ $year }} edition" />
 	</section>
 @endsection
 

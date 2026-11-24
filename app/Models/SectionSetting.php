@@ -24,13 +24,14 @@ class SectionSetting extends Model
     {
         return [
             'programme_schedule' => 'Programme — Schedule',
-            'programme_masterclasses' => 'Programme — Masterclasses',
-            'programme_debut_films' => 'Programme — Debut Films',
+            'programme_masterclasses' => 'Programme — Master Classes',
+            'programme_debut_films' => 'Programme — Debut Films in Competition',
             'programme_jury_debut' => 'Programme — Jury – Debut Films',
             'programme_jury_short' => 'Programme — Jury – Short Films',
+            'programme_jury_new_asian_currents' => 'Programme — Jury – New Asian Currents (Documentary)',
             'programme_national_shorts' => 'Programme — National Short Films',
             'programme_international_shorts' => 'Programme — International Short Films',
-            'programme_new_asian_currents' => 'Programme — New Asian Currents',
+            'programme_new_asian_currents' => 'Programme — New Asian Currents – Documentary',
             'programme_images' => 'Programme — General Images',
             'team_members' => 'Team Members',
             'venues' => 'Venues',

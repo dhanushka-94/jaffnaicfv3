@@ -12,15 +12,24 @@ class TeamController extends Controller
     {
         $isActive = SectionSetting::where('key', 'team_members')->value('is_active') ?? true;
 
+        $currentYear = (int) date('Y');
+
         if (! $isActive) {
+            // The full team list is hidden, but the festival leadership is always shown.
+            $leaders = TeamMember::query()
+                ->where('year', $currentYear)
+                ->whereIn('role', ['Director', 'Manager'])
+                ->orderByRaw("FIELD(role, 'Director', 'Manager')")
+                ->orderBy('sort_order')
+                ->get();
+
             return view('team', [
                 'inactive' => true,
                 'groups' => collect(),
                 'roleOrder' => [],
+                'leaders' => $leaders,
             ]);
         }
-
-        $currentYear = (int) date('Y');
         $all = TeamMember::query()
             ->where('year', $currentYear)
             ->orderBy('sort_order')

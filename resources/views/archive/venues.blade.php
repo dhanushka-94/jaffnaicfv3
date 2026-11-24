@@ -17,11 +17,11 @@
 			<div class="mt-10 bg-white rounded-xl p-6 md:p-10 shadow-soft text-center">
 				<h2 class="text-2xl md:text-3xl font-bold tracking-tight">No Venues Data Available</h2>
 				<p class="mt-3 text-dark/70 max-w-xl mx-auto">
-					Venue information for {{ $year }} is not available in the archive.
+					Venue information for {{ $year }} is not available in the archive
 				</p>
 			</div>
 		@else
-			<p class="mt-4 text-dark/70 max-w-2xl">Screenings and events took place across several venues in Jaffna during {{ $year }}.</p>
+			<p class="mt-4 text-dark/70 max-w-2xl">Screenings and events took place across several venues in Jaffna during {{ $year }}</p>
 			<div class="mt-10 grid gap-8 lg:grid-cols-2">
 				@foreach($venues as $venue)
 					<div class="bg-white rounded-xl p-6 shadow-soft">

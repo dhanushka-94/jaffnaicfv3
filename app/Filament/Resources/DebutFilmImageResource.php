@@ -34,7 +34,7 @@ class DebutFilmImageResource extends Resource
     protected static UnitEnum|string|null $navigationGroup = 'Programme';
     protected static ?int $navigationSort = 60;
 
-    protected static ?string $navigationLabel = 'Debut Films';
+    protected static ?string $navigationLabel = 'Debut Films in Competition';
 
     public static function form(Schema $schema): Schema
     {

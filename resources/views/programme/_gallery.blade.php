@@ -6,7 +6,7 @@
 		<p class="mt-4 text-dark/70 max-w-2xl">{{ $description }}</p>
 	@endif
 
-	@if(!$active)
+	@if(!$active || ($announce && $images->isEmpty()))
 		<div class="mt-10 relative overflow-hidden bg-gradient-to-br from-dark via-dark/95 to-dark/90 rounded-2xl p-8 md:p-16 shadow-2xl text-center border border-primary/20" data-aos="fade-up">
 			<div class="absolute inset-0 opacity-5">
 				<div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, rgba(197, 80, 44, 0.3) 1px, transparent 0); background-size: 40px 40px;"></div>
@@ -18,17 +18,21 @@
 					</svg>
 				</div>
 				<h2 class="text-3xl md:text-5xl lg:text-6xl font-display font-bold tracking-tighter text-white mb-4 uppercase">
-					TO BE ANNOUNCED
+					To be announced
 				</h2>
 				<div class="w-24 h-0.5 bg-primary mx-auto mb-6"></div>
 				<p class="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-					Programme details for this section will be announced closer to the festival dates. Please check back soon.
+					@if($announce)
+						Jury members for this edition will be announced soon. Please check back closer to the festival dates.
+					@else
+						Programme details for this section will be announced closer to the festival dates. Please check back soon.
+					@endif
 				</p>
 			</div>
 		</div>
 	@else
 		@if($images->isEmpty())
-			<x-coming-soon :message="$title . ' for this edition will be published closer to the festival.'" />
+			<x-coming-soon :message="$title . ' for this edition will be published closer to the festival'" />
 		@else
 			@php
 				$imageData = $images->map(function($img, $index) use ($title) {

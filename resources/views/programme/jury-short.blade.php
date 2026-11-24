@@ -9,7 +9,8 @@
 		:year="$year"
 		:active="$active"
 		:images="$images"
-		description="Jury members and moments from the Short Films jury of the festival." />
+		description="One jury for both the International and National Short Films competitions"
+		:announce="true" />
 @endsection
 
 

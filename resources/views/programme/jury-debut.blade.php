@@ -9,7 +9,8 @@
 		:year="$year"
 		:active="$active"
 		:images="$images"
-		description="Jury members and moments from the Debut Films jury of the festival." />
+		description="Jury members for the Debut Films in Competition"
+		:announce="true" />
 @endsection
 
 
