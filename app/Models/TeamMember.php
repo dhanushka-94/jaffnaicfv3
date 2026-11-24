@@ -24,6 +24,25 @@ class TeamMember extends Model
         'year' => 'integer',
         'sort_order' => 'integer',
     ];
+
+    /**
+     * Roles in the order they appear on the public Team page.
+     * Keys must match what the Team and Archive controllers group by.
+     *
+     * @return array<string, string>
+     */
+    public static function roleLabels(): array
+    {
+        return [
+            'Director' => 'Festival Director',
+            'Consultant' => 'Programme Consultants',
+            'Advisory Committee' => 'Advisory Committee',
+            'Manager' => 'Festival Manager',
+            'Coordinator — Colombo' => 'Coordinator – Colombo',
+            'Coordinator — Jaffna' => 'Coordinator – Jaffna',
+            'Festival Team' => 'Festival Team',
+            'Design & Illustrations' => 'Design & Illustrations',
+            'Printers' => 'Printers',
+        ];
+    }
 }
-
-

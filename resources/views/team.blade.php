@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'TEAM — Jaffna ICF')
+@section('title', 'Festival Team — ' . ($__site?->site_name ?? 'Jaffna ICF'))
 @section('meta_description', 'Meet the team behind the Jaffna International Cinema Festival — director, consultants, advisory committee, management, coordinators, and festival team.')
 
 @section('content')

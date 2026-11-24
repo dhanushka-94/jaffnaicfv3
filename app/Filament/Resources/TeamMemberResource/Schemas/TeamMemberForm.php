@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\TeamMemberResource\Schemas;
 
 use Filament\Forms\Components\FileUpload;
+use App\Models\TeamMember;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -24,9 +26,13 @@ class TeamMemberForm
                 TextInput::make('name')
                     ->required()
                     ->maxLength(120),
-                TextInput::make('role')
-                    ->maxLength(120)
-                    ->helperText('Use exactly: Director, Manager, Consultant, Advisory Committee, Coordinator — Colombo, Coordinator — Jaffna, Festival Team, Design & Illustrations, Printers.'),
+                Select::make('role')
+                    ->label('Role')
+                    ->options(TeamMember::roleLabels())
+                    ->searchable()
+                    ->native(false)
+                    ->required()
+                    ->helperText('Choose the section this person appears under on the Team page.'),
                 FileUpload::make('photo_path')
                     ->label('Photo')
                     ->image()

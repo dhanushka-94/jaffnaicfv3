@@ -5,38 +5,31 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		@php
 			$currentYear = (int) date('Y');
-			$archiveYears = collect();
-			$archiveYears = $archiveYears->merge(\App\Models\TeamMember::select('year')->distinct()->pluck('year'));
-			$archiveYears = $archiveYears->merge(\App\Models\Partner::select('year')->distinct()->pluck('year'));
-			$archiveYears = $archiveYears->merge(\App\Models\Venue::select('year')->distinct()->pluck('year'));
-			$archiveYears = $archiveYears->merge(\App\Models\ScheduleImage::select('year')->distinct()->pluck('year'));
-			$archiveYears = $archiveYears->merge(\App\Models\MasterclassImage::select('year')->distinct()->pluck('year'));
-			$archiveYears = $archiveYears->merge(\App\Models\DebutFilmImage::select('year')->distinct()->pluck('year'));
-			$archiveYears = $archiveYears->merge(\App\Models\JuryDebutImage::select('year')->distinct()->pluck('year'));
-			$archiveYears = $archiveYears->merge(\App\Models\JuryShortImage::select('year')->distinct()->pluck('year'));
-			$archiveYears = $archiveYears->merge(\App\Models\NationalShortImage::select('year')->distinct()->pluck('year'));
-			$archiveYears = $archiveYears->merge(\App\Models\InternationalShortImage::select('year')->distinct()->pluck('year'));
-			$archiveYears = $archiveYears->merge(\App\Models\NewAsianCurrentImage::select('year')->distinct()->pluck('year'));
-			$archiveYears = $archiveYears->unique()->sortDesc()->values();
+			$archiveYears = \App\Support\ArchiveYears::all();
+			$siteName = $__site?->site_name ?? config('seo.site_name');
+			$seoDescription = config('seo.description');
+			$seoDefaultImage = file_exists(public_path(config('seo.default_image')))
+				? asset(config('seo.default_image'))
+				: ($__site?->logo_path ? asset('storage/' . $__site->logo_path) : null);
 		@endphp
 		<title>@yield('title', $__site?->site_name ?? 'Jaffna International Cinema Festival')</title>
 		<meta name="description" content="@yield('meta_description', 'Jaffna International Cinema Festival (Jaffna ICF) celebrates cinema, culture, and community with programmes, master classes, and screenings.')">
 		@hasSection('meta_keywords')
 			<meta name="keywords" content="@yield('meta_keywords')">
 		@endif
-		<meta name="robots" content="@yield('meta_robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')">
+		<meta name="robots" content="@yield('meta_robots', config('seo.indexable') ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' : 'noindex, nofollow')">
 		<link rel="canonical" href="@yield('canonical', url()->current())">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 
-		<meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}">
+		<meta property="og:locale" content="{{ app()->getLocale() === 'en' ? 'en_US' : app()->getLocale() }}">
 		<meta property="og:site_name" content="{{ $__site?->site_name ?? 'Jaffna International Cinema Festival' }}">
 		<meta property="og:type" content="@yield('og_type', 'website')">
 		<meta property="og:title" content="@yield('og_title', trim($__env->yieldContent('title', 'Jaffna International Cinema Festival')))">
 		<meta property="og:description" content="@yield('og_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (Jaffna ICF) celebrates cinema, culture, and community with programmes, master classes, and screenings.'))">
 		<meta property="og:url" content="@yield('og_url', url()->current())">
-		<meta property="og:image" content="@yield('og_image', asset('images/og-default.jpg'))">
+		<meta property="og:image" content="@yield('og_image', $seoDefaultImage)">
 		<meta property="og:image:alt" content="@yield('og_image_alt', $__site?->site_name ?? 'Jaffna International Cinema Festival')">
 		@hasSection('article_published_time')
 			<meta property="article:published_time" content="@yield('article_published_time')">
@@ -51,32 +44,53 @@
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name="twitter:title" content="@yield('twitter_title', trim($__env->yieldContent('title', 'Jaffna International Cinema Festival')))">
 		<meta name="twitter:description" content="@yield('twitter_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (Jaffna ICF) celebrates cinema, culture, and community with programmes, master classes, and screenings.'))">
-		<meta name="twitter:image" content="@yield('twitter_image', asset('images/og-default.jpg'))">
+		<meta name="twitter:image" content="@yield('twitter_image', $seoDefaultImage)">
 		<meta name="twitter:image:alt" content="@yield('twitter_image_alt', $__site?->site_name ?? 'Jaffna International Cinema Festival')">
 
-		<script type="application/ld+json">
-		{!! json_encode([
-			'@context' => 'https://schema.org',
-			'@type' => 'Organization',
-			'name' => $__site?->site_name ?? 'Jaffna International Cinema Festival',
-			'alternateName' => 'JaffnaICF',
-			'url' => url('/'),
-			'logo' => [
-				'@type' => 'ImageObject',
-				'url' => $__site?->logo_path ? asset('storage/' . $__site->logo_path) : asset('images/og-default.jpg'),
-			],
-			'sameAs' => [
-				'https://www.facebook.com/JaffnaICF',
-			],
-			'contactPoint' => [
-				'@type' => 'ContactPoint',
-				'contactType' => 'General Inquiry',
-				'areaServed' => 'LK',
-				'availableLanguage' => ['en', 'ta'],
-			],
-		], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_HEX_TAG|JSON_HEX_AMP) !!}
-		</script>
+		@php
+			$orgLogo = $__site?->logo_path ? asset('storage/' . $__site->logo_path) : $seoDefaultImage;
+			$jsonFlags = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP;
+			$siteSchema = [
+				'@context' => 'https://schema.org',
+				'@graph' => [
+					array_filter([
+						'@type' => 'Organization',
+						'@id' => url('/') . '#organization',
+						'name' => $siteName,
+						'alternateName' => ['Jaffna ICF', 'JaffnaICF'],
+						'url' => url('/'),
+						'logo' => $orgLogo ? ['@type' => 'ImageObject', 'url' => $orgLogo] : null,
+						'sameAs' => config('seo.social'),
+						'contactPoint' => [
+							'@type' => 'ContactPoint',
+							'contactType' => 'General Inquiry',
+							'areaServed' => 'LK',
+							'availableLanguage' => ['en', 'ta'],
+						],
+					]),
+					[
+						'@type' => 'WebSite',
+						'@id' => url('/') . '#website',
+						'url' => url('/'),
+						'name' => $siteName,
+						'inLanguage' => str_replace('_', '-', app()->getLocale()),
+						'publisher' => ['@id' => url('/') . '#organization'],
+					],
+				],
+			];
+			$breadcrumbSchema = \App\Support\Seo::breadcrumbSchema(request(), trim($__env->yieldContent('title')) ?: null);
+		@endphp
+		<script type="application/ld+json">{!! json_encode($siteSchema, $jsonFlags) !!}</script>
+		@if($breadcrumbSchema)
+			<script type="application/ld+json">{!! json_encode($breadcrumbSchema, $jsonFlags) !!}</script>
+		@endif
 		@stack('structured_data')
+
+		<link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+		@if($__site?->logo_path)
+			<link rel="apple-touch-icon" href="{{ asset('storage/' . $__site->logo_path) }}">
+		@endif
+		<link rel="sitemap" type="application/xml" title="Sitemap" href="{{ url('/sitemap.xml') }}">
 
 		<meta name="theme-color" content="#C5502C">
 		@vite(['resources/css/app.css', 'resources/js/app.js'])

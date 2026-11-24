@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'CONTACT — Jaffna ICF')
+@section('title', 'Contact Us — ' . ($__site?->site_name ?? 'Jaffna ICF'))
 @section('meta_description', 'Contact the Jaffna International Cinema Festival (Jaffna ICF). General info, key contacts, and office addresses.')
 
 @section('content')

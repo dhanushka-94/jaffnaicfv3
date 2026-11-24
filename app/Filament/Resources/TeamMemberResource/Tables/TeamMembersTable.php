@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TeamMemberResource\Tables;
 
+use App\Models\TeamMember;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -14,19 +15,43 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class TeamMembersTable
 {
     public static function configure(Table $table): Table
     {
+        // Keeps roles in the same order as the public Team page.
+        $roleOrderSql = "FIELD(role, " . collect(array_keys(TeamMember::roleLabels()))
+            ->map(fn (string $role) => "'" . str_replace("'", "''", $role) . "'")
+            ->implode(', ') . ')';
+
         return $table
+            // While dragging, Filament sorts by "sort_order" only, so put the role first
+            // to keep each role together; people are then ordered within their role.
+            ->modifyQueryUsing(fn (Builder $query) => $table->isReordering()
+                ? $query->orderByRaw($roleOrderSql)
+                : $query)
             ->reorderable('sort_order')
+            ->groups([
+                Group::make('role')
+                    ->label('Role')
+                    ->collapsible()
+                    ->titlePrefixedWithLabel(false)
+                    ->orderQueryUsing(fn (Builder $query, string $direction) => $query->orderByRaw($roleOrderSql . ' ' . ($direction === 'desc' ? 'desc' : 'asc')))
+                    ->getTitleFromRecordUsing(fn (TeamMember $record): string => TeamMember::roleLabels()[$record->role] ?? (string) $record->role),
+            ])
+            ->defaultGroup('role')
+            ->groupingSettingsHidden()
+            ->defaultSort('sort_order')
+            ->paginationPageOptions([25, 50, 100])
+            ->defaultPaginationPageOption(50)
             ->columns([
-                TextColumn::make('year')
-                    ->label('Year')
-                    ->sortable()
-                    ->searchable(),
+                TextColumn::make('sort_order')
+                    ->label('#')
+                    ->sortable(),
                 ImageColumn::make('photo_path')
                     ->label('Photo')
                     ->disk('public')
@@ -35,12 +60,13 @@ class TeamMembersTable
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('role')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('sort_order')
-                    ->label('Order')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => TeamMember::roleLabels()[$state] ?? (string) $state)
+                    ->searchable(),
+                TextColumn::make('year')
+                    ->label('Year')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(),
                 TextColumn::make('email')
                     ->toggleable(),
                 TextColumn::make('phone')
@@ -50,33 +76,12 @@ class TeamMembersTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('year', 'desc')
             ->filters([
-                SelectFilter::make('year')
-                    ->label('Year')
-                    ->options(function () {
-                        $years = \App\Models\TeamMember::query()
-                            ->select('year')
-                            ->distinct()
-                            ->orderBy('year', 'desc')
-                            ->pluck('year')
-                            ->mapWithKeys(fn ($year) => [(string) $year => (string) $year])
-                            ->toArray();
-                        
-                        // Always include current year in options even if no records exist yet
-                        $currentYear = (string) (int) date('Y');
-                        if (!isset($years[$currentYear])) {
-                            $years[$currentYear] = $currentYear;
-                        }
-                        
-                        return $years;
-                    })
-                    ->query(function ($query, array $data) {
-                        if (!empty($data['value']) && $data['value'] !== null && $data['value'] !== '') {
-                            $query->where('year', (int) $data['value']);
-                        }
-                    })
-                    ->placeholder('All years'),
+                // Years are handled by the tabs on the list page.
+                SelectFilter::make('role')
+                    ->label('Role')
+                    ->options(TeamMember::roleLabels())
+                    ->placeholder('All roles'),
             ])
             ->recordActions([
                 EditAction::make(),

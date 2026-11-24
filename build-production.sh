@@ -1,41 +1,29 @@
 #!/bin/bash
+# Production build for Jaffna ICF.
+# Run on your build machine (or on the server) before / after uploading a release.
 
-# Production Build Script for JAFFNA ICF
-# Run this script to prepare the application for production deployment
+set -e
 
-echo "🚀 Starting production build..."
+echo "Installing PHP dependencies (no dev packages)..."
+composer install --no-dev --optimize-autoloader --no-interaction
 
-# Build assets
-echo "📦 Building assets..."
+echo "Building frontend assets..."
+npm ci
 npm run build
 
-# Optimize Composer autoloader
-echo "⚙️  Optimizing Composer autoloader..."
-composer dump-autoload --optimize
+echo "Running database migrations..."
+php artisan migrate --force
 
-# Cache Laravel configuration
-echo "💾 Caching Laravel configuration..."
-php artisan config:cache
+echo "Linking public storage..."
+php artisan storage:link || true
 
-# Cache routes
-echo "🛣️  Caching routes..."
-php artisan route:cache
+echo "Clearing and rebuilding caches..."
+php artisan optimize:clear
+php artisan filament:optimize
+php artisan optimize          # config + routes + views + events
 
-# Cache views
-echo "👁️  Caching views..."
-php artisan view:cache
-
-# Cache events
-echo "🎯 Caching events..."
-php artisan event:cache
-
-echo "✅ Production build completed successfully!"
 echo ""
-echo "📋 Next steps:"
-echo "1. Update .env file with production settings"
-echo "2. Run migrations: php artisan migrate --force"
-echo "3. Create storage link: php artisan storage:link"
-echo "4. Set proper file permissions on storage and bootstrap/cache"
-echo ""
-echo "See DEPLOYMENT.md for detailed deployment instructions."
-
+echo "Done. Final checks:"
+echo "  1. .env has APP_ENV=production, APP_DEBUG=false, SEO_INDEXABLE=true (live) and a unique APP_KEY"
+echo "  2. storage/ and bootstrap/cache/ are writable by the web server user"
+echo "  3. https://your-domain/up returns 200, /robots.txt and /sitemap.xml look correct"

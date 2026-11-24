@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Partners - ' . ($__site?->site_name ?? 'Jaffna International Cinema Festival'))
+@section('title', 'Partners & Supporters — ' . ($__site?->site_name ?? 'Jaffna ICF'))
 @section('meta_description', 'Our partners and sponsors who make the Jaffna International Cinema Festival possible.')
 
 @section('content')

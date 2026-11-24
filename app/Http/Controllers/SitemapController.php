@@ -2,141 +2,148 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TeamMember;
-use App\Models\Partner;
-use App\Models\Venue;
-use App\Models\ScheduleImage;
-use App\Models\MasterclassImage;
 use App\Models\DebutFilmImage;
-use App\Models\JuryDebutImage;
-use App\Models\JuryShortImage;
-use App\Models\NationalShortImage;
 use App\Models\InternationalShortImage;
+use App\Models\JuryDebutImage;
+use App\Models\JuryNewAsianCurrentImage;
+use App\Models\JuryShortImage;
+use App\Models\MasterclassImage;
+use App\Models\NationalShortImage;
 use App\Models\NewAsianCurrentImage;
 use App\Models\News;
+use App\Models\Partner;
+use App\Models\ScheduleImage;
+use App\Models\TeamMember;
+use App\Models\Venue;
+use App\Support\ArchiveYears;
+use Carbon\CarbonInterface;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class SitemapController extends Controller
 {
+    /**
+     * Programme pages: route suffix => model holding that page's content.
+     *
+     * @var array<string, class-string<\Illuminate\Database\Eloquent\Model>>
+     */
+    private const PROGRAMME = [
+        'schedule' => ScheduleImage::class,
+        'masterclasses' => MasterclassImage::class,
+        'debut-films' => DebutFilmImage::class,
+        'jury-debut-films' => JuryDebutImage::class,
+        'jury-short-films' => JuryShortImage::class,
+        'jury-new-asian-currents' => JuryNewAsianCurrentImage::class,
+        'national-short-films' => NationalShortImage::class,
+        'international-short-films' => InternationalShortImage::class,
+        'new-asian-currents' => NewAsianCurrentImage::class,
+    ];
+
     public function xml(): Response
     {
-        $sitemap = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-        $sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-
-        // Homepage
-        $sitemap .= $this->urlTag(url('/'), now(), '1.0', 'daily');
-
-        // Static pages
-        $staticPages = [
-            ['url' => route('home'), 'priority' => '1.0'],
-            ['url' => route('about.team'), 'priority' => '0.8'],
-            ['url' => route('partners'), 'priority' => '0.7'],
-            ['url' => route('venues'), 'priority' => '0.7'],
-            ['url' => route('gallery'), 'priority' => '0.7'],
-            ['url' => route('news.index'), 'priority' => '0.8'],
-            ['url' => route('contact'), 'priority' => '0.6'],
-        ];
-
-        foreach ($staticPages as $page) {
-            $sitemap .= $this->urlTag($page['url'], now(), $page['priority'], 'monthly');
+        try {
+            $xml = Cache::remember('sitemap.xml.' . md5(url('/')), 3600, fn () => $this->buildXml());
+        } catch (\Throwable) {
+            $xml = $this->buildXml();
         }
 
-        $sitemap .= $this->urlTag(route('news.index'), now(), '0.8', 'daily');
+        return response($xml, 200, [
+            'Content-Type' => 'application/xml; charset=UTF-8',
+            'Cache-Control' => 'public, max-age=3600',
+        ]);
+    }
+
+    private function buildXml(): string
+    {
+        $currentYear = (int) date('Y');
+        $urls = [];
+
+        $add = function (string $loc, ?CarbonInterface $lastmod, string $changefreq, string $priority) use (&$urls): void {
+            $urls[$loc] = compact('loc', 'lastmod', 'changefreq', 'priority');
+        };
+
+        // Core pages
+        $add(route('home'), null, 'weekly', '1.0');
+        $add(route('about.jaffnaicf'), null, 'monthly', '0.8');
+        $add(route('about.team'), $this->latest(TeamMember::class, $currentYear), 'monthly', '0.8');
+        $add(route('venues'), $this->latest(Venue::class, $currentYear), 'monthly', '0.7');
+        $add(route('partners'), $this->latest(Partner::class, $currentYear), 'monthly', '0.7');
+        $add(route('gallery'), null, 'monthly', '0.6');
+        $add(route('contact'), null, 'yearly', '0.6');
+
+        // News
+        $latestNews = News::query()->published()->max('updated_at');
+        $add(route('news.index'), $latestNews ? \Illuminate\Support\Carbon::parse($latestNews) : null, 'weekly', '0.8');
 
         foreach (News::query()->published()->latest('published_at')->get() as $article) {
-            $sitemap .= $this->urlTag(
+            $add(
                 route('news.show', $article),
-                $article->updated_at ?? $article->published_at ?? now(),
-                '0.7',
-                'weekly'
+                $article->updated_at ?? $article->published_at,
+                'monthly',
+                '0.7'
             );
         }
 
-        // Programme pages
-        $programmePages = [
-            route('programme.schedule'),
-            route('programme.masterclasses'),
-            route('programme.debut-films'),
-            route('programme.jury-debut-films'),
-            route('programme.jury-short-films'),
-            route('programme.jury-new-asian-currents'),
-            route('programme.national-short-films'),
-            route('programme.international-short-films'),
-            route('programme.new-asian-currents'),
-        ];
-
-        foreach ($programmePages as $url) {
-            $sitemap .= $this->urlTag($url, now(), '0.8', 'weekly');
+        // Current edition programme pages
+        foreach (self::PROGRAMME as $suffix => $model) {
+            $add(route('programme.' . $suffix), $this->latest($model, $currentYear), 'weekly', '0.8');
         }
 
-        // Archive pages
-        $currentYear = (int) date('Y');
-        $archiveYears = collect();
-        $archiveYears = $archiveYears->merge(\App\Models\TeamMember::select('year')->distinct()->pluck('year'));
-        $archiveYears = $archiveYears->merge(\App\Models\Partner::select('year')->distinct()->pluck('year'));
-        $archiveYears = $archiveYears->merge(\App\Models\Venue::select('year')->distinct()->pluck('year'));
-        $archiveYears = $archiveYears->unique()->sortDesc()->values();
+        // Archive: only pages that actually have content for that year
+        foreach (ArchiveYears::past() as $year) {
+            foreach (['team' => TeamMember::class, 'partners' => Partner::class, 'venues' => Venue::class] as $page => $model) {
+                if ($this->hasContent($model, $year)) {
+                    $add(route('archive.' . $page, $year), $this->latest($model, $year), 'yearly', '0.5');
+                }
+            }
 
-        foreach ($archiveYears as $year) {
-            if ($year != $currentYear) {
-                $sitemap .= $this->urlTag(route('archive.team', $year), now()->subYear(), '0.6', 'yearly');
-                $sitemap .= $this->urlTag(route('archive.partners', $year), now()->subYear(), '0.6', 'yearly');
-                $sitemap .= $this->urlTag(route('archive.venues', $year), now()->subYear(), '0.6', 'yearly');
-                $sitemap .= $this->urlTag(route('archive.programme.schedule', $year), now()->subYear(), '0.6', 'yearly');
-                $sitemap .= $this->urlTag(route('archive.programme.masterclasses', $year), now()->subYear(), '0.6', 'yearly');
-                $sitemap .= $this->urlTag(route('archive.programme.debut-films', $year), now()->subYear(), '0.6', 'yearly');
-                $sitemap .= $this->urlTag(route('archive.programme.jury-debut-films', $year), now()->subYear(), '0.6', 'yearly');
-                $sitemap .= $this->urlTag(route('archive.programme.jury-short-films', $year), now()->subYear(), '0.6', 'yearly');
-                $sitemap .= $this->urlTag(route('archive.programme.jury-new-asian-currents', $year), now()->subYear(), '0.6', 'yearly');
-                $sitemap .= $this->urlTag(route('archive.programme.national-short-films', $year), now()->subYear(), '0.6', 'yearly');
-                $sitemap .= $this->urlTag(route('archive.programme.international-short-films', $year), now()->subYear(), '0.6', 'yearly');
-                $sitemap .= $this->urlTag(route('archive.programme.new-asian-currents', $year), now()->subYear(), '0.6', 'yearly');
+            foreach (self::PROGRAMME as $suffix => $model) {
+                if ($this->hasContent($model, $year)) {
+                    $add(route('archive.programme.' . $suffix, $year), $this->latest($model, $year), 'yearly', '0.5');
+                }
             }
         }
 
-        $sitemap .= '</urlset>';
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
-        return response($sitemap, 200)
-            ->header('Content-Type', 'application/xml');
+        foreach ($urls as $u) {
+            $xml .= "  <url>\n";
+            $xml .= '    <loc>' . htmlspecialchars($u['loc'], ENT_XML1 | ENT_QUOTES, 'UTF-8') . "</loc>\n";
+
+            // Only advertise a modification date when we really know it.
+            if ($u['lastmod']) {
+                $xml .= '    <lastmod>' . $u['lastmod']->toAtomString() . "</lastmod>\n";
+            }
+
+            $xml .= '    <changefreq>' . $u['changefreq'] . "</changefreq>\n";
+            $xml .= '    <priority>' . $u['priority'] . "</priority>\n";
+            $xml .= "  </url>\n";
+        }
+
+        return $xml . '</urlset>' . "\n";
     }
 
-    private function urlTag(string $url, $lastmod, string $priority, string $changefreq): string
+    /** @param class-string<\Illuminate\Database\Eloquent\Model> $model */
+    private function hasContent(string $model, int $year): bool
     {
-        return "  <url>\n" .
-               "    <loc>" . htmlspecialchars($url) . "</loc>\n" .
-               "    <lastmod>" . $lastmod->format('Y-m-d') . "</lastmod>\n" .
-               "    <changefreq>" . $changefreq . "</changefreq>\n" .
-               "    <priority>" . $priority . "</priority>\n" .
-               "  </url>\n";
+        return $model::query()->where('year', $year)->exists();
+    }
+
+    /** @param class-string<\Illuminate\Database\Eloquent\Model> $model */
+    private function latest(string $model, int $year): ?\Illuminate\Support\Carbon
+    {
+        $value = $model::query()->where('year', $year)->max('updated_at');
+
+        return $value ? \Illuminate\Support\Carbon::parse($value) : null;
     }
 
     public function index(): View
     {
-        $currentYear = (int) date('Y');
-        
-        // Get available archive years
-        $archiveYears = collect();
-        $archiveYears = $archiveYears->merge(TeamMember::select('year')->distinct()->pluck('year')->map(fn($y) => (int) $y));
-        $archiveYears = $archiveYears->merge(Partner::select('year')->distinct()->pluck('year')->map(fn($y) => (int) $y));
-        $archiveYears = $archiveYears->merge(Venue::select('year')->distinct()->pluck('year')->map(fn($y) => (int) $y));
-        $archiveYears = $archiveYears->merge(ScheduleImage::select('year')->distinct()->pluck('year')->map(fn($y) => (int) $y));
-        $archiveYears = $archiveYears->merge(MasterclassImage::select('year')->distinct()->pluck('year')->map(fn($y) => (int) $y));
-        $archiveYears = $archiveYears->merge(DebutFilmImage::select('year')->distinct()->pluck('year')->map(fn($y) => (int) $y));
-        $archiveYears = $archiveYears->merge(JuryDebutImage::select('year')->distinct()->pluck('year')->map(fn($y) => (int) $y));
-        $archiveYears = $archiveYears->merge(JuryShortImage::select('year')->distinct()->pluck('year')->map(fn($y) => (int) $y));
-        $archiveYears = $archiveYears->merge(NationalShortImage::select('year')->distinct()->pluck('year')->map(fn($y) => (int) $y));
-        $archiveYears = $archiveYears->merge(InternationalShortImage::select('year')->distinct()->pluck('year')->map(fn($y) => (int) $y));
-        $archiveYears = $archiveYears->merge(NewAsianCurrentImage::select('year')->distinct()->pluck('year')->map(fn($y) => (int) $y));
-        $archiveYears = $archiveYears->unique()->sortDesc()->values();
-        
-        $pastYears = $archiveYears->filter(fn($y) => $y !== $currentYear)->values();
-
         return view('sitemap', [
-            'currentYear' => $currentYear,
-            'pastYears' => $pastYears,
+            'currentYear' => (int) date('Y'),
+            'pastYears' => ArchiveYears::past(),
         ]);
     }
 }
-

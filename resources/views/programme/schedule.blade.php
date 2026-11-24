@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'PROGRAMME — SCHEDULE')
+@section('title', 'Festival Schedule — ' . ($__site?->site_name ?? 'Jaffna ICF'))
 @section('meta_description', 'Festival schedule image gallery for the current edition of the Jaffna International Cinema Festival.')
 
 @section('content')

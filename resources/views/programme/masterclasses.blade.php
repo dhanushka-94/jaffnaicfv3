@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'PROGRAMME — MASTER CLASSES')
+@section('title', 'Master Classes — ' . ($__site?->site_name ?? 'Jaffna ICF'))
 @section('meta_description', 'Master Classes image gallery for the current edition of the Jaffna International Cinema Festival.')
 
 @section('content')

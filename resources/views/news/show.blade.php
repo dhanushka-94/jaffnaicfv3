@@ -143,7 +143,7 @@
 		@endif
 
 		<div class="mt-10 max-w-3xl mx-auto news-content" data-aos="fade-up" data-aos-delay="100" itemprop="articleBody">
-			{!! $article->content !!}
+			{!! \App\Support\HtmlSanitizer::clean($article->content) !!}
 		</div>
 
 		<div itemprop="author" itemscope itemtype="https://schema.org/Organization" class="sr-only">

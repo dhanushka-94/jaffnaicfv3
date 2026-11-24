@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'VENUES — Jaffna ICF')
+@section('title', 'Festival Venues — ' . ($__site?->site_name ?? 'Jaffna ICF'))
 @section('meta_description', 'Festival venues in Jaffna including cinemas, auditoriums and cultural centres.')
 
 @section('content')
@@ -45,7 +45,7 @@
 						@endif
 						@if($venue->map_iframe)
 							<div class="mt-4 map-embed rounded-lg overflow-hidden">
-								{!! $venue->map_iframe !!}
+								{!! \App\Support\HtmlSanitizer::mapEmbed($venue->map_iframe) !!}
 							</div>
 						@endif
 					</div>

@@ -3,6 +3,7 @@ import 'aos/dist/aos.css';
 import 'swiper/swiper-bundle.css';
 import AOS from 'aos';
 import Swiper from 'swiper';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import Alpine from 'alpinejs';
 
 Alpine.data('programmeGallery', (images = []) => ({
@@ -63,6 +64,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	});
 	// eslint-disable-next-line no-new
 	new Swiper('.hero-swiper', {
+		modules: [Autoplay, Navigation, Pagination],
 		loop: true,
 		autoHeight: true,
 		autoplay: { delay: 5000 },

@@ -13,9 +13,14 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ApplicationDownloadController;
+use App\Http\Controllers\RobotsController;
+
+Route::get('/robots.txt', RobotsController::class)->name('robots');
+Route::get('/sitemap.xml', [SitemapController::class, 'xml'])->name('sitemap.xml');
+
+Route::middleware('throttle:public')->group(function () {
 
 Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap');
-Route::get('/sitemap.xml', [SitemapController::class, 'xml'])->name('sitemap.xml');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
@@ -26,7 +31,7 @@ Route::get('/partners', [PartnersController::class, 'index'])->name('partners');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{news}', [NewsController::class, 'show'])->name('news.show');
-Route::get('/application/download', ApplicationDownloadController::class)->name('application.download');
+Route::get('/application/download', ApplicationDownloadController::class)->middleware('throttle:downloads')->name('application.download');
 
 // Programme pages (current year image galleries)
 Route::prefix('programme')->name('programme.')->group(function () {
@@ -61,4 +66,6 @@ Route::prefix('archive')->name('archive.')->group(function () {
         Route::get('/international-short-films', [ArchiveController::class, 'internationalShorts'])->name('international-short-films');
         Route::get('/new-asian-currents', [ArchiveController::class, 'newAsianCurrents'])->name('new-asian-currents');
     });
+});
+
 });

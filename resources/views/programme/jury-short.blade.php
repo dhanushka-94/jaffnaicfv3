@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'PROGRAMME — JURY – SHORT FILMS')
+@section('title', 'Jury – Short Films — ' . ($__site?->site_name ?? 'Jaffna ICF'))
 @section('meta_description', 'Jury – Short Films image gallery for the current edition of the Jaffna International Cinema Festival.')
 
 @section('content')

@@ -38,7 +38,7 @@
 						@endif
 						@if($venue->map_iframe)
 							<div class="mt-4 map-embed rounded-lg overflow-hidden">
-								{!! $venue->map_iframe !!}
+								{!! \App\Support\HtmlSanitizer::mapEmbed($venue->map_iframe) !!}
 							</div>
 						@endif
 					</div>
