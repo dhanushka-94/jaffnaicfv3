@@ -61,7 +61,7 @@
 
 			{{-- Partners without category --}}
 			@php
-				$uncategorizedPartners = \App\Models\Partner::whereNull('category_id')->orderBy('sort_order')->get();
+				$uncategorizedPartners = \App\Models\Partner::whereNull('category_id')->where('year', (int) date('Y'))->orderBy('sort_order')->get();
 			@endphp
 
 			@if($uncategorizedPartners->count() > 0)

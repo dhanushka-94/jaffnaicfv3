@@ -6,6 +6,7 @@ use App\Models\Film;
 use App\Models\FilmStripImage;
 use App\Models\News;
 use App\Models\Partner;
+use App\Models\PartnerCategory;
 use App\Models\Review;
 use App\Models\Slider;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,10 @@ class HomeController extends Controller
         $featuredFilms = Film::query()->where('is_featured', true)->latest()->take(8)->get();
         $partners = Partner::query()
             ->where('year', $currentYear)
+            ->orderByRaw('category_id IS NULL')
+            ->orderBy(
+                PartnerCategory::query()->select('sort_order')->whereColumn('partner_categories.id', 'partners.category_id')
+            )
             ->orderBy('sort_order')
             ->take(12)
             ->get();

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\PartnerResource\Tables;
 
+use App\Models\Partner;
+use App\Models\PartnerCategory;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -14,19 +16,46 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class PartnersTable
 {
     public static function configure(Table $table): Table
     {
         return $table
+            // While dragging, Filament sorts by sort_order only. Keep each category
+            // together, in the same order as the public Partners page, so a drag
+            // changes the order of logos inside their category.
+            ->modifyQueryUsing(fn (Builder $query) => $table->isReordering()
+                ? $query->orderByRaw('category_id IS NULL')->orderBy(
+                    PartnerCategory::query()->select('sort_order')->whereColumn('partner_categories.id', 'partners.category_id')
+                )
+                : $query)
             ->reorderable('sort_order')
+            ->groups([
+                Group::make('category.name')
+                    ->label('Category')
+                    ->collapsible()
+                    ->titlePrefixedWithLabel(false)
+                    ->orderQueryUsing(fn (Builder $query, string $direction) => $query
+                        ->orderByRaw('category_id IS NULL')
+                        ->orderBy(
+                            PartnerCategory::query()->select('sort_order')->whereColumn('partner_categories.id', 'partners.category_id'),
+                            $direction === 'desc' ? 'desc' : 'asc',
+                        ))
+                    ->getTitleFromRecordUsing(fn (Partner $record): string => $record->category?->name ?? 'No category'),
+            ])
+            ->defaultGroup('category.name')
+            ->groupingSettingsHidden()
+            ->defaultSort('sort_order')
+            ->paginationPageOptions([25, 50, 100])
+            ->defaultPaginationPageOption(50)
             ->columns([
-                TextColumn::make('year')
-                    ->label('Year')
-                    ->sortable()
-                    ->searchable(),
+                TextColumn::make('sort_order')
+                    ->label('#')
+                    ->sortable(),
                 ImageColumn::make('logo_path')
                     ->label('Logo')
                     ->disk('public')
@@ -36,35 +65,28 @@ class PartnersTable
                     ->sortable(),
                 TextColumn::make('category.name')
                     ->label('Category')
-                    ->searchable()
-                    ->sortable(),
+                    ->badge()
+                    ->searchable(),
+                TextColumn::make('year')
+                    ->label('Year')
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('url')
                     ->label('Website')
                     ->url(fn ($record) => $record->url)
                     ->openUrlInNewTab()
                     ->toggleable(),
-                TextColumn::make('sort_order')
-                    ->label('Order')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('year', 'desc')
             ->filters([
-                SelectFilter::make('year')
-                    ->label('Year')
-                    ->options(function () {
-                        return \App\Models\Partner::query()
-                            ->select('year')
-                            ->distinct()
-                            ->orderBy('year', 'desc')
-                            ->pluck('year', 'year')
-                            ->toArray();
-                    })
-                    ->default(date('Y')),
+                // Years are handled by the tabs on the list page.
+                SelectFilter::make('category_id')
+                    ->label('Category')
+                    ->options(fn () => PartnerCategory::query()->orderBy('sort_order')->pluck('name', 'id'))
+                    ->placeholder('All categories'),
             ])
             ->recordActions([
                 EditAction::make(),

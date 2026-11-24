@@ -16,7 +16,13 @@ class PartnerCategoriesTable
     {
         return $table
             ->reorderable('sort_order')
+            ->defaultSort('sort_order')
+            ->paginationPageOptions([25, 50, 100])
+            ->defaultPaginationPageOption(50)
             ->columns([
+                TextColumn::make('sort_order')
+                    ->label('#')
+                    ->sortable(),
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
@@ -24,16 +30,11 @@ class PartnerCategoriesTable
                     ->counts('partners')
                     ->label('Partners')
                     ->sortable(),
-                TextColumn::make('sort_order')
-                    ->label('Order')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('sort_order')
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
