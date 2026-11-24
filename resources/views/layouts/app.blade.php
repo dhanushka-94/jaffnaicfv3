@@ -86,10 +86,10 @@
 		<header x-data="{ scrolled: false, open: false }"
 			x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 10 })"
 			:class="scrolled ? 'bg-secondary shadow-sm fixed top-0 inset-x-0 z-50 border-b border-black/5' : 'bg-secondary fixed top-0 inset-x-0 z-50 border-b border-black/5'">
-			<div class="container-full flex items-center justify-between gap-3 py-3 xl:py-4">
-				<a href="{{ route('home') }}" class="flex shrink-0 items-center gap-3">
+			<div class="container-full flex items-center justify-between gap-3 py-2 xl:py-4">
+				<a href="{{ route('home') }}" class="flex min-w-0 items-center gap-3" aria-label="{{ $__site?->site_name ?? 'JaffnaICF' }} home">
 					@if($__site?->logo_path)
-						<img src="{{ asset('storage/' . $__site->logo_path) }}" alt="{{ $__site->site_name }}" class="h-14 sm:h-16 xl:h-20 w-auto shrink-0">
+						<img src="{{ asset('storage/' . $__site->logo_path) }}" alt="{{ $__site->site_name }}" class="h-16 sm:h-[4.5rem] xl:h-20 w-auto max-w-[62vw] sm:max-w-[16rem] xl:max-w-[20rem] object-contain object-left">
 					@else
 						<div class="w-12 h-12 sm:w-14 sm:h-14 xl:w-16 xl:h-16 rounded-full bg-primary"></div>
 					@endif
@@ -316,15 +316,15 @@
 		<footer class="mt-20 bg-dark text-white">
 			<div class="container-full py-10 sm:py-14 grid gap-10 sm:grid-cols-2 xl:grid-cols-4">
 				<div>
-					<div class="flex items-center gap-3">
+					<div class="flex items-center gap-3 sm:gap-4">
 						@if($__site?->footer_logo_path)
-							<img src="{{ asset('storage/' . $__site->footer_logo_path) }}" alt="{{ $__site->site_name }}" class="h-12 w-auto max-w-[14rem] object-contain">
+							<img src="{{ asset('storage/' . $__site->footer_logo_path) }}" alt="{{ $__site->site_name }}" class="h-20 sm:h-24 w-auto max-w-[9rem] sm:max-w-[12rem] shrink-0 rounded-lg object-contain">
 						@elseif($__site?->logo_path)
-							<img src="{{ asset('storage/' . $__site->logo_path) }}" alt="{{ $__site->site_name }}" class="h-12 w-auto max-w-[14rem] object-contain">
+							<img src="{{ asset('storage/' . $__site->logo_path) }}" alt="{{ $__site->site_name }}" class="h-20 sm:h-24 w-auto max-w-[9rem] sm:max-w-[12rem] shrink-0 rounded-lg object-contain">
 						@else
-							<div class="w-9 h-9 rounded-full bg-primary"></div>
+							<div class="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full bg-primary"></div>
 						@endif
-						<span class="font-display font-bold text-xl">{{ $__site?->site_name ?? 'JaffnaICF' }}</span>
+						<span class="min-w-0 font-display font-bold text-lg sm:text-xl leading-tight">{{ $__site?->site_name ?? 'JaffnaICF' }}</span>
 					</div>
 					<p class="mt-4 text-white/70">A celebration of cinema, culture, and community in Jaffna.</p>
 					<div class="mt-4 inline-flex items-center gap-3 rounded-full border border-primary/60 bg-primary/10 px-4 py-2">
