@@ -47,13 +47,13 @@
 						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z"/></svg>
 					</div>
 					<div>
-						<h3 class="text-xl font-semibold">Kanaka Abeygunawardana</h3>
+						<h3 class="text-xl font-semibold">Rishi Selvam</h3>
 						<p class="text-dark/60">Festival Manager</p>
 					</div>
 				</div>
 				<div class="mt-5 space-y-2">
-					<div class="text-dark/80"><a href="mailto:kanaka.abey@gmail.com" class="hover:text-primary">kanaka.abey@gmail.com</a></div>
-					<div class="text-dark/80"><a href="tel:+94777320398" class="hover:text-primary">+94 77 732 0398</a></div>
+					<div class="text-dark/80"><a href="mailto:rishi.murgi@gmail.com" class="hover:text-primary">rishi.murgi@gmail.com</a></div>
+					<div class="text-dark/80"><a href="tel:+94775154830" class="hover:text-primary">+94 77 515 4830</a></div>
 				</div>
 			</div>
 		</div>
