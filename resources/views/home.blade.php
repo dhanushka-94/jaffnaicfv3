@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', ($__site?->site_name ?? 'Jaffna International Cinema Festival') . ' — Celebrating Cinema, Culture & Community')
-@section('meta_description', 'Jaffna International Cinema Festival (Jaffna ICF) celebrates cinema, culture, and community with diverse film programmes, master classes, screenings, and cultural events in Jaffna, Sri Lanka.')
+@section('meta_description', 'Jaffna International Cinema Festival (JaffnaICF) celebrates cinema, culture, and community with diverse film programmes, master classes, screenings, and cultural events in Jaffna, Sri Lanka.')
 
 @section('content')
 	<section class="hero-under-header relative w-full">
@@ -84,9 +84,9 @@
 	<section class="container-full py-16 md:py-20">
 		<div class="grid md:grid-cols-2 gap-12 items-center">
 			<div>
-				<h2 class="section-title">About Jaffna ICF</h2>
+				<h2 class="section-title">JaffnaICF</h2>
 				<p class="mt-6 text-lg text-dark/80 leading-relaxed">
-					The Jaffna International Cinema Festival (Jaffna ICF) is a celebration of cinema, culture, and community. Since its inception, the festival has been dedicated to showcasing diverse voices from South Asia and beyond, bringing together filmmakers, artists, and audiences in the historic city of Jaffna.
+					The Jaffna International Cinema Festival (JaffnaICF) is a celebration of cinema, culture, and community. Since its inception, the festival has been dedicated to showcasing diverse voices from South Asia and beyond, bringing together filmmakers, artists, and audiences in the historic city of Jaffna.
 				</p>
 				<p class="mt-4 text-lg text-dark/80 leading-relaxed">
 					We aim to inspire, educate, and connect audiences through the power of cinema, fostering a vibrant film culture that bridges communities and celebrates storytelling in all its forms
@@ -252,6 +252,31 @@
 	</section>
 	@endif
 
+	<!-- Facebook page -->
+	<section class="container-full py-16 md:py-20" aria-label="JaffnaICF on Facebook">
+		<div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+			<div data-aos="fade-up">
+				<h2 class="section-title">On Facebook</h2>
+				<p class="mt-6 text-lg text-dark/80 leading-relaxed">
+					Follow JaffnaICF for festival news, photographs, and announcements
+				</p>
+				<a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" class="mt-8 inline-flex items-center justify-center gap-2 rounded-md bg-[#0866FF] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#0654d4] md:text-base">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56v1.88h2.77l-.44 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
+					Follow JaffnaICF
+				</a>
+			</div>
+			<div class="mx-auto w-full max-w-lg overflow-hidden rounded-2xl border border-black/5 bg-white shadow-soft lg:mx-0 lg:ml-auto" data-aos="fade-up" data-aos-delay="100">
+				<iframe
+					title="JaffnaICF Facebook page"
+					src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FJaffnaICF&show_posts=true&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false"
+					class="block h-[480px] w-full border-0 sm:h-[640px] lg:h-[700px]"
+					allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+					allowfullscreen
+				></iframe>
+			</div>
+		</div>
+	</section>
+
 	<!-- Call to Action Section -->
 	<section class="container-full py-16 md:py-20">
 		<div class="bg-gradient-to-br from-primary via-primary/95 to-accent rounded-2xl p-8 md:p-12 text-white text-center" data-aos="fade-up">
@@ -279,7 +304,7 @@
 				<a href="{{ route('contact') }}" class="btn-ghost text-white hover:text-white/80 text-sm md:text-base">
 					Contact Us
 				</a>
-				<a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-4 py-2 md:px-6 md:py-3 text-sm md:text-base rounded-md bg-white/15 border border-white/40 text-white hover:bg-white hover:text-primary transition font-medium">
+				<a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-4 py-2 md:px-6 md:py-3 text-sm md:text-base rounded-md bg-[#0866FF] text-white hover:bg-[#0654d4] transition font-medium">
 					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56v1.88h2.77l-.44 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
 					Follow us on Facebook
 				</a>

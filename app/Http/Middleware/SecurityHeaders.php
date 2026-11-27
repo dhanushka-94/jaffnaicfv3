@@ -69,7 +69,7 @@ class SecurityHeaders
             "img-src 'self' data: blob: https:",
             "connect-src 'self'",
             "media-src 'self'",
-            "frame-src https://www.google.com https://maps.google.com",
+            "frame-src https://www.google.com https://maps.google.com https://www.facebook.com",
             "object-src 'none'",
             "base-uri 'self'",
             "form-action 'self'",

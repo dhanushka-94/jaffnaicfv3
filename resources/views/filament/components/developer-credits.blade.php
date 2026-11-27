@@ -2,7 +2,7 @@
 	<footer class="developer-credits-sticky">
 		<div class="developer-credits-sticky-inner">
 			<div class="developer-credits-sticky-left">
-				<span>© {{ date('Y') }} {{ config('app.name', 'Jaffna ICF') }}</span>
+				<span>© {{ date('Y') }} {{ config('app.name', 'JaffnaICF') }}</span>
 			</div>
 			<div class="developer-credits-sticky-right">
 				<span class="developer-credits-sticky-label">Website design &amp; development by</span>

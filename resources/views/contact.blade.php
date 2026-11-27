@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us — ' . ($__site?->site_name ?? 'Jaffna ICF'))
-@section('meta_description', 'Contact the Jaffna International Cinema Festival (Jaffna ICF). General info, key contacts, and office addresses.')
+@section('title', 'Contact Us — ' . ($__site?->site_name ?? 'JaffnaICF'))
+@section('meta_description', 'Contact the Jaffna International Cinema Festival (JaffnaICF). General info, key contacts, and office addresses.')
 
 @section('content')
 	<section class="container-full py-16">
@@ -20,7 +20,7 @@
 				<div class="mt-5 space-y-2">
 					<div class="text-dark/80"><a href="mailto:jaffnaicf@gmail.com" class="hover:text-primary">jaffnaicf@gmail.com</a></div>
 					<div class="text-dark/80"><a href="tel:+94112826027" class="hover:text-primary">+94 11 282 6027</a></div>
-					<div class="text-dark/80"><a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" class="hover:text-primary">facebook.com/JaffnaICF</a></div>
+					<div class="text-dark/80"><a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-[#0866FF] hover:text-[#0654d4]"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56v1.88h2.77l-.44 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>facebook.com/JaffnaICF</a></div>
 				</div>
 			</div>
 
@@ -72,7 +72,7 @@
 					<h3 class="text-xl font-semibold">Coordinating Office</h3>
 				</div>
 				<address class="not-italic mt-5 text-dark/80 leading-relaxed">
-					Jaffna ICF,<br>
+					JaffnaICF,<br>
 					No. 71/2, Kachcheri–Nallur Road,<br>
 					Jaffna 40000,<br>
 					Sri Lanka.

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Jury – New Asian Currents (Documentary) — ' . ($__site?->site_name ?? 'Jaffna ICF'))
+@section('title', 'Jury – New Asian Currents (Documentary) — ' . ($__site?->site_name ?? 'JaffnaICF'))
 @section('meta_description', 'Jury for New Asian Currents – Documentary at the Jaffna International Cinema Festival.')
 
 @section('content')

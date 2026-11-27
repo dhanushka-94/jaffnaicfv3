@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Festival Venues — ' . ($__site?->site_name ?? 'Jaffna ICF'))
+@section('title', 'Festival Venues — ' . ($__site?->site_name ?? 'JaffnaICF'))
 @section('meta_description', 'Festival venues in Jaffna including cinemas, auditoriums and cultural centres.')
 
 @section('content')

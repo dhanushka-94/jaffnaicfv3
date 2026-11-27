@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="robots" content="noindex, nofollow">
-	<title>@yield('code') — @yield('title') | Jaffna ICF</title>
+	<title>@yield('code') — @yield('title') | JaffnaICF</title>
 	<style>
 		*{box-sizing:border-box}
 		html,body{height:100%;margin:0}

@@ -31,7 +31,7 @@ return [
 
     'site_name' => 'Jaffna International Cinema Festival',
 
-    'description' => 'Jaffna International Cinema Festival (Jaffna ICF) celebrates cinema, culture, and community with programmes, master classes, and screenings.',
+    'description' => 'Jaffna International Cinema Festival (JaffnaICF) celebrates cinema, culture, and community with programmes, master classes, and screenings.',
 
     // Used when a page has no image of its own and no site logo is uploaded.
     'default_image' => 'images/og-default.jpg',

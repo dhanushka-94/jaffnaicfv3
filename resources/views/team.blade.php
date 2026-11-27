@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Festival Team — ' . ($__site?->site_name ?? 'Jaffna ICF'))
+@section('title', 'Festival Team — ' . ($__site?->site_name ?? 'JaffnaICF'))
 @section('meta_description', 'Meet the team behind the Jaffna International Cinema Festival — director, consultants, advisory committee, management, coordinators, and festival team.')
 
 @section('content')
@@ -48,50 +48,13 @@
 						<div class="bg-white rounded-xl p-6 md:p-8 shadow-soft">
 							<h2 class="text-2xl md:text-3xl font-bold">{{ $heading }}</h2>
 
-							@if($role === 'Director' || $role === 'Manager')
+							<div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
 								@foreach($members as $person)
-									<div class="mt-4">
-										<div class="text-lg font-semibold">{{ $person->name }}</div>
-										@if($person->role)
-										<div class="text-xs mt-1 inline-flex items-center gap-2">
-											<span class="px-2 py-1 rounded bg-primary/10 text-primary uppercase tracking-wide">{{ $person->role }}</span>
-										</div>
-										@endif
+									<div class="p-4 rounded-lg border border-black/5 hover:shadow-soft transition">
+										<div class="font-semibold break-words">{{ $person->name }}</div>
 									</div>
 								@endforeach
-							@elseif($role === 'Consultant')
-								<div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-									@foreach($members as $person)
-										<div class="p-4 rounded-lg border border-black/5 hover:shadow-soft transition">
-											<div class="font-semibold">{{ $person->name }}</div>
-											<div class="text-xs mt-1 text-dark/60 uppercase tracking-wide">Consultant</div>
-										</div>
-									@endforeach
-								</div>
-							@elseif($role === 'Advisory Committee')
-								<ul class="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-									@foreach($members as $person)
-										<li>{{ $person->name }}</li>
-									@endforeach
-								</ul>
-							@elseif($role === 'Festival Team')
-								<ul class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-									@foreach($members as $person)
-										<li class="p-3 rounded-lg border border-black/5">{{ $person->name }}</li>
-									@endforeach
-								</ul>
-							@elseif($role === 'Coordinator — Colombo' || $role === 'Coordinator — Jaffna')
-								@foreach($members as $person)
-									<div class="mt-4 p-4 rounded-lg border border-black/5 w-full sm:w-auto">
-										<div class="font-semibold">{{ $person->name }}</div>
-										<div class="text-xs mt-1 text-dark/60 uppercase tracking-wide">{{ $person->role }}</div>
-									</div>
-								@endforeach
-							@else
-								@foreach($members as $person)
-									<div class="mt-4 p-4 rounded-lg border border-black/5 w-full sm:w-auto font-medium">{{ $person->name }}</div>
-								@endforeach
-							@endif
+							</div>
 						</div>
 					@endif
 				@endforeach

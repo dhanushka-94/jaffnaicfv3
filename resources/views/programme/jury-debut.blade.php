@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Jury – Debut Films — ' . ($__site?->site_name ?? 'Jaffna ICF'))
+@section('title', 'Jury – Debut Films — ' . ($__site?->site_name ?? 'JaffnaICF'))
 @section('meta_description', 'Jury – Debut Films image gallery for the current edition of the Jaffna International Cinema Festival.')
 
 @section('content')

@@ -13,7 +13,7 @@
 				: ($__site?->logo_path ? asset('storage/' . $__site->logo_path) : null);
 		@endphp
 		<title>@yield('title', $__site?->site_name ?? 'Jaffna International Cinema Festival')</title>
-		<meta name="description" content="@yield('meta_description', 'Jaffna International Cinema Festival (Jaffna ICF) celebrates cinema, culture, and community with programmes, master classes, and screenings.')">
+		<meta name="description" content="@yield('meta_description', 'Jaffna International Cinema Festival (JaffnaICF) celebrates cinema, culture, and community with programmes, master classes, and screenings.')">
 		@hasSection('meta_keywords')
 			<meta name="keywords" content="@yield('meta_keywords')">
 		@endif
@@ -27,7 +27,7 @@
 		<meta property="og:site_name" content="{{ $__site?->site_name ?? 'Jaffna International Cinema Festival' }}">
 		<meta property="og:type" content="@yield('og_type', 'website')">
 		<meta property="og:title" content="@yield('og_title', trim($__env->yieldContent('title', 'Jaffna International Cinema Festival')))">
-		<meta property="og:description" content="@yield('og_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (Jaffna ICF) celebrates cinema, culture, and community with programmes, master classes, and screenings.'))">
+		<meta property="og:description" content="@yield('og_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (JaffnaICF) celebrates cinema, culture, and community with programmes, master classes, and screenings.'))">
 		<meta property="og:url" content="@yield('og_url', url()->current())">
 		<meta property="og:image" content="@yield('og_image', $seoDefaultImage)">
 		<meta property="og:image:alt" content="@yield('og_image_alt', $__site?->site_name ?? 'Jaffna International Cinema Festival')">
@@ -43,7 +43,7 @@
 
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name="twitter:title" content="@yield('twitter_title', trim($__env->yieldContent('title', 'Jaffna International Cinema Festival')))">
-		<meta name="twitter:description" content="@yield('twitter_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (Jaffna ICF) celebrates cinema, culture, and community with programmes, master classes, and screenings.'))">
+		<meta name="twitter:description" content="@yield('twitter_description', $__env->yieldContent('meta_description', 'Jaffna International Cinema Festival (JaffnaICF) celebrates cinema, culture, and community with programmes, master classes, and screenings.'))">
 		<meta name="twitter:image" content="@yield('twitter_image', $seoDefaultImage)">
 		<meta name="twitter:image:alt" content="@yield('twitter_image_alt', $__site?->site_name ?? 'Jaffna International Cinema Festival')">
 
@@ -57,7 +57,7 @@
 						'@type' => 'Organization',
 						'@id' => url('/') . '#organization',
 						'name' => $siteName,
-						'alternateName' => ['Jaffna ICF', 'JaffnaICF'],
+						'alternateName' => ['JaffnaICF'],
 						'url' => url('/'),
 						'logo' => $orgLogo ? ['@type' => 'ImageObject', 'url' => $orgLogo] : null,
 						'sameAs' => config('seo.social'),
@@ -101,7 +101,7 @@
 			x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 10 })"
 			:class="scrolled ? 'bg-secondary shadow-sm fixed top-0 inset-x-0 z-50 border-b border-black/5' : 'bg-secondary fixed top-0 inset-x-0 z-50 border-b border-black/5'">
 			<div class="container-full flex items-center justify-between gap-3 py-2 xl:py-4">
-				<a href="{{ route('home') }}" class="flex min-w-0 items-center gap-3" aria-label="{{ $__site?->site_name ?? 'Jaffna ICF' }} home">
+				<a href="{{ route('home') }}" class="flex min-w-0 items-center gap-3" aria-label="{{ $__site?->site_name ?? 'JaffnaICF' }} home">
 					@if($__site?->logo_path)
 						<img src="{{ asset('storage/' . $__site->logo_path) }}" alt="{{ $__site->site_name }}" class="h-16 sm:h-[4.5rem] xl:h-20 w-auto max-w-[62vw] sm:max-w-[16rem] xl:max-w-[20rem] object-contain object-left">
 					@else
@@ -156,7 +156,7 @@
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
 						</button>
 						<div x-show="about" x-transition x-cloak class="absolute left-0 z-50 mt-3 w-56 max-w-[calc(100vw-2rem)] bg-white shadow-lg rounded-md border p-2">
-							<a href="{{ route('about.jaffnaicf') }}" class="block px-3 py-2 rounded hover:bg-secondary tracking-wider text-sm normal-case">Jaffna ICF</a>
+							<a href="{{ route('about.jaffnaicf') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">JAFFNAICF</a>
 							<a href="{{ route('about.team') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Team</a>
 							<a href="{{ route('gallery') }}" class="block px-3 py-2 rounded hover:bg-secondary uppercase tracking-wider text-sm">Image Gallery</a>
 						</div>
@@ -224,7 +224,7 @@
 					</div>
 
 					<a href="{{ route('contact') }}" class="hover:text-primary uppercase tracking-wide text-[13px] 2xl:text-[15px]">Contact</a>
-					<a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" aria-label="Jaffna ICF on Facebook" title="Facebook" class="w-9 h-9 grid place-items-center rounded-full text-primary bg-primary/10 hover:bg-primary hover:text-white transition">
+					<a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" aria-label="JaffnaICF on Facebook" title="Facebook" class="w-9 h-9 grid place-items-center rounded-full bg-[#0866FF] text-white hover:bg-[#0654d4] transition">
 						<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56v1.88h2.77l-.44 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
 					</a>
 					@if($__app?->application_open && $__app?->application_pdf_path)
@@ -291,7 +291,7 @@
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" clip-rule="evenodd"/></svg>
 						</button>
 						<div x-show="about" x-transition class="pl-4 grid gap-2">
-							<a href="{{ route('about.jaffnaicf') }}" class="py-1 tracking-wide normal-case">Jaffna ICF</a>
+							<a href="{{ route('about.jaffnaicf') }}" class="py-1 uppercase tracking-wide">JAFFNAICF</a>
 							<a href="{{ route('about.team') }}" class="py-1 uppercase tracking-wide">Team</a>
 							<a href="{{ route('gallery') }}" class="py-1 uppercase tracking-wide">Image Gallery</a>
 						</div>
@@ -345,8 +345,8 @@
 					</div>
 
 					<a href="{{ route('contact') }}" class="py-2 uppercase tracking-wide">Contact</a>
-					<a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" class="py-2 inline-flex items-center gap-2 uppercase tracking-wide">
-						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56v1.88h2.77l-.44 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
+					<a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" class="py-2 inline-flex items-center gap-2 uppercase tracking-wide text-[#0866FF]">
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56v1.88h2.77l-.44 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
 						Facebook
 					</a>
 					
@@ -385,7 +385,7 @@
 						@else
 							<div class="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full bg-primary"></div>
 						@endif
-						<span class="min-w-0 font-display font-bold text-lg sm:text-xl leading-tight">{{ $__site?->site_name ?? 'Jaffna ICF' }}</span>
+						<span class="min-w-0 font-display font-bold text-lg sm:text-xl leading-tight">{{ $__site?->site_name ?? 'JaffnaICF' }}</span>
 					</div>
 					<p class="mt-4 text-white/70">A celebration of cinema, culture, and community in Jaffna</p>
 					<div class="mt-4 inline-flex items-center gap-3 rounded-full border border-primary/60 bg-primary/10 px-4 py-2">
@@ -393,7 +393,7 @@
 						<span class="font-semibold text-primary text-sm">Agenda 14</span>
 					</div>
 					<div class="mt-6 flex gap-3">
-						<a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" aria-label="Facebook" class="w-10 h-10 grid place-items-center rounded-full bg-primary/20 text-white hover:bg-primary transition">
+						<a href="https://www.facebook.com/JaffnaICF" target="_blank" rel="noopener" aria-label="Facebook" class="w-10 h-10 grid place-items-center rounded-full bg-[#0866FF] text-white hover:bg-[#0654d4] transition">
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56v1.88h2.77l-.44 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
 						</a>
 					</div>

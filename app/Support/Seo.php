@@ -20,7 +20,7 @@ class Seo
     ];
 
     private const PAGES = [
-        'about.jaffnaicf' => 'About Jaffna ICF',
+        'about.jaffnaicf' => 'JAFFNAICF',
         'about.team' => 'Team',
         'venues' => 'Venues',
         'partners' => 'Partners',

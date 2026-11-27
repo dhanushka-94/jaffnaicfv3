@@ -78,7 +78,7 @@
 			</nav>
 			<h1 class="section-title">News</h1>
 			<p class="mt-4 text-dark/70 text-lg">
-				Announcements, festival updates, and stories from Jaffna ICF
+				Announcements, festival updates, and stories from JaffnaICF
 			</p>
 		</div>
 
