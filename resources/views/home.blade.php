@@ -355,17 +355,17 @@
 			@foreach($partnerGroups as $group)
 				<div data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
 					@if($group['name'])
-						<h3 class="mb-6 text-lg font-display font-bold text-primary md:text-2xl">{{ $group['name'] }}</h3>
+						<h3 class="mb-6 text-center text-lg font-display font-bold text-primary md:text-2xl">{{ $group['name'] }}</h3>
 					@endif
-					<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center">
+					<div class="flex flex-wrap items-center justify-center gap-6">
 						@foreach($group['partners'] as $partner)
 							@if($partner->logo_path && file_exists(storage_path('app/public/' . $partner->logo_path)))
-								<a href="{{ $partner->url ?? '#' }}" target="{{ $partner->url ? '_blank' : '_self' }}" rel="noopener" class="bg-white rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-lg transition-all duration-300">
+								<a href="{{ $partner->url ?? '#' }}" target="{{ $partner->url ? '_blank' : '_self' }}" rel="noopener" class="flex h-24 w-[calc((100%-1.5rem)/2)] min-w-0 items-center justify-center rounded-lg bg-white p-4 transition-all duration-300 hover:shadow-lg sm:w-[calc((100%-3rem)/3)] md:w-[calc((100%-4.5rem)/4)] lg:w-[calc((100%-7.5rem)/6)]">
 									<img src="{{ asset('storage/' . $partner->logo_path) }}" alt="{{ $partner->name }}" class="max-h-16 max-w-full object-contain" />
 								</a>
 							@else
-								<div class="bg-white rounded-lg p-4 flex items-center justify-center h-24">
-									<span class="text-dark/50 text-sm text-center">{{ $partner->name }}</span>
+								<div class="flex h-24 w-[calc((100%-1.5rem)/2)] min-w-0 items-center justify-center rounded-lg bg-white p-4 sm:w-[calc((100%-3rem)/3)] md:w-[calc((100%-4.5rem)/4)] lg:w-[calc((100%-7.5rem)/6)]">
+									<span class="text-center text-sm text-dark/50">{{ $partner->name }}</span>
 								</div>
 							@endif
 						@endforeach
