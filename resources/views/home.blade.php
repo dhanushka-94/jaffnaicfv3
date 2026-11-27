@@ -348,20 +348,29 @@
 	@endif
 
 	<!-- Partners Section -->
-	@if($partners->isNotEmpty())
+	@if($partnerGroups->isNotEmpty())
 	<section class="container-full py-16 md:py-20">
 		<h2 class="section-title text-center mb-12" data-aos="fade-up">Our Partners</h2>
-		<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center" data-aos="fade-up" data-aos-delay="100">
-			@foreach($partners as $partner)
-				@if($partner->logo_path && file_exists(storage_path('app/public/' . $partner->logo_path)))
-					<a href="{{ $partner->url ?? '#' }}" target="{{ $partner->url ? '_blank' : '_self' }}" rel="noopener" class="bg-white rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-lg transition-all duration-300">
-						<img src="{{ asset('storage/' . $partner->logo_path) }}" alt="{{ $partner->name }}" class="max-h-16 max-w-full object-contain" />
-					</a>
-				@else
-					<div class="bg-white rounded-lg p-4 flex items-center justify-center h-24">
-						<span class="text-dark/50 text-sm text-center">{{ $partner->name }}</span>
+		<div class="space-y-12">
+			@foreach($partnerGroups as $group)
+				<div data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
+					@if($group['name'])
+						<h3 class="mb-6 text-lg font-display font-bold text-primary md:text-2xl">{{ $group['name'] }}</h3>
+					@endif
+					<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center">
+						@foreach($group['partners'] as $partner)
+							@if($partner->logo_path && file_exists(storage_path('app/public/' . $partner->logo_path)))
+								<a href="{{ $partner->url ?? '#' }}" target="{{ $partner->url ? '_blank' : '_self' }}" rel="noopener" class="bg-white rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-lg transition-all duration-300">
+									<img src="{{ asset('storage/' . $partner->logo_path) }}" alt="{{ $partner->name }}" class="max-h-16 max-w-full object-contain" />
+								</a>
+							@else
+								<div class="bg-white rounded-lg p-4 flex items-center justify-center h-24">
+									<span class="text-dark/50 text-sm text-center">{{ $partner->name }}</span>
+								</div>
+							@endif
+						@endforeach
 					</div>
-				@endif
+				</div>
 			@endforeach
 		</div>
 		<div class="text-center mt-8">

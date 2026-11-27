@@ -18,15 +18,31 @@ class HomeController extends Controller
     {
         $currentYear = (int) date('Y');
         $featuredFilms = Film::query()->where('is_featured', true)->latest()->take(8)->get();
-        $partners = Partner::query()
-            ->where('year', $currentYear)
-            ->orderByRaw('category_id IS NULL')
-            ->orderBy(
-                PartnerCategory::query()->select('sort_order')->whereColumn('partner_categories.id', 'partners.category_id')
-            )
+        $partnerGroups = PartnerCategory::query()
+            ->with(['partners' => function ($query) use ($currentYear) {
+                $query->where('year', $currentYear)->orderBy('sort_order');
+            }])
             ->orderBy('sort_order')
-            ->take(12)
+            ->get()
+            ->filter(fn (PartnerCategory $category) => $category->partners->isNotEmpty())
+            ->map(fn (PartnerCategory $category) => [
+                'name' => $category->name,
+                'partners' => $category->partners,
+            ])
+            ->values();
+
+        $uncategorizedPartners = Partner::query()
+            ->where('year', $currentYear)
+            ->whereNull('category_id')
+            ->orderBy('sort_order')
             ->get();
+
+        if ($uncategorizedPartners->isNotEmpty()) {
+            $partnerGroups->push([
+                'name' => $partnerGroups->isNotEmpty() ? 'Partners' : null,
+                'partners' => $uncategorizedPartners,
+            ]);
+        }
         $sliders = Slider::query()
             ->where('is_active', true)
             ->orderBy('sort_order')
@@ -46,7 +62,7 @@ class HomeController extends Controller
 
         $filmStrip = $this->filmStrip();
 
-        return view('home', compact('featuredFilms', 'partners', 'sliders', 'currentYear', 'reviews', 'latestNews', 'filmStrip'));
+        return view('home', compact('featuredFilms', 'partnerGroups', 'sliders', 'currentYear', 'reviews', 'latestNews', 'filmStrip'));
     }
 
     /**
